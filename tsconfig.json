@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    "target": "es2018",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true,
+    "stripInternal": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./src/**/*"]
+}

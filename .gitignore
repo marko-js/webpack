@@ -1,0 +1,23 @@
+# Editor
+*.sublime*
+.vscode
+
+# OSX
+*.DS_Store
+
+# NPM
+node_modules
+npm-debug.log
+
+# Build
+dist
+
+# Coverage
+coverage
+.nyc_output
+
+# Test
+*.actual.*
+
+# Marko
+*.marko.js
