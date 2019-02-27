@@ -53,22 +53,29 @@ import MarkoPlugin from "@marko/webpack/plugin";
 
 const markoPlugin = new MarkoPlugin();
 
-export default [{
-  entry: "./server.js",
-  module: {
-    rules: [{
-      test: /\.marko?$/,
-      loader: '@marko/webpack/loader'
-    }]
+export default [
+  {
+    entry: "./server.js",
+    module: {
+      rules: [
+        {
+          test: /\.marko?$/,
+          loader: "@marko/webpack/loader"
+        }
+      ]
+    },
+    plugins: [markoPlugin.server]
   },
-  plugins: [markoPlugin.server]
-}, {
-  rules: [{
-    test: /\.marko?$/,
-    loader: '@marko/webpack/loader'
-  }],
-  plugins: [markoPlugin.browser]
-}]
+  {
+    rules: [
+      {
+        test: /\.marko?$/,
+        loader: "@marko/webpack/loader"
+      }
+    ],
+    plugins: [markoPlugin.browser]
+  }
+];
 ```
 
 ## Code of Conduct

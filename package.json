@@ -9,9 +9,12 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.12",
     "coveralls": "^3.0.2",
+    "del": "^3.0.0",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
     "marko": "^4.15.2",
+    "memory-fs": "^0.4.1",
+    "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
     "prettier": "^1.15.3",
@@ -69,5 +72,8 @@
     "mocha:watch": "npm run mocha -- --recursive --watch --watch-extensions=js,ts",
     "test": "nyc --extension=.ts --include=src/**/*.ts --reporter=lcov --reporter=text-summary npm run mocha"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "loader-utils": "^1.2.3"
+  }
 }
