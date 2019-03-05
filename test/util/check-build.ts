@@ -9,7 +9,7 @@ const SNAPSHOT_DIRNAME = '__snapshots__';
 
 const checkBuild = (
   name,
-  { errors, warnings, entrypoints, modules, chunks },
+  { errors, warnings, entrypoints, chunks },
   assets,
   fixtureDir,
   snapshotErrors
@@ -140,8 +140,8 @@ export default (stats, fixtureDir) => {
   del.sync(path.join(snapshotDir, '**/*.actual.*'));
   
   if (stats.stats) {
-    stats.stats.forEach(stats => {
-      checkBuild(stats.compilation.name, stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
+    stats.stats.forEach(childStats => {
+      checkBuild(childStats.compilation.name, childStats.toJson(), getAssetSources(childStats), fixtureDir, snapshotErrors);
     });
   } else {
     checkBuild('', stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
@@ -151,6 +151,8 @@ export default (stats, fixtureDir) => {
     // TODO: clean expected files without an actual counterpart
   }
 
-  if (snapshotErrors.length) throw snapshotErrors[0];
+  if (snapshotErrors.length) {
+    throw snapshotErrors[0];
+  }
 };
 

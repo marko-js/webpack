@@ -10,10 +10,10 @@ function decodeHexString(string) {
   return Buffer.from(string, "hex").toString();
 }
 
-export const encode = function(code) {
+export const encode = (code) => {
   return `${KEY}=${encodeAsHexString(code)}`;
 };
 
-export const decode = function(loaderOptions) {
+export const decode = (loaderOptions) => {
   return decodeHexString(loaderOptions[KEY]);
 };

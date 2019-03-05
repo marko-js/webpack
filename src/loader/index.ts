@@ -116,19 +116,19 @@ export default function(source) {
   }
 }
 
-function getLoaderMatch(path, loaders) {
+function getLoaderMatch(loaderPath, loaders) {
   let loaderString;
   let ext;
 
   loaders.some(loader => {
-    if (loader.test.test(path)) {
+    if (loader.test.test(loaderPath)) {
       loaderString = getLoaderString(loader.use || loader.loader);
       return true;
     }
   });
 
   if (!loaderString) {
-    ext = path.slice(path.lastIndexOf(".") + 1);
+    ext = loaderPath.slice(loaderPath.lastIndexOf(".") + 1);
     loaderString = getLoaderString(defaultLoaders[ext]);
   }
 

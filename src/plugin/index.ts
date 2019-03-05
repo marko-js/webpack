@@ -6,9 +6,9 @@ import { ReplaceSource } from 'webpack-sources';
 import moduleName from "../shared/module-name";
 
 export default class MarkoWebpackPlugin {
-  options: any;
-  clientEntries : any;
-  clientAssets : any;
+  public options: any;
+  private clientEntries : any;
+  private clientAssets : any;
   constructor(options) {
     this.options = options;
     this.clientAssets = createResolvablePromise();
@@ -29,7 +29,7 @@ export default class MarkoWebpackPlugin {
         });
       });
       compiler.hooks.compilation.tap('MarkoWebpackServer:compilation', (compilation) => {
-        let entryTemplates = [];
+        const entryTemplates = [];
         compilation.hooks.normalModuleLoader.tap('MarkoWebpackServer:normalModuleLoader', (_, { resource } : any) => {
           if (/\.marko\?assets$/.test(resource)) {
             entryTemplates.push(resource.replace(/\.marko\?assets$/, '.marko'));
@@ -46,11 +46,11 @@ export default class MarkoWebpackPlugin {
         compilation.hooks.optimizeChunkAssets.tapPromise('MarkoWebpackServer:optimizeChunkAssets', async () => {
           const clientAssets = await this.clientAssets;
 
-          for(let filename in compilation.assets) {
+          for(const filename in compilation.assets) {
             if (filename.endsWith('.js')) {
               const originalSource = compilation.assets[filename].source();
               let newSource;
-              for (let moduleId in clientAssets) {
+              for (const moduleId in clientAssets) {
                 const placeholder = escapeIfEval(`__ASSETS_MANIFEST__[${JSON.stringify(moduleId)}]`);
                 const placeholderPosition = originalSource.indexOf(placeholder);
                 if (placeholderPosition > -1) {
@@ -77,9 +77,9 @@ export default class MarkoWebpackPlugin {
     return (compiler : Compiler) => {
       compiler.hooks.done.tap('MarkoWebpackBrowser:done', (stats) => {
         const assetsByEntry = {};
-        for(let [entryName, { assets }] of Object.entries(stats.toJson().entrypoints as { assets:any })) {
+        for(const [entryName, { assets }] of Object.entries(stats.toJson().entrypoints as { assets:any })) {
           const assetsByType = {};
-          for (let asset of assets) {
+          for (const asset of assets) {
             const ext = path.extname(asset).slice(1);
             const type = assetsByType[ext] = assetsByType[ext] || [];
             type.push(asset);

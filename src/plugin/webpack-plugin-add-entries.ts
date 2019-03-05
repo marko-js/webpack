@@ -1,18 +1,18 @@
 export default class WebpackPluginAddEntries {
-  entries : Object;
+  public entries : object;
   constructor({ entries = {} } = {}) {
     this.entries = entries;
   }
-  apply(compiler) {
+  public apply(compiler) {
     compiler.options.entry = this.injectEntries(compiler.options.entry);
   }
-  injectEntries(currentEntry) {
+  private injectEntries(currentEntry) {
     const newEntries = this.entries;
     if (typeof newEntries === 'function') {
       return () => {
         const calculatedEntries = newEntries();
         if (typeof calculatedEntries.then === 'function') {
-          return calculatedEntries.then(calculatedEntries => this.injectEntriesObject(currentEntry, calculatedEntries));
+          return calculatedEntries.then(resolvedEntries => this.injectEntriesObject(currentEntry, resolvedEntries));
         } else {
           return this.injectEntriesObject(currentEntry, calculatedEntries);
         }
@@ -21,7 +21,7 @@ export default class WebpackPluginAddEntries {
       return this.injectEntriesObject(currentEntry, newEntries);
     }
   }
-  injectEntriesObject(currentEntry, newEntries) {
+  private injectEntriesObject(currentEntry, newEntries) {
     if (currentEntry === emptyEntry) {
       return Object.assign({}, newEntries);
     } else if (typeof currentEntry === 'string' || Array.isArray(currentEntry)) {
