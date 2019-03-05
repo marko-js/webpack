@@ -42,6 +42,8 @@ A Marko plugin and loader for Webpack
 
 # Installation
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/marko-js/webpack.svg)](https://greenkeeper.io/)
+
 ```console
 npm install @marko/webpack
 ```
