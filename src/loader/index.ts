@@ -77,7 +77,7 @@ export default function(source) {
         meta.deps.map(dependency => {
           if (!dependency.code) {
             // external file, just require it
-            return `require(${JSON.stringify(dependency.path)});`;
+            return `require(${JSON.stringify(dependency)});`;
           } else {
             // inline content, we'll create a
             const virtualPath = dependency.virtualPath;

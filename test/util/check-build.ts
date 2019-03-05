@@ -25,10 +25,10 @@ const checkBuild = (
 
   const modulesDir = path.join(snapshotDir, `modules${name ? `-${name}` : ""}`);
   chunks.forEach(chunk => {
-    const fullSource = assets[chunk.files[0]];
+    const fullSource = assets[chunk.files.filter(f => /\.js$/.test(f))[0]];
     chunk.modules
       .map(module => moduleWithRelativePath(module, fixtureDir))
-      .filter(module => !/^\.\.\/|node_modules/.test(module.relativePath))
+      .filter(module => !/^\.\.\/|node_modules/.test(module.relativePath) && !/code-loader/.test(module.identifier))
       .forEach(module => {
         const moduleSource = getModuleSource(fullSource, module.id);
         const moduleExpectedPath = path.resolve(
@@ -38,7 +38,20 @@ const checkBuild = (
             .replace(/\//g, "⧸")
         );
 
-        snapshot(moduleExpectedPath, moduleSource, snapshotErrors);
+        if (moduleSource) {
+          snapshot(moduleExpectedPath, moduleSource, snapshotErrors);
+        }
+      });
+      chunk.files.forEach(file => {
+        if (/\.css$/.test(file)) {
+          const expectedPath = path.resolve(
+            modulesDir,
+            file
+              .replace(/(\.[\w?]+)$/, ".expected$1")
+              .replace(/\//g, "⧸")
+          );
+          snapshot(expectedPath, assets[file], snapshotErrors);
+        }
       });
   });
 };
@@ -123,20 +136,19 @@ export default (stats, fixtureDir) => {
   const snapshotDir = path.join(fixtureDir, SNAPSHOT_DIRNAME);
   const snapshotErrors = [];
 
-  if (process.env.UPDATE_SNAPSHOTS) {
-    // clean all snapshot files
-    del.sync(path.join(snapshotDir, '**'));
-  } else {
-    // clean actual snapshot files
-    del.sync(path.join(snapshotDir, '**/*.actual.*'));
-  }
-
+  // clean actual snapshot files
+  del.sync(path.join(snapshotDir, '**/*.actual.*'));
+  
   if (stats.stats) {
     stats.stats.forEach(stats => {
       checkBuild(stats.compilation.name, stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
     });
   } else {
     checkBuild('', stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
+  }
+
+  if (process.env.UPDATE_SNAPSHOTS) {
+    // TODO: clean expected files without an actual counterpart
   }
 
   if (snapshotErrors.length) throw snapshotErrors[0];

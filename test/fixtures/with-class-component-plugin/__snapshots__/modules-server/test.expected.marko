@@ -1,0 +1,45 @@
+"use strict";
+/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.15.2 - DO NOT EDIT
+
+
+var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ "./node_modules/marko/src/html.js").t(__filename),
+    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
+    components_helpers = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js"),
+    marko_renderer = components_helpers.r,
+    marko_defineComponent = components_helpers.c,
+    nested_template = __webpack_require__(/*! ./components/nested/index.marko */ "./test/fixtures/with-class-component-plugin/components/nested/index.marko"),
+    marko_helpers = __webpack_require__(/*! marko/src/runtime/html/helpers */ "./node_modules/marko/src/runtime/html/helpers.js"),
+    marko_loadTag = marko_helpers.t,
+    nested_tag = marko_loadTag(nested_template);
+
+function render(input, out, __component, component, state) {
+  var data = input;
+
+  out.w("<h1>Hello World</h1>");
+
+  nested_tag({}, out, __component, "1");
+}
+
+marko_template._ = marko_renderer(render, {
+    ___implicit: true,
+    ___type: marko_componentType
+  });
+
+marko_template.Component = marko_defineComponent({}, marko_template._);
+
+marko_template.meta = {
+    deps: [
+      {
+          type: "css",
+          code: "h1 { color:red; }",
+          virtualPath: "./test.marko.css",
+          path: "./test.marko"
+        }
+    ],
+    id: "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
+    tags: [
+      "./components/nested/index.marko"
+    ]
+  };
+
+/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
