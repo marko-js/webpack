@@ -13,7 +13,7 @@ describe("@marko/webpack", function () {
         const configPath = path.join(fixtureDir, "webpack.config.ts");
         const config = (await import(configPath)).default;
         const { stats } = await compilation(config);
-        checkBuild(stats.toJson(), fixtureDir);
+        checkBuild(stats, fixtureDir);
       });
     });
   });

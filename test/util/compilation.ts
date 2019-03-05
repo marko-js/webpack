@@ -5,7 +5,7 @@ import MemoryFS from "memory-fs";
 
 export default async function compile(config) {
   const compiler = webpack(extendConfig(config));
-  const fs = (compiler.outputFileSystem = new MemoryFS());
+  const fs = ((compiler as any).outputFileSystem = new MemoryFS());
   const stats = await promisify(compiler.run).call(compiler);
   return { fs, stats };
 }
@@ -21,6 +21,11 @@ const extendConfig = config => {
     __dirname,
     "../../src/loader/index.ts"
   );
+
+  // By default we'll use dev mode so that sources are more readable
+  // but we'll disable sourcemaps unless the test has specifically opted in
+  config.mode = config.mode || 'development';
+  config.devtool = config.devtool || 'none';
 
   return config;
 };

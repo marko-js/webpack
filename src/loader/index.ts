@@ -3,6 +3,7 @@
 import * as path from "path";
 import * as loaderUtils from "loader-utils";
 import { encode } from "./interface";
+import getAssetCode from "./get-asset-code";
 
 const defaultLoaders = {
   css: "style-loader!css-loader!"
@@ -11,8 +12,10 @@ const defaultLoaders = {
 const codeLoader = require.resolve("./code-loader");
 const isHydrate = /\?hydrate$/;
 const isDependencies = /\?dependencies$/;
+const isAssets = /\?assets$/;
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
+const cacheClearSetup = new WeakMap();
 
 export default function(source) {
   const queryOptions = loaderUtils.getOptions(this); // Not the same as this.options
@@ -23,21 +26,32 @@ export default function(source) {
     DEFAULT_COMPILER);
   const dependenciesOnly = isDependencies.test(this.resource);
   const hydrate = isHydrate.test(this.resource);
-
+  const assets = isAssets.test(this.resource);
   const module = this.options
     ? this.options.module
     : this._compilation.options.module;
   const loaders = (module && (module.loaders || module.rules)) || [];
-
+  
   this.cacheable(false);
+  if (!cacheClearSetup.has(this._compiler)) {
+    this._compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () => {
+      markoCompiler.clearCaches();
+    });
+    cacheClearSetup.set(this._compiler, true);
+  }
 
-  if (hydrate) {
+  if (assets) {
+    return markoCompiler.compile(getAssetCode(this.resourcePath), this.resourcePath, {
+      writeToDisk: false,
+      requireTemplates: true
+    });
+  } else if (hydrate) {
     return `
-            require(${JSON.stringify(
-              `./${path.basename(this.resourcePath)}?dependencies`
-            )});
-            window.$initComponents && window.$initComponents();
-        `;
+      require(${JSON.stringify(
+        `./${path.basename(this.resourcePath)}?dependencies`
+      )});
+      window.$initComponents && window.$initComponents();
+    `;
   } else if (target !== "server" && markoCompiler.compileForBrowser) {
     const { code, meta } = markoCompiler.compileForBrowser(
       source,
@@ -51,11 +65,11 @@ export default function(source) {
 
     if (dependenciesOnly && meta.component) {
       dependencies = dependencies.concat(`
-                require('marko/components').register(
-                    ${JSON.stringify(meta.id)},
-                    require(${JSON.stringify(meta.component)})
-                );
-            `);
+        require('marko/components').register(
+          ${JSON.stringify(meta.id)},
+          require(${JSON.stringify(meta.component)})
+        );
+      `);
     }
 
     if (meta.deps) {

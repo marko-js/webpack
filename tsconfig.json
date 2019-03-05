@@ -2,6 +2,7 @@
   "compilerOptions": {
     "pretty": true,
     "target": "es2018",
+    "module": "commonjs",
     "outDir": "./dist",
     "sourceMap": true,
     "declaration": true,

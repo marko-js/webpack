@@ -3,50 +3,70 @@ import * as path from "path";
 import * as assert from "assert";
 import * as mkdirp from "mkdirp";
 import * as del from "del";
+import escape from "escape-string-regexp";
 
 const SNAPSHOT_DIRNAME = '__snapshots__';
 
 const checkBuild = (
-  { name, errors, warnings, entrypoints, modules, children },
-  fixtureDir
+  name,
+  { errors, warnings, entrypoints, modules, chunks },
+  assets,
+  fixtureDir,
+  snapshotErrors
 ) => {
-  if (children.length) {
-    children.forEach((child, index) => {
-      child.name = child.name || `${name ? `${name}-` : ""}${index}`;
-      checkBuild(child, fixtureDir);
-    });
-    return;
-  }
-
-  const moduleNames = modules
-    .map(m => (m.relativePath = path.relative(fixtureDir, m.identifier.replace(/.*!/, ''))))
-    .sort();
-  const stats = { errors, warnings, entrypoints, moduleNames };
+  const stats = { errors, warnings, entrypoints, chunks:getChunkInfo(chunks) };
   const snapshotDir = path.join(fixtureDir, SNAPSHOT_DIRNAME);
   const statsExpectedPath = path.join(
     snapshotDir,
     `stats${name ? `-${name}` : ""}.expected.json`
   );
-  const snapshotErrors = [];
   
   snapshot(statsExpectedPath, stats, snapshotErrors);
 
   const modulesDir = path.join(snapshotDir, `modules${name ? `-${name}` : ""}`);
-  modules
-    .filter(module => !/^\.\.\/|node_modules/.test(module.relativePath))
-    .forEach(module => {
-      const moduleExpectedPath = path.join(
-        modulesDir,
-        module.relativePath
-          .replace(/(\.[\w?]+)$/, ".expected$1")
-          .replace(/\//g, "⧸")
-      );
-      
-      snapshot(moduleExpectedPath, module.source, snapshotErrors);
-    });
+  chunks.forEach(chunk => {
+    const fullSource = assets[chunk.files[0]];
+    chunk.modules
+      .map(module => moduleWithRelativePath(module, fixtureDir))
+      .filter(module => !/^\.\.\/|node_modules/.test(module.relativePath))
+      .forEach(module => {
+        const moduleSource = getModuleSource(fullSource, module.id);
+        const moduleExpectedPath = path.resolve(
+          modulesDir,
+          module.relativePath
+            .replace(/(\.[\w?]+)$/, ".expected$1")
+            .replace(/\//g, "⧸")
+        );
 
-  if (snapshotErrors.length) throw snapshotErrors[0];
+        snapshot(moduleExpectedPath, moduleSource, snapshotErrors);
+      });
+  });
 };
+
+const getModuleSource = (fullSource, moduleId) => {
+  const moduleMarker = escape(`${JSON.stringify(moduleId)}:`);
+  const commentMarker = escape("/***/");
+  const closeModule = escape("})");
+  const pattern = new RegExp(`${commentMarker} ${moduleMarker}.*?${commentMarker}[^\n]+\n(.*?)${commentMarker} ${closeModule}`, 's');
+  const match = pattern.exec(fullSource);
+  return match && match[1].trim();
+}
+
+const moduleWithRelativePath = (module, fixtureDir) => {
+  module.relativePath = path.relative(fixtureDir, module.identifier.replace(/.*!/, ''));
+  return module;
+}
+
+const getChunkInfo = (chunks) => {
+  const chunkInfo = {};
+  chunks.forEach(chunk => {
+    chunkInfo[chunk.id] = {
+      files: chunk.files,
+      modules: chunk.modules.map(m => m.name).sort()
+    }
+  });
+  return chunkInfo;
+}
 
 const writeFile = (filepath, contents) => {
   mkdirp.sync(path.dirname(filepath));
@@ -90,8 +110,19 @@ const snapshot = (expectedPath, actualValue, snapshotErrors) => {
   }
 }
 
+const getAssetSources = (stats) => {
+  const assets = {};
+  const compilationAssets = stats.compilation.assets;
+  Object.keys(compilationAssets).forEach(assetName => {
+    assets[assetName] = compilationAssets[assetName].source()
+  });
+  return assets;
+}
+
 export default (stats, fixtureDir) => {
   const snapshotDir = path.join(fixtureDir, SNAPSHOT_DIRNAME);
+  const snapshotErrors = [];
+
   if (process.env.UPDATE_SNAPSHOTS) {
     // clean all snapshot files
     del.sync(path.join(snapshotDir, '**'));
@@ -99,5 +130,15 @@ export default (stats, fixtureDir) => {
     // clean actual snapshot files
     del.sync(path.join(snapshotDir, '**/*.actual.*'));
   }
-  return checkBuild(stats, fixtureDir);
+
+  if (stats.stats) {
+    stats.stats.forEach(stats => {
+      checkBuild(stats.compilation.name, stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
+    });
+  } else {
+    checkBuild('', stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
+  }
+
+  if (snapshotErrors.length) throw snapshotErrors[0];
 };
+

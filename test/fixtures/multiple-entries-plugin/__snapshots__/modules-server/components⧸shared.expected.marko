@@ -1,0 +1,28 @@
+"use strict";
+/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.15.2 - DO NOT EDIT
+
+
+var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ "./node_modules/marko/src/html.js").t(__filename),
+    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/components/shared.marko",
+    components_helpers = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js"),
+    marko_renderer = components_helpers.r,
+    marko_defineComponent = components_helpers.c;
+
+function render(input, out, __component, component, state) {
+  var data = input;
+
+  out.w("<h2>Shared</h2>");
+}
+
+marko_template._ = marko_renderer(render, {
+    ___implicit: true,
+    ___type: marko_componentType
+  });
+
+marko_template.Component = marko_defineComponent({}, marko_template._);
+
+marko_template.meta = {
+    id: "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/components/shared.marko"
+  };
+
+/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))

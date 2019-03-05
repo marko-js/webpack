@@ -1,0 +1,1 @@
+__webpack_require__(/*! ./components/shared.marko?dependencies */ "./test/fixtures/multiple-entries-plugin/components/shared.marko?dependencies");

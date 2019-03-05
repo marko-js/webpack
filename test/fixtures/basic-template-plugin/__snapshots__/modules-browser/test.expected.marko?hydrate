@@ -1,0 +1,2 @@
+__webpack_require__(/*! ./test.marko?dependencies */ "./test/fixtures/basic-template-plugin/test.marko?dependencies");
+      window.$initComponents && window.$initComponents();
