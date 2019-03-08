@@ -1,6 +1,6 @@
 import path from "path";
 import { promisify } from "util";
-import WebpackPluginAddEntries, { emptyEntry } from "./webpack-plugin-add-entries";
+import WebpackPluginAddEntries from "./webpack-plugin-add-entries";
 import { Compiler } from "webpack";
 import { ReplaceSource } from 'webpack-sources';
 import moduleName from "../shared/module-name";
@@ -13,9 +13,6 @@ export default class MarkoWebpackPlugin {
     this.options = options;
     this.clientAssets = createResolvablePromise();
     this.clientEntries = createResolvablePromise();
-  }
-  get emptyEntry() {
-    return emptyEntry;
   }
   get server() {
     return (compiler : Compiler) => {
@@ -90,7 +87,7 @@ export default class MarkoWebpackPlugin {
         this.clientAssets = createResolvablePromise();
       });
       (new WebpackPluginAddEntries({ 
-        entries: () => this.clientEntries
+        addNamed: () => this.clientEntries
       })).apply(compiler);
     };
   }

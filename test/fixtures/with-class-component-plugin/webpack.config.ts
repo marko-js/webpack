@@ -28,7 +28,6 @@ export default [
   {
     name: "browser",
     target: "web",
-    entry: markoPlugin.emptyEntry,
     module: {
       rules: [
         {
