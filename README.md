@@ -17,8 +17,8 @@
     <img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg" alt="Styled with prettier"/>
   </a>
   <!-- CI -->
-  <a href="https://travis-ci.org/marko-js/webpack">
-  <img src="https://img.shields.io/travis/marko-js/webpack.svg" alt="Build status"/>
+  <a href="https://travis-ci.com/marko-js/webpack">
+  <img src="https://travis-ci.com/marko-js/webpack.svg?branch=master" alt="Build status"/>
   </a>
   <!-- Coverage -->
   <a href="https://coveralls.io/github/marko-js/webpack">
