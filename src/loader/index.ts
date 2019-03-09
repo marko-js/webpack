@@ -3,7 +3,7 @@
 import * as path from "path";
 import * as loaderUtils from "loader-utils";
 import { encode } from "./interface";
-import getAssetCode from "./get-asset-code";
+import moduleName from "../shared/module-name";
 
 const defaultLoaders = {
   css: "style-loader!css-loader!"
@@ -12,7 +12,7 @@ const defaultLoaders = {
 const codeLoader = require.resolve("./code-loader");
 const isHydrate = /\?hydrate$/;
 const isDependencies = /\?dependencies$/;
-const isAssets = /\?assets$/;
+const assetsPattern = /asset-injection\.marko\?template=(.*)$/;
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
 const cacheClearSetup = new WeakMap();
@@ -26,12 +26,12 @@ export default function(source) {
     DEFAULT_COMPILER);
   const dependenciesOnly = isDependencies.test(this.resource);
   const hydrate = isHydrate.test(this.resource);
-  const assets = isAssets.test(this.resource);
+  const assets = assetsPattern.exec(this.resource);
   const module = this.options
     ? this.options.module
     : this._compilation.options.module;
   const loaders = (module && (module.loaders || module.rules)) || [];
-  
+
   this.cacheable(false);
   if (!cacheClearSetup.has(this._compiler)) {
     this._compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () => {
@@ -40,12 +40,7 @@ export default function(source) {
     cacheClearSetup.set(this._compiler, true);
   }
 
-  if (assets) {
-    return markoCompiler.compile(getAssetCode(this.resourcePath), this.resourcePath, {
-      writeToDisk: false,
-      requireTemplates: true
-    });
-  } else if (hydrate) {
+  if (hydrate) {
     return `
       require(${JSON.stringify(
         `./${path.basename(this.resourcePath)}?dependencies`
@@ -109,10 +104,24 @@ export default function(source) {
 
     return dependencies.join("\n");
   } else {
-    return markoCompiler.compile(source, this.resourcePath, {
+    let code = markoCompiler.compile(source, this.resourcePath, {
       writeToDisk: false,
       requireTemplates: true
     });
+
+    if (assets) {
+      const templatePath = decodeURIComponent(assets[1]);
+      code = code.replace(
+        "TEMPLATE_IMPORT",
+        `require(${JSON.stringify(templatePath)})`
+      );
+      code = code.replace(
+        "TEMPLATE_MODULE_ID",
+        JSON.stringify(moduleName(templatePath))
+      );
+    }
+
+    return code;
   }
 }
 

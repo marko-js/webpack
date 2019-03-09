@@ -46,11 +46,16 @@ export default class MarkoWebpackPlugin {
           const entryTemplates = [];
           compilation.hooks.normalModuleLoader.tap(
             "MarkoWebpackServer:normalModuleLoader",
-            (_, { resource }: { resource: string }) => {
-              if (/\.marko\?assets$/.test(resource)) {
-                entryTemplates.push(
-                  resource.replace(/\.marko\?assets$/, ".marko")
+            (_, module: { resource: string }) => {
+              if (/\.marko\?assets$/.test(module.resource)) {
+                const templatePath = module.resource.replace(
+                  /\.marko\?assets$/,
+                  ".marko"
                 );
+                entryTemplates.push(templatePath);
+                module.resource = `${require.resolve(
+                  "./asset-injection.marko"
+                )}?template=${encodeURIComponent(templatePath)}`;
               }
             }
           );
@@ -59,7 +64,8 @@ export default class MarkoWebpackPlugin {
             () => {
               const clientEntries = {};
               entryTemplates.forEach(filename => {
-                clientEntries[moduleName(filename)] = filename + "?hydrate";
+                clientEntries[moduleName(filename)] =
+                  filename + "?dependencies";
               });
 
               this.clientEntries.resolve(clientEntries);
