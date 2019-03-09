@@ -1,23 +1,27 @@
 import path from "path";
 import WebpackPluginAddEntries from "./webpack-plugin-add-entries";
-import { Compiler } from "webpack";
+import { Compiler, Entry } from "webpack";
 import { ReplaceSource } from "webpack-sources";
 import moduleName from "../shared/module-name";
 
+interface ResolvablePromise<T> extends Promise<T> {
+  resolve(value?: T): void;
+}
+
 export default class MarkoWebpackPlugin {
   public options: any;
-  private clientEntries: any;
+  private clientEntries: ResolvablePromise<Entry>;
   private clientAssets: any;
   private pendingBrowserBuild: any;
-  constructor(options) {
+  constructor(options: any) {
     this.options = options;
     this.clientEntries = createResolvablePromise();
     this.pendingBrowserBuild = createResolvablePromise();
   }
   get server() {
     return (compiler: Compiler) => {
-      const isEvalDevtool = /eval/.test(compiler.options.devtool as any);
-      const escapeIfEval = code =>
+      const isEvalDevtool = /eval/.test(String(compiler.options.devtool));
+      const escapeIfEval = (code: string) =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
       compiler.hooks.normalModuleFactory.tap(
         "MarkoWebpackServer:normalModuleFactory",
@@ -42,7 +46,7 @@ export default class MarkoWebpackPlugin {
           const entryTemplates = [];
           compilation.hooks.normalModuleLoader.tap(
             "MarkoWebpackServer:normalModuleLoader",
-            (_, { resource }: any) => {
+            (_, { resource }: { resource: string }) => {
               if (/\.marko\?assets$/.test(resource)) {
                 entryTemplates.push(
                   resource.replace(/\.marko\?assets$/, ".marko")
@@ -59,7 +63,9 @@ export default class MarkoWebpackPlugin {
               });
 
               this.clientEntries.resolve(clientEntries);
-              this.clientEntries = createResolvablePromise();
+              this.clientEntries = createResolvablePromise() as ResolvablePromise<
+                Entry
+              >;
             }
           );
           compilation.hooks.optimizeChunkAssets.tapPromise(
@@ -70,8 +76,10 @@ export default class MarkoWebpackPlugin {
 
               for (const filename in compilation.assets) {
                 if (filename.endsWith(".js")) {
-                  const originalSource = compilation.assets[filename].source();
-                  let newSource;
+                  const originalSource = compilation.assets[
+                    filename
+                  ].source() as string;
+                  let newSource: ReplaceSource | void;
                   for (const moduleId in clientAssets) {
                     const placeholder = escapeIfEval(
                       `__ASSETS_MANIFEST__[${JSON.stringify(moduleId)}]`
@@ -138,8 +146,10 @@ export default class MarkoWebpackPlugin {
 }
 
 const createResolvablePromise = () => {
-  let resolve;
-  const promise = new Promise(_resolve => (resolve = _resolve));
-  (promise as any).resolve = resolve;
+  let resolve: (value?: any) => void;
+  const promise = new Promise(
+    _resolve => (resolve = _resolve)
+  ) as ResolvablePromise<any>;
+  promise.resolve = resolve;
   return promise;
 };
