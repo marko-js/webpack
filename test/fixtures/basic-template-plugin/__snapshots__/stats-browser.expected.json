@@ -3,24 +3,17 @@
   "warnings": [],
   "entrypoints": {
     "test$uYWJ": {
-      "chunks": [
-        "test$uYWJ"
-      ],
-      "assets": [
-        "test$uYWJ.js"
-      ],
+      "chunks": ["test$uYWJ"],
+      "assets": ["test$uYWJ.js"],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
     "test$uYWJ": {
-      "files": [
-        "test$uYWJ.js"
-      ],
+      "files": ["test$uYWJ.js"],
       "modules": [
-        "./test/fixtures/basic-template-plugin/test.marko?dependencies",
-        "./test/fixtures/basic-template-plugin/test.marko?hydrate"
+        "./test/fixtures/basic-template-plugin/test.marko?dependencies"
       ]
     }
   }

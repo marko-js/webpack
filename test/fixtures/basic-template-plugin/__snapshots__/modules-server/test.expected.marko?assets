@@ -1,82 +1,80 @@
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.15.2 - DO NOT EDIT
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__filename) {/* harmony import */ var marko_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/components */ "./node_modules/marko/components.js");
+/* harmony import */ var marko_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! marko/src/runtime/html/helpers */ "./node_modules/marko/src/runtime/html/helpers.js");
+/* harmony import */ var marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var marko_src_components_taglib_init_components_tag_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/src/components/taglib/init-components-tag.js */ "./node_modules/marko/src/components/taglib/init-components-tag.js");
+/* harmony import */ var marko_src_components_taglib_init_components_tag_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_src_components_taglib_init_components_tag_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js");
+/* harmony import */ var marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/src/runtime/html */ "./node_modules/marko/src/runtime/html/index.js");
+/* harmony import */ var marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_4__);
 
-
-var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ "./node_modules/marko/src/html.js").t(__filename),
-    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin/test.marko",
-    components_helpers = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js"),
-    marko_renderer = components_helpers.r,
-    marko_defineComponent = components_helpers.c,
-    module_components_module = __webpack_require__(/*! marko/components */ "./node_modules/marko/components.js"),
-    components_module = module_components_module.default || module_components_module,
-    writeInitComponentsCode = module_components_module.writeInitComponentsCode,
-    template = __webpack_require__(/*! ./test.marko */ "./test/fixtures/basic-template-plugin/test.marko"),
-    marko_helpers = __webpack_require__(/*! marko/src/runtime/html/helpers */ "./node_modules/marko/src/runtime/html/helpers.js"),
-    marko_dynamicTag = marko_helpers.d,
-    marko_loadTag = marko_helpers.t,
-    init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
-
+const template = __webpack_require__(/*! ./test/fixtures/basic-template-plugin/test.marko */ "./test/fixtures/basic-template-plugin/test.marko");
 const assets = {"js":["test$uYWJ.js"]};
 
-const renderAssets = function(out) {
+const renderAssets = function (out) {
   if (!out.global.assetsRendered) {
     const target = out.stream || out;
+
     if (assets) {
       if (assets.js) {
-        target.write(
-          `<script>(function(b,g){var d=[],e=0;g.forEach(function(c,f){var a=b.createElement("link");a.relList&&a.relList.supports&&a.relList.supports("preload")?(a.href=c,a.rel="preload",a.as="script",a.addEventListener("load",function(){d[f]=1;if(e===f)for(;d[e++];){var a=b.createElement("script");a.src=c;b.head.appendChild(a)}}),b.head.appendChild(a)):(a=b.createElement("script"),a.src=c,a.defer=!0,b.head.appendChild(a))})})(document,${
-            JSON.stringify(assets.js.map(js => __webpack_require__.p+js))
-          });</script>`
-        );
+        target.write(`<script>(function(e,b,f){var g=[],c=0,h;f.forEach(function(d,k){var a=b.createElement("link");(h=a.relList&&a.relList.supports&&a.relList.supports("preload"))?(a.href=d,a.rel="preload",a.as="script"):(a=b.createElement("script"),a.src=d,a.defer=!0);a.addEventListener("load",function(){g[k]=1;if(c===k)for(;g[c];)h&&(a=b.createElement("script"),a.src=d,b.head.appendChild(a)),++c===f.length&&e.$initComponents&&e.$initComponents()});b.head.appendChild(a)})})(window,document,${JSON.stringify(assets.js.map(js => __webpack_require__.p + js))});</script>`);
       }
+
       if (assets.css) {
         assets.css.forEach(css => {
-          target.write(
-            `<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p+css)}>`
-          );
+          target.write(`<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p + css)}>`);
         });
       }
     }
+
     out.global.assetsRendered = true;
   }
 };
 
-function render(input, out, __component, component, state) {
-  var data = input;
 
+
+
+const _initComponents_tag = Object(marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__["t"])(marko_src_components_taglib_init_components_tag_js__WEBPACK_IMPORTED_MODULE_2___default.a);
+
+
+
+
+const _marko_componentType = "rTmf2rNy",
+      _marko_template = Object(marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_4__["t"])(__filename),
+      _marko_component = null;
+
+_marko_template._ = Object(marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_3__["r"])(function (input, out, _component, component, state) {
   const _flush = out.flush;
-
   const _end = out.end;
 
   out.flush = function () {
-  writeInitComponentsCode(out, out, false);
-  renderAssets(out);
-  _flush.apply(this, arguments);
-}
+    Object(marko_components__WEBPACK_IMPORTED_MODULE_0__["writeInitComponentsCode"])(out, out, false);
+    renderAssets(out);
 
-  out.end = function () {
-  renderAssets(out);
-  _end.apply(this, arguments);
-}
-
-  marko_dynamicTag(template, input, null, out, __component, "0");
-
-  init_components_tag({}, out);
-}
-
-marko_template._ = marko_renderer(render, {
-    ___implicit: true,
-    ___type: marko_componentType
-  });
-
-marko_template.Component = marko_defineComponent({}, marko_template._);
-
-marko_template.meta = {
-    id: "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin/test.marko",
-    tags: [
-      "./test.marko",
-      "marko/src/components/taglib/init-components-tag"
-    ]
+    _flush.apply(this, arguments);
   };
 
+  out.end = function () {
+    renderAssets(out);
+
+    _end.apply(this, arguments);
+  };
+
+  Object(marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__["d"])(template, { ...input
+  }, out, _component, "0");
+
+  _initComponents_tag({}, out, "1");
+}, {
+  ___type: _marko_componentType,
+  ___implicit: true
+}, _marko_component);
+_marko_template.Component = Object(marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_3__["c"])(_marko_component, _marko_template._);
+_marko_template.meta = {
+  id: _marko_componentType,
+  tags: ["marko/src/components/taglib/init-components-tag.js"]
+};
+/* harmony default export */ __webpack_exports__["default"] = (_marko_template);
 /* WEBPACK VAR INJECTION */}.call(this, "/index.js"))

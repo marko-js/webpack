@@ -1,45 +1,42 @@
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.15.2 - DO NOT EDIT
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__filename) {/* harmony import */ var _components_nested_index_marko__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/nested/index.marko */ "./test/fixtures/with-class-component-plugin/components/nested/index.marko");
+/* harmony import */ var marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! marko/src/runtime/html/helpers */ "./node_modules/marko/src/runtime/html/helpers.js");
+/* harmony import */ var marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js");
+/* harmony import */ var marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/src/runtime/html */ "./node_modules/marko/src/runtime/html/index.js");
+/* harmony import */ var marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_3__);
 
 
-var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ "./node_modules/marko/src/html.js").t(__filename),
-    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
-    components_helpers = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js"),
-    marko_renderer = components_helpers.r,
-    marko_defineComponent = components_helpers.c,
-    nested_template = __webpack_require__(/*! ./components/nested/index.marko */ "./test/fixtures/with-class-component-plugin/components/nested/index.marko"),
-    marko_helpers = __webpack_require__(/*! marko/src/runtime/html/helpers */ "./node_modules/marko/src/runtime/html/helpers.js"),
-    marko_loadTag = marko_helpers.t,
-    nested_tag = marko_loadTag(nested_template);
 
-function render(input, out, __component, component, state) {
-  var data = input;
+const _nested_tag = Object(marko_src_runtime_html_helpers__WEBPACK_IMPORTED_MODULE_1__["t"])(_components_nested_index_marko__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
+
+
+
+const _marko_componentType = "xn4cr5_4",
+      _marko_template = Object(marko_src_runtime_html__WEBPACK_IMPORTED_MODULE_3__["t"])(__filename),
+      _marko_component = null;
+
+_marko_template._ = Object(marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_2__["r"])(function (input, out, _component, component, state) {
   out.w("<h1>Hello World</h1>");
 
-  nested_tag({}, out, __component, "1");
-}
-
-marko_template._ = marko_renderer(render, {
-    ___implicit: true,
-    ___type: marko_componentType
-  });
-
-marko_template.Component = marko_defineComponent({}, marko_template._);
-
-marko_template.meta = {
-    deps: [
-      {
-          type: "css",
-          code: "h1 { color:red; }",
-          virtualPath: "./test.marko.css",
-          path: "./test.marko"
-        }
-    ],
-    id: "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
-    tags: [
-      "./components/nested/index.marko"
-    ]
-  };
-
+  _nested_tag({}, out, "1");
+}, {
+  ___type: _marko_componentType,
+  ___implicit: true
+}, _marko_component);
+_marko_template.Component = Object(marko_src_components_helpers__WEBPACK_IMPORTED_MODULE_2__["c"])(_marko_component, _marko_template._);
+_marko_template.meta = {
+  id: _marko_componentType,
+  deps: [{
+    "type": "css",
+    "code": "h1 { color:red; }",
+    "path": "./test.marko",
+    "virtualPath": "./test.marko.css"
+  }],
+  tags: ["./components/nested/index.marko"]
+};
+/* harmony default export */ __webpack_exports__["default"] = (_marko_template);__webpack_require__(/*! !style-loader!css-loader!../../../src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test.marko */ "./node_modules/style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-class-component-plugin/test.marko");
 /* WEBPACK VAR INJECTION */}.call(this, "/index.js"))

@@ -53,7 +53,8 @@ export default class MarkoWebpackPlugin {
                   ".marko"
                 );
                 entryTemplates.push(templatePath);
-                module.resource = `${require.resolve(
+                module.resource = `${path.join(
+                  __dirname,
                   "./asset-injection.marko"
                 )}?template=${encodeURIComponent(templatePath)}`;
               }

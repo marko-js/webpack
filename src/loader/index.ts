@@ -1,127 +1,131 @@
-"use strict";
-
-import * as path from "path";
-import * as loaderUtils from "loader-utils";
+import babelLoader from "babel-loader";
+import loaderUtils from "loader-utils";
 import { encode } from "./interface";
 import moduleName from "../shared/module-name";
 
+const assetsPattern = /\?template=(.+)$/;
+const codeLoader = require.resolve("./code-loader");
 const defaultLoaders = {
   css: "style-loader!css-loader!"
 };
 
-const codeLoader = require.resolve("./code-loader");
-const isHydrate = /\?hydrate$/;
-const isDependencies = /\?dependencies$/;
-const assetsPattern = /asset-injection\.marko\?template=(.*)$/;
+export default babelLoader.custom(() => {
+  return {
+    customOptions({ output, dependencies, ...loader }) {
+      const assetsPatternMatch = assetsPattern.exec(this.resourceQuery);
+      return {
+        custom: {
+          output:
+            output || normalizeTarget(this.target) === "browser"
+              ? "vdom"
+              : "html",
+          dependenciesOnly:
+            dependencies || this.resourceQuery === "?dependencies",
+          assetTemplate:
+            assetsPatternMatch && decodeURIComponent(assetsPatternMatch[1])
+        },
+        loader
+      };
+    },
 
-const DEFAULT_COMPILER = require.resolve("marko/compiler");
-const cacheClearSetup = new WeakMap();
-
-export default function(source) {
-  const queryOptions = loaderUtils.getOptions(this); // Not the same as this.options
-  const target = normalizeTarget(
-    (queryOptions && queryOptions.target) || this.target
-  );
-  const markoCompiler = require((queryOptions && queryOptions.compiler) ||
-    DEFAULT_COMPILER);
-  const dependenciesOnly = isDependencies.test(this.resource);
-  const hydrate = isHydrate.test(this.resource);
-  const assets = assetsPattern.exec(this.resource);
-  const module = this.options
-    ? this.options.module
-    : this._compilation.options.module;
-  const loaders = (module && (module.loaders || module.rules)) || [];
-
-  this.cacheable(false);
-  if (!cacheClearSetup.has(this._compiler)) {
-    this._compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () => {
-      markoCompiler.clearCaches();
-    });
-    cacheClearSetup.set(this._compiler, true);
-  }
-
-  if (hydrate) {
-    return `
-      require(${JSON.stringify(
-        `./${path.basename(this.resourcePath)}?dependencies`
-      )});
-      window.$initComponents && window.$initComponents();
-    `;
-  } else if (target !== "server" && markoCompiler.compileForBrowser) {
-    const { code, meta } = markoCompiler.compileForBrowser(
-      source,
-      this.resourcePath,
-      {
-        writeToDisk: false
+    config(cfg, { customOptions }) {
+      if (cfg.hasFilesystemConfig()) {
+        return cfg.options;
       }
-    );
 
-    let dependencies = [];
+      return {
+        ...cfg.options,
+        plugins: [
+          ["babel-plugin-marko", { output: customOptions.output }],
+          ...(cfg.options.plugins || [])
+        ]
+      };
+    },
 
-    if (dependenciesOnly && meta.component) {
-      dependencies = dependencies.concat(`
-        require('marko/components').register(
-          ${JSON.stringify(meta.id)},
-          require(${JSON.stringify(meta.component)})
-        );
-      `);
-    }
+    result(result, { customOptions }) {
+      const { assetTemplate, dependenciesOnly } = customOptions;
+      let { code } = result;
 
-    if (meta.deps) {
-      dependencies = dependencies.concat(
-        meta.deps.map(dependency => {
-          if (!dependency.code) {
-            // external file, just require it
-            return `require(${JSON.stringify(dependency)});`;
-          } else {
-            // inline content, we'll create a
-            const virtualPath = dependency.virtualPath;
-            const loader = getLoaderMatch(virtualPath, loaders);
-            const codeQuery = encode(dependency.code);
-            const loaderString = loaderUtils.stringifyRequest(
-              this,
-              `!!${loader}${codeLoader}?${codeQuery}!${this.resourcePath}`
-            );
-            return `require(${loaderString})`;
+      if (assetTemplate) {
+        code = code
+          .replace(
+            "TEMPLATE_IMPORT",
+            `require(${JSON.stringify(assetTemplate)})`
+          )
+          .replace(
+            "TEMPLATE_MODULE_ID",
+            JSON.stringify(moduleName(assetTemplate))
+          );
+      } else {
+        const metadata = result.metadata.marko;
+
+        if (dependenciesOnly) {
+          code = "";
+
+          if (metadata.component) {
+            code += `require('marko/components').register(${JSON.stringify(
+              metadata.id
+            )}, require(${JSON.stringify(metadata.component)}));`;
           }
-        })
-      );
+        }
+
+        if (metadata.deps) {
+          const module = this.options
+            ? this.options.module
+            : this._compilation.options.module;
+          const loaders = (module && (module.loaders || module.rules)) || [];
+
+          code += metadata.deps
+            .map(dependency => {
+              if (!dependency.code) {
+                // external file, just require it
+                return `require(${JSON.stringify(dependency)});`;
+              } else {
+                // inline content, we'll create a
+                const virtualPath = dependency.virtualPath;
+                const loader = getLoaderMatch(virtualPath, loaders);
+                const codeQuery = encode(dependency.code);
+                const loaderString = loaderUtils.stringifyRequest(
+                  this,
+                  `!!${loader}${codeLoader}?${codeQuery}!${this.resourcePath}`
+                );
+                return `require(${loaderString});`;
+              }
+            })
+            .join("");
+        }
+
+        if (dependenciesOnly && metadata.tags) {
+          // we need to also include the dependencies of
+          // any tags that are used by this template
+          code += metadata.tags
+            .map(
+              tagPath =>
+                `require(${JSON.stringify(tagPath + "?dependencies")});`
+            )
+            .join("");
+        }
+      }
+
+      return {
+        ...result,
+        code
+      };
     }
+  };
+});
 
-    if (dependenciesOnly && meta.tags) {
-      // we need to also include the dependencies of
-      // any tags that are used by this template
-      dependencies = dependencies.concat(
-        meta.tags.map(tagPath => {
-          return `require(${JSON.stringify(tagPath + "?dependencies")});`;
-        })
-      );
-    }
-
-    if (!dependenciesOnly) {
-      dependencies = dependencies.concat(code);
-    }
-
-    return dependencies.join("\n");
-  } else {
-    let code = markoCompiler.compile(source, this.resourcePath, {
-      writeToDisk: false,
-      requireTemplates: true
-    });
-
-    if (assets) {
-      const templatePath = decodeURIComponent(assets[1]);
-      code = code.replace(
-        "TEMPLATE_IMPORT",
-        `require(${JSON.stringify(templatePath)})`
-      );
-      code = code.replace(
-        "TEMPLATE_MODULE_ID",
-        JSON.stringify(moduleName(templatePath))
-      );
-    }
-
-    return code;
+function normalizeTarget(target) {
+  switch (target) {
+    case "server":
+    case "node":
+    case "async-node":
+    case "atom":
+    case "electron":
+    case "electron-main":
+      return "server";
+    default:
+      return "browser";
   }
 }
 
@@ -157,19 +161,5 @@ function getLoaderString(loader) {
       options &&
       (typeof options === "string" ? options : JSON.stringify(options));
     return loader.loader + (optionsString ? "?" + optionsString : "") + "!";
-  }
-}
-
-function normalizeTarget(target) {
-  switch (target) {
-    case "server":
-    case "node":
-    case "async-node":
-    case "atom":
-    case "electron":
-    case "electron-main":
-      return "server";
-    default:
-      return "browser";
   }
 }

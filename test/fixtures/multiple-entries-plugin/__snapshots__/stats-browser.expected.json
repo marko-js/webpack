@@ -2,56 +2,36 @@
   "errors": [],
   "warnings": [],
   "entrypoints": {
-    "bar$aSxt": {
-      "chunks": [
-        "bar$aSxt~foo$3XPO",
-        "bar$aSxt"
-      ],
-      "assets": [
-        "bar$aSxt~foo$3XPO.js",
-        "bar$aSxt.js"
-      ],
+    "foo$3XPO": {
+      "chunks": ["bar$aSxt~foo$3XPO", "foo$3XPO"],
+      "assets": ["bar$aSxt~foo$3XPO.js", "foo$3XPO.js"],
       "children": {},
       "childAssets": {}
     },
-    "foo$3XPO": {
-      "chunks": [
-        "bar$aSxt~foo$3XPO",
-        "foo$3XPO"
-      ],
-      "assets": [
-        "bar$aSxt~foo$3XPO.js",
-        "foo$3XPO.js"
-      ],
+    "bar$aSxt": {
+      "chunks": ["bar$aSxt~foo$3XPO", "bar$aSxt"],
+      "assets": ["bar$aSxt~foo$3XPO.js", "bar$aSxt.js"],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
     "bar$aSxt": {
-      "files": [
-        "bar$aSxt.js"
-      ],
+      "files": ["bar$aSxt.js"],
       "modules": [
-        "./test/fixtures/multiple-entries-plugin/bar.marko?dependencies",
-        "./test/fixtures/multiple-entries-plugin/bar.marko?hydrate"
+        "./test/fixtures/multiple-entries-plugin/bar.marko?dependencies"
       ]
     },
     "bar$aSxt~foo$3XPO": {
-      "files": [
-        "bar$aSxt~foo$3XPO.js"
-      ],
+      "files": ["bar$aSxt~foo$3XPO.js"],
       "modules": [
         "./test/fixtures/multiple-entries-plugin/components/shared.marko?dependencies"
       ]
     },
     "foo$3XPO": {
-      "files": [
-        "foo$3XPO.js"
-      ],
+      "files": ["foo$3XPO.js"],
       "modules": [
-        "./test/fixtures/multiple-entries-plugin/foo.marko?dependencies",
-        "./test/fixtures/multiple-entries-plugin/foo.marko?hydrate"
+        "./test/fixtures/multiple-entries-plugin/foo.marko?dependencies"
       ]
     }
   }

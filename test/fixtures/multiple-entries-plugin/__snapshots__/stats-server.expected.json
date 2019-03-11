@@ -3,21 +3,15 @@
   "warnings": [],
   "entrypoints": {
     "main": {
-      "chunks": [
-        "main"
-      ],
-      "assets": [
-        "main.js"
-      ],
+      "chunks": ["main"],
+      "assets": ["main.js"],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
     "main": {
-      "files": [
-        "main.js"
-      ],
+      "files": ["main.js"],
       "modules": [
         "./node_modules/complain/index.js",
         "./node_modules/error-stack-parser/error-stack-parser.js",
@@ -40,7 +34,6 @@
         "./node_modules/marko/src/components/renderer.js",
         "./node_modules/marko/src/components/taglib/init-components-tag.js",
         "./node_modules/marko/src/components/util.js",
-        "./node_modules/marko/src/html.js",
         "./node_modules/marko/src/index.js",
         "./node_modules/marko/src/loader/index.js",
         "./node_modules/marko/src/morphdom/helpers.js",

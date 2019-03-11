@@ -1,25 +1,23 @@
 {
-  "errors": [],
+  "errors": [
+    "./test/fixtures/with-class-component-plugin/components/nested/index.marko\nModule not found: Error: Can't resolve 'style.css' in '/Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/components/nested'\nresolve 'style.css' in '/Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/components/nested'\n  Parsed request is a module\n  using description file: /Users/dpiercey/Development/github/marko/webpack/test/package.json (relative path: ./fixtures/with-class-component-plugin/components/nested)\n    resolve as module\n      /Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/components/nested/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/components/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/github/marko/webpack/test/fixtures/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/github/marko/webpack/test/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/github/marko/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/github/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/Development/node_modules doesn't exist or is not a directory\n      /Users/dpiercey/node_modules doesn't exist or is not a directory\n      /Users/node_modules doesn't exist or is not a directory\n      /node_modules doesn't exist or is not a directory\n      looking for modules in /Users/dpiercey/Development/github/marko/webpack/node_modules\n        using description file: /Users/dpiercey/Development/github/marko/webpack/package.json (relative path: ./node_modules)\n          using description file: /Users/dpiercey/Development/github/marko/webpack/package.json (relative path: ./node_modules/style.css)\n            no extension\n              /Users/dpiercey/Development/github/marko/webpack/node_modules/style.css doesn't exist\n            .wasm\n              /Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.wasm doesn't exist\n            .mjs\n              /Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.mjs doesn't exist\n            .js\n              /Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.js doesn't exist\n            .json\n              /Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.json doesn't exist\n            as directory\n              /Users/dpiercey/Development/github/marko/webpack/node_modules/style.css doesn't exist\n[/Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/components/nested/node_modules]\n[/Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/components/node_modules]\n[/Users/dpiercey/Development/github/marko/webpack/test/fixtures/with-class-component-plugin/node_modules]\n[/Users/dpiercey/Development/github/marko/webpack/test/fixtures/node_modules]\n[/Users/dpiercey/Development/github/marko/webpack/test/node_modules]\n[/Users/dpiercey/Development/github/marko/node_modules]\n[/Users/dpiercey/Development/github/node_modules]\n[/Users/dpiercey/Development/node_modules]\n[/Users/dpiercey/node_modules]\n[/Users/node_modules]\n[/node_modules]\n[/Users/dpiercey/Development/github/marko/webpack/node_modules/style.css]\n[/Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.wasm]\n[/Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.mjs]\n[/Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.js]\n[/Users/dpiercey/Development/github/marko/webpack/node_modules/style.css.json]\n @ ./test/fixtures/with-class-component-plugin/components/nested/index.marko 23:31-51\n @ ./test/fixtures/with-class-component-plugin/test.marko\n @ ./test/fixtures/with-class-component-plugin/test.marko?assets\n @ ./test/fixtures/with-class-component-plugin/server.js"
+  ],
   "warnings": [],
   "entrypoints": {
     "main": {
-      "chunks": [
-        "main"
-      ],
-      "assets": [
-        "main.js"
-      ],
+      "chunks": ["main"],
+      "assets": ["main.js"],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
     "main": {
-      "files": [
-        "main.js"
-      ],
+      "files": ["main.js"],
       "modules": [
         "./node_modules/complain/index.js",
+        "./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-class-component-plugin/test.marko",
+        "./node_modules/css-loader/dist/runtime/api.js",
         "./node_modules/error-stack-parser/error-stack-parser.js",
         "./node_modules/events-light/src/index.js",
         "./node_modules/marko/components.js",
@@ -40,7 +38,6 @@
         "./node_modules/marko/src/components/renderer.js",
         "./node_modules/marko/src/components/taglib/init-components-tag.js",
         "./node_modules/marko/src/components/util.js",
-        "./node_modules/marko/src/html.js",
         "./node_modules/marko/src/index.js",
         "./node_modules/marko/src/loader/index.js",
         "./node_modules/marko/src/morphdom/helpers.js",
@@ -63,6 +60,9 @@
         "./node_modules/raptor-util/copyProps.js",
         "./node_modules/raptor-util/extend.js",
         "./node_modules/stackframe/stackframe.js",
+        "./node_modules/style-loader!./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-class-component-plugin/test.marko",
+        "./node_modules/style-loader/lib/addStyles.js",
+        "./node_modules/style-loader/lib/urls.js",
         "./node_modules/warp10/constants.js",
         "./node_modules/warp10/src/constants.js",
         "./node_modules/warp10/src/finalize.js",
