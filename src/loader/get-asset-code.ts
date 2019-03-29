@@ -5,10 +5,11 @@ export default resourcePath => `
 import { writeInitComponentsCode } from "marko/components";
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
 
-static const assets = __ASSETS_MANIFEST__[${JSON.stringify(
+static const { getBundleName, bundles } = __ASSETS_MANIFEST__[${JSON.stringify(
   moduleName(resourcePath)
 )}];
 static const renderAssets = function(out) {
+  const assets = bundles[getBundleName(out.global)];
   if (!out.global.assetsRendered) {
     const target = out.stream || out;
     if (assets) {
