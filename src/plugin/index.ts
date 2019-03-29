@@ -5,19 +5,13 @@ import { ReplaceSource } from "webpack-sources";
 import moduleName from "../shared/module-name";
 
 interface ResolvablePromise<T> extends Promise<T> {
-  resolve(value?: T): void;
+  resolve(value: T): void;
 }
 
 export default class MarkoWebpackPlugin {
-  public options: any;
-  private clientEntries: ResolvablePromise<Entry>;
-  private clientAssets: any;
-  private pendingBrowserBuild: any;
-  constructor(options: any) {
-    this.options = options;
-    this.clientEntries = createResolvablePromise();
-    this.pendingBrowserBuild = createResolvablePromise();
-  }
+  private clientEntries = createResolvablePromise<Entry>();
+  private pendingBrowserBuild = createResolvablePromise<void>();
+  private clientAssets: { [x: string]: { [x: string]: string[] } };
   get server() {
     return (compiler: Compiler) => {
       const isEvalDevtool = /eval/.test(String(compiler.options.devtool));
@@ -145,11 +139,11 @@ export default class MarkoWebpackPlugin {
   }
 }
 
-const createResolvablePromise = () => {
-  let resolve: (value?: any) => void;
+const createResolvablePromise = <T>() => {
+  let resolve: (value: T) => void;
   const promise = new Promise(
     _resolve => (resolve = _resolve)
-  ) as ResolvablePromise<any>;
+  ) as ResolvablePromise<T>;
   promise.resolve = resolve;
   return promise;
 };
