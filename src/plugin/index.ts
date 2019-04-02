@@ -113,7 +113,14 @@ export default class MarkoWebpackPlugin {
                       const content = escapeIfEval(
                         `{\n  getBundleName: ${
                           this.chooseClientCompilerFnSource
-                        },\n  bundles: ${JSON.stringify(assetsByBundle)}\n}`
+                        },\n  bundles: ${JSON.stringify(
+                          Object.keys(assetsByBundle)
+                            .sort()
+                            .reduce((r, k) => {
+                              r[k] = assetsByBundle[k];
+                              return r;
+                            }, {})
+                        )}\n}`
                       );
                       newSource =
                         newSource ||
