@@ -24,8 +24,8 @@ const extendConfig = config => {
 
   // By default we'll use dev mode so that sources are more readable
   // but we'll disable sourcemaps unless the test has specifically opted in
-  config.mode = config.mode || 'development';
-  config.devtool = config.devtool || 'none';
+  config.mode = config.mode || "development";
+  config.devtool = config.devtool || "none";
 
   return config;
 };

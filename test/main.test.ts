@@ -3,7 +3,7 @@ import * as path from "path";
 import compilation from "./util/compilation";
 import checkBuild from "./util/check-build";
 
-describe("@marko/webpack", function () {
+describe("@marko/webpack", function() {
   this.timeout(15000);
   describe("fixtures", () => {
     const fixturesDir = path.join(__dirname, "fixtures");

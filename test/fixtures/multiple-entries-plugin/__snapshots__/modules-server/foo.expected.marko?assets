@@ -16,9 +16,13 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     marko_loadTag = marko_helpers.t,
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
 
-const assets = {"js":["bar$aSxt~foo$3XPO.js","foo$3XPO.js"]};
+const { getBundleName, bundles } = {
+  getBundleName: function(){return "browser"},
+  bundles: {"browser":{"js":["bar$aSxt~foo$3XPO.js","foo$3XPO.js"]}}
+};
 
 const renderAssets = function(out) {
+  const assets = bundles[getBundleName(out.global)];
   if (!out.global.assetsRendered) {
     const target = out.stream || out;
     if (assets) {

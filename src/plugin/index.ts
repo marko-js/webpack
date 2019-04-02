@@ -8,10 +8,36 @@ interface ResolvablePromise<T> extends Promise<T> {
   resolve(value: T): void;
 }
 
+interface Options {
+  chooseClientCompilerByName?($global: any): string;
+}
+
 export default class MarkoWebpackPlugin {
+  private totalBrowserCompilers = 0;
+  private pendingBrowserBuilds: Array<Promise<void>> = [];
   private clientEntries = createResolvablePromise<Entry>();
-  private pendingBrowserBuild = createResolvablePromise<void>();
-  private clientAssets: { [x: string]: { [x: string]: string[] } };
+  private clientAssets: {
+    [entryName: string]: {
+      [bundleName: string]: { [assetType: string]: string[] };
+    };
+  } = {};
+  private chooseClientCompilerFnSource: string;
+
+  constructor(options?: Options) {
+    if (options && options.chooseClientCompilerByName) {
+      this.chooseClientCompilerFnSource = options.chooseClientCompilerByName.toString();
+
+      if (
+        this.chooseClientCompilerFnSource[0] !== "(" &&
+        !this.chooseClientCompilerFnSource.startsWith("function ")
+      ) {
+        this.chooseClientCompilerFnSource = `function ${
+          this.chooseClientCompilerFnSource
+        }`;
+      }
+    }
+  }
+
   get server() {
     return (compiler: Compiler) => {
       const isEvalDevtool = /eval/.test(String(compiler.options.devtool));
@@ -65,26 +91,36 @@ export default class MarkoWebpackPlugin {
           compilation.hooks.optimizeChunkAssets.tapPromise(
             "MarkoWebpackServer:optimizeChunkAssets",
             async () => {
-              await this.pendingBrowserBuild;
+              await Promise.all(this.pendingBrowserBuilds);
               const { clientAssets } = this;
-
+              this.pendingBrowserBuilds = [];
               for (const filename in compilation.assets) {
                 if (filename.endsWith(".js")) {
                   const originalSource = compilation.assets[
                     filename
                   ].source() as string;
                   let newSource: ReplaceSource | void;
-                  for (const moduleId in clientAssets) {
+
+                  for (const entry in clientAssets) {
                     const placeholder = escapeIfEval(
-                      `__ASSETS_MANIFEST__[${JSON.stringify(moduleId)}]`
+                      `__ASSETS_MANIFEST__[${JSON.stringify(entry)}]`
                     );
                     const placeholderPosition = originalSource.indexOf(
                       placeholder
                     );
                     if (placeholderPosition > -1) {
-                      const assets = clientAssets[moduleId];
+                      const assetsByBundle = clientAssets[entry];
                       const content = escapeIfEval(
-                        JSON.stringify({ js: assets.js, css: assets.css })
+                        `{\n  getBundleName: ${
+                          this.chooseClientCompilerFnSource
+                        },\n  bundles: ${JSON.stringify(
+                          Object.keys(assetsByBundle)
+                            .sort()
+                            .reduce((r, k) => {
+                              r[k] = assetsByBundle[k];
+                              return r;
+                            }, {})
+                        )}\n}`
                       );
                       newSource =
                         newSource ||
@@ -111,13 +147,30 @@ export default class MarkoWebpackPlugin {
     };
   }
   get browser() {
+    this.totalBrowserCompilers++;
+
     return (compiler: Compiler) => {
+      if (!this.chooseClientCompilerFnSource) {
+        if (this.totalBrowserCompilers > 1) {
+          throw new Error(
+            "@marko/webpack requires the 'chooseClientCompilerByName' option when using multiple browser compilers."
+          );
+        }
+
+        this.chooseClientCompilerFnSource = `function(){return ${JSON.stringify(
+          compiler.options.name
+        )}}`;
+      }
+
+      let pendingBuild = createResolvablePromise<void>();
+      this.pendingBrowserBuilds.push(pendingBuild);
+
       compiler.hooks.invalid.tap("MarkoWebpackBrowser:invalid", () => {
-        this.pendingBrowserBuild = createResolvablePromise();
+        pendingBuild = createResolvablePromise();
+        this.pendingBrowserBuilds.push(pendingBuild);
       });
 
       compiler.hooks.done.tap("MarkoWebpackBrowser:done", stats => {
-        const assetsByEntry = {};
         for (const [entryName, { assets }] of Object.entries(stats.toJson()
           .entrypoints as { assets: any })) {
           const assetsByType = {};
@@ -126,11 +179,13 @@ export default class MarkoWebpackPlugin {
             const type = (assetsByType[ext] = assetsByType[ext] || []);
             type.push(asset);
           }
-          assetsByEntry[entryName] = assetsByType;
+
+          const entryAssets = (this.clientAssets[entryName] =
+            this.clientAssets[entryName] || {});
+          entryAssets[compiler.options.name] = assetsByType;
         }
 
-        this.clientAssets = assetsByEntry;
-        this.pendingBrowserBuild.resolve();
+        pendingBuild.resolve();
       });
       new WebpackPluginAddEntries({
         addNamed: () => this.clientEntries
@@ -144,6 +199,7 @@ const createResolvablePromise = <T>() => {
   const promise = new Promise(
     _resolve => (resolve = _resolve)
   ) as ResolvablePromise<T>;
+
   promise.resolve = resolve;
   return promise;
 };
