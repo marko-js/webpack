@@ -5,7 +5,7 @@ import * as mkdirp from "mkdirp";
 import * as del from "del";
 import escape from "escape-string-regexp";
 
-const SNAPSHOT_DIRNAME = '__snapshots__';
+const SNAPSHOT_DIRNAME = "__snapshots__";
 
 const checkBuild = (
   name,
@@ -14,13 +14,13 @@ const checkBuild = (
   fixtureDir,
   snapshotErrors
 ) => {
-  const stats = { errors, warnings, entrypoints, chunks:getChunkInfo(chunks) };
+  const stats = { errors, warnings, entrypoints, chunks: getChunkInfo(chunks) };
   const snapshotDir = path.join(fixtureDir, SNAPSHOT_DIRNAME);
   const statsExpectedPath = path.join(
     snapshotDir,
     `stats${name ? `-${name}` : ""}.expected.json`
   );
-  
+
   snapshot(statsExpectedPath, stats, snapshotErrors);
 
   const modulesDir = path.join(snapshotDir, `modules${name ? `-${name}` : ""}`);
@@ -28,7 +28,11 @@ const checkBuild = (
     const fullSource = assets[chunk.files.filter(f => /\.js$/.test(f))[0]];
     chunk.modules
       .map(module => moduleWithRelativePath(module, fixtureDir))
-      .filter(module => !/^\.\.\/|node_modules/.test(module.relativePath) && !/code-loader/.test(module.identifier))
+      .filter(
+        module =>
+          !/^\.\.\/|node_modules/.test(module.relativePath) &&
+          !/code-loader/.test(module.identifier)
+      )
       .forEach(module => {
         const moduleSource = getModuleSource(fullSource, module.id);
         const moduleExpectedPath = path.resolve(
@@ -42,17 +46,15 @@ const checkBuild = (
           snapshot(moduleExpectedPath, moduleSource, snapshotErrors);
         }
       });
-      chunk.files.forEach(file => {
-        if (/\.css$/.test(file)) {
-          const expectedPath = path.resolve(
-            modulesDir,
-            file
-              .replace(/(\.[\w?]+)$/, ".expected$1")
-              .replace(/\//g, "⧸")
-          );
-          snapshot(expectedPath, assets[file], snapshotErrors);
-        }
-      });
+    chunk.files.forEach(file => {
+      if (/\.css$/.test(file)) {
+        const expectedPath = path.resolve(
+          modulesDir,
+          file.replace(/(\.[\w?]+)$/, ".expected$1").replace(/\//g, "⧸")
+        );
+        snapshot(expectedPath, assets[file], snapshotErrors);
+      }
+    });
   });
 };
 
@@ -60,26 +62,32 @@ const getModuleSource = (fullSource, moduleId) => {
   const moduleMarker = escape(`${JSON.stringify(moduleId)}:`);
   const commentMarker = escape("/***/");
   const closeModule = escape("})");
-  const pattern = new RegExp(`${commentMarker} ${moduleMarker}.*?${commentMarker}[^\n]+\n(.*?)${commentMarker} ${closeModule}`, 's');
+  const pattern = new RegExp(
+    `${commentMarker} ${moduleMarker}.*?${commentMarker}[^\n]+\n(.*?)${commentMarker} ${closeModule}`,
+    "s"
+  );
   const match = pattern.exec(fullSource);
   return match && match[1].trim();
-}
+};
 
 const moduleWithRelativePath = (module, fixtureDir) => {
-  module.relativePath = path.relative(fixtureDir, module.identifier.replace(/.*!/, ''));
+  module.relativePath = path.relative(
+    fixtureDir,
+    module.identifier.replace(/.*!/, "")
+  );
   return module;
-}
+};
 
-const getChunkInfo = (chunks) => {
+const getChunkInfo = chunks => {
   const chunkInfo = {};
   chunks.forEach(chunk => {
     chunkInfo[chunk.id] = {
       files: chunk.files,
       modules: chunk.modules.map(m => m.name).sort()
-    }
+    };
   });
   return chunkInfo;
-}
+};
 
 const writeFile = (filepath, contents) => {
   mkdirp.sync(path.dirname(filepath));
@@ -95,20 +103,22 @@ const readFile = filepath => {
 };
 
 const snapshot = (expectedPath, actualValue, snapshotErrors) => {
-  const actualPath = expectedPath.replace('.expected.', '.actual.');
+  const actualPath = expectedPath.replace(".expected.", ".actual.");
   let expectedValue = readFile(expectedPath);
   let actualStringified = actualValue;
 
-  if (typeof actualValue !== 'string') {
+  if (typeof actualValue !== "string") {
     actualStringified = JSON.stringify(actualValue, null, 2);
     actualValue = JSON.parse(actualStringified);
-    expectedValue = JSON.parse(expectedValue || '{}');
+    expectedValue = JSON.parse(expectedValue || "{}");
   }
 
   writeFile(actualPath, actualStringified);
 
   try {
-    assert.deepEqual(actualValue, expectedValue,
+    assert.deepEqual(
+      actualValue,
+      expectedValue,
       `${path.relative(process.cwd(), actualPath)} != ${path.relative(
         process.cwd(),
         expectedPath
@@ -121,30 +131,42 @@ const snapshot = (expectedPath, actualValue, snapshotErrors) => {
       snapshotErrors.push(e);
     }
   }
-}
+};
 
-const getAssetSources = (stats) => {
+const getAssetSources = stats => {
   const assets = {};
   const compilationAssets = stats.compilation.assets;
   Object.keys(compilationAssets).forEach(assetName => {
-    assets[assetName] = compilationAssets[assetName].source()
+    assets[assetName] = compilationAssets[assetName].source();
   });
   return assets;
-}
+};
 
 export default (stats, fixtureDir) => {
   const snapshotDir = path.join(fixtureDir, SNAPSHOT_DIRNAME);
   const snapshotErrors = [];
 
   // clean actual snapshot files
-  del.sync(path.join(snapshotDir, '**/*.actual.*'));
-  
+  del.sync(path.join(snapshotDir, "**/*.actual.*"));
+
   if (stats.stats) {
     stats.stats.forEach(childStats => {
-      checkBuild(childStats.compilation.name, childStats.toJson(), getAssetSources(childStats), fixtureDir, snapshotErrors);
+      checkBuild(
+        childStats.compilation.name,
+        childStats.toJson(),
+        getAssetSources(childStats),
+        fixtureDir,
+        snapshotErrors
+      );
     });
   } else {
-    checkBuild('', stats.toJson(), getAssetSources(stats), fixtureDir, snapshotErrors);
+    checkBuild(
+      "",
+      stats.toJson(),
+      getAssetSources(stats),
+      fixtureDir,
+      snapshotErrors
+    );
   }
 
   if (process.env.UPDATE_SNAPSHOTS) {
@@ -155,4 +177,3 @@ export default (stats, fixtureDir) => {
     throw snapshotErrors[0];
   }
 };
-

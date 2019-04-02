@@ -11,10 +11,7 @@ export default {
       },
       {
         test: /\.css$/,
-        use: [
-          ExtractCSSPlugin.loader,
-          'css-loader'
-        ],
+        use: [ExtractCSSPlugin.loader, "css-loader"]
       }
     ]
   },
