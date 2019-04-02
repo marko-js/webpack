@@ -31,7 +31,7 @@ export default function(source) {
     ? this.options.module
     : this._compilation.options.module;
   const loaders = (module && (module.loaders || module.rules)) || [];
-  
+
   this.cacheable(false);
   if (!cacheClearSetup.has(this._compiler)) {
     this._compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () => {
@@ -41,10 +41,14 @@ export default function(source) {
   }
 
   if (assets) {
-    return markoCompiler.compile(getAssetCode(this.resourcePath), this.resourcePath, {
-      writeToDisk: false,
-      requireTemplates: true
-    });
+    return markoCompiler.compile(
+      getAssetCode(this.resourcePath),
+      this.resourcePath,
+      {
+        writeToDisk: false,
+        requireTemplates: true
+      }
+    );
   } else if (hydrate) {
     return `
       require(${JSON.stringify(
