@@ -3,7 +3,7 @@ import * as webpack from "webpack";
 import MarkoPlugin from "../../../src/plugin";
 import ExtractCSSPlugin from "mini-css-extract-plugin";
 
-const markoPlugin = new MarkoPlugin({});
+const markoPlugin = new MarkoPlugin();
 
 export default [
   {
@@ -18,7 +18,7 @@ export default [
         }
       ]
     },
-    plugins:[
+    plugins: [
       new webpack.DefinePlugin({
         "process.env.BUNDLE": true
       }),
@@ -36,10 +36,7 @@ export default [
         },
         {
           test: /\.css$/,
-          use: [
-            ExtractCSSPlugin.loader,
-            'css-loader'
-          ],
+          use: [ExtractCSSPlugin.loader, "css-loader"]
         }
       ]
     },
@@ -50,5 +47,5 @@ export default [
       }),
       markoPlugin.browser
     ]
-  } 
+  }
 ];

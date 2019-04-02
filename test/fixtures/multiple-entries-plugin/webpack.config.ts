@@ -2,7 +2,7 @@ import * as path from "path";
 import * as webpack from "webpack";
 import MarkoPlugin from "../../../src/plugin";
 
-const markoPlugin = new MarkoPlugin({});
+const markoPlugin = new MarkoPlugin();
 
 export default [
   {
@@ -17,7 +17,7 @@ export default [
         }
       ]
     },
-    plugins:[
+    plugins: [
       new webpack.DefinePlugin({
         "process.env.BUNDLE": true
       }),
@@ -43,5 +43,5 @@ export default [
       }
     },
     plugins: [markoPlugin.browser]
-  } 
+  }
 ];
