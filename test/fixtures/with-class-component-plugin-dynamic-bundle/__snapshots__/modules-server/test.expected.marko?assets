@@ -17,7 +17,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
 
 const { getBundleName, bundles } = {
-  getBundleName: function chooseClientCompilerByName($global) {
+  getBundleName: function getClientCompilerName($global) {
         return $global.bundle;
     },
   bundles: {"browser-A":{"css":["test$YDNP.A.css"],"js":["test$YDNP.A.js"]},"browser-B":{"css":["test$YDNP.B.css"],"js":["test$YDNP.B.js"]},"browser-C":{"css":["test$YDNP.C.css"],"js":["test$YDNP.C.js"]}}

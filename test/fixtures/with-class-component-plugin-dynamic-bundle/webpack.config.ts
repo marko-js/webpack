@@ -4,7 +4,7 @@ import MarkoPlugin from "../../../src/plugin";
 import ExtractCSSPlugin from "mini-css-extract-plugin";
 
 const markoPlugin = new MarkoPlugin({
-  chooseClientCompilerByName($global) {
+  getClientCompilerName($global) {
     return $global.bundle;
   }
 });

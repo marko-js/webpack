@@ -9,7 +9,7 @@ interface ResolvablePromise<T> extends Promise<T> {
 }
 
 interface Options {
-  chooseClientCompilerByName?($global: any): string;
+  getClientCompilerName?($global: any): string;
 }
 
 export default class MarkoWebpackPlugin {
@@ -21,18 +21,18 @@ export default class MarkoWebpackPlugin {
       [bundleName: string]: { [assetType: string]: string[] };
     };
   } = {};
-  private chooseClientCompilerFnSource: string;
+  private getClientCompilerNameSource: string;
 
   constructor(options?: Options) {
-    if (options && options.chooseClientCompilerByName) {
-      this.chooseClientCompilerFnSource = options.chooseClientCompilerByName.toString();
+    if (options && options.getClientCompilerName) {
+      this.getClientCompilerNameSource = options.getClientCompilerName.toString();
 
       if (
-        this.chooseClientCompilerFnSource[0] !== "(" &&
-        !this.chooseClientCompilerFnSource.startsWith("function ")
+        this.getClientCompilerNameSource[0] !== "(" &&
+        !this.getClientCompilerNameSource.startsWith("function ")
       ) {
-        this.chooseClientCompilerFnSource = `function ${
-          this.chooseClientCompilerFnSource
+        this.getClientCompilerNameSource = `function ${
+          this.getClientCompilerNameSource
         }`;
       }
     }
@@ -112,7 +112,7 @@ export default class MarkoWebpackPlugin {
                       const assetsByBundle = clientAssets[entry];
                       const content = escapeIfEval(
                         `{\n  getBundleName: ${
-                          this.chooseClientCompilerFnSource
+                          this.getClientCompilerNameSource
                         },\n  bundles: ${JSON.stringify(
                           Object.keys(assetsByBundle)
                             .sort()
@@ -150,14 +150,14 @@ export default class MarkoWebpackPlugin {
     this.totalBrowserCompilers++;
 
     return (compiler: Compiler) => {
-      if (!this.chooseClientCompilerFnSource) {
+      if (!this.getClientCompilerNameSource) {
         if (this.totalBrowserCompilers > 1) {
           throw new Error(
-            "@marko/webpack requires the 'chooseClientCompilerByName' option when using multiple browser compilers."
+            "@marko/webpack requires the 'getClientCompilerName' option when using multiple browser compilers."
           );
         }
 
-        this.chooseClientCompilerFnSource = `function(){return ${JSON.stringify(
+        this.getClientCompilerNameSource = `function(){return ${JSON.stringify(
           compiler.options.name
         )}}`;
       }
