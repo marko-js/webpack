@@ -4,12 +4,12 @@ import moduleName from "../shared/module-name";
 export default resourcePath => `
 import { writeInitComponentsCode } from "marko/components";
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
+import { getBundleName, entries } from "__MARKO_WEBPACK__/MANIFEST.js";
 
-static const { getBundleName, bundles } = __ASSETS_MANIFEST__[${JSON.stringify(
-  moduleName(resourcePath)
-)}];
 static const renderAssets = function(out) {
-  const assets = bundles[getBundleName(out.global)];
+  const assets = entries[${JSON.stringify(
+    moduleName(resourcePath)
+  )}][getBundleName(out.global)];
   if (!out.global.assetsRendered) {
     const target = out.stream || out;
     if (assets) {

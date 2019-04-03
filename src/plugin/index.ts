@@ -2,7 +2,16 @@ import path from "path";
 import WebpackPluginAddEntries from "./webpack-plugin-add-entries";
 import { Compiler, Entry } from "webpack";
 import { ReplaceSource } from "webpack-sources";
+import VirtualModulesPlugin from "webpack-virtual-modules";
+import sortKeys from "sort-keys";
 import moduleName from "../shared/module-name";
+
+const VIRTUAL_MODULE_ASSETS_PATH = path.join(
+  process.cwd(),
+  "node_modules/__MARKO_WEBPACK__/MANIFEST.js"
+);
+const ASSETS_MARKER = "$__MARKO_MANIFEST__$";
+const ASSETS_CONTENT = `module.exports = ${ASSETS_MARKER}`;
 
 interface ResolvablePromise<T> extends Promise<T> {
   resolve(value: T): void;
@@ -13,6 +22,7 @@ interface Options {
 }
 
 export default class MarkoWebpackPlugin {
+  private serverIsBuilding = true;
   private totalBrowserCompilers = 0;
   private pendingBrowserBuilds: Array<Promise<void>> = [];
   private clientEntries = createResolvablePromise<Entry>();
@@ -22,6 +32,9 @@ export default class MarkoWebpackPlugin {
     };
   } = {};
   private getClientCompilerNameSource: string;
+  private virtualServerModules = new VirtualModulesPlugin({
+    [VIRTUAL_MODULE_ASSETS_PATH]: ASSETS_CONTENT
+  });
 
   constructor(options?: Options) {
     if (options && options.getClientCompilerName) {
@@ -38,11 +51,27 @@ export default class MarkoWebpackPlugin {
     }
   }
 
+  private invalidateServerBuild() {
+    if (!this.serverIsBuilding) {
+      this.virtualServerModules.writeModule(
+        VIRTUAL_MODULE_ASSETS_PATH,
+        ASSETS_CONTENT
+      );
+    }
+  }
+
   get server() {
     return (compiler: Compiler) => {
       const isEvalDevtool = /eval/.test(String(compiler.options.devtool));
       const escapeIfEval = (code: string) =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
+
+      this.virtualServerModules.apply(compiler);
+
+      compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
+        this.serverIsBuilding = true;
+      });
+
       compiler.hooks.normalModuleFactory.tap(
         "MarkoWebpackServer:normalModuleFactory",
         normalModuleFactory => {
@@ -92,50 +121,35 @@ export default class MarkoWebpackPlugin {
             "MarkoWebpackServer:optimizeChunkAssets",
             async () => {
               await Promise.all(this.pendingBrowserBuilds);
-              const { clientAssets } = this;
+              const clientAssets = sortKeys(this.clientAssets, { deep: true });
               this.pendingBrowserBuilds = [];
+              this.serverIsBuilding = false;
+
               for (const filename in compilation.assets) {
                 if (filename.endsWith(".js")) {
                   const originalSource = compilation.assets[
                     filename
                   ].source() as string;
-                  let newSource: ReplaceSource | void;
+                  const placeholder = escapeIfEval(ASSETS_MARKER);
+                  const placeholderPosition = originalSource.indexOf(
+                    placeholder
+                  );
+                  if (placeholderPosition > -1) {
+                    const content = escapeIfEval(
+                      `{\n  getBundleName: ${
+                        this.getClientCompilerNameSource
+                      },\n  entries: ${JSON.stringify(clientAssets)}\n}`
+                    );
+                    const newSource = new ReplaceSource(
+                      compilation.assets[filename],
+                      filename
+                    );
+                    newSource.replace(
+                      placeholderPosition,
+                      placeholderPosition + placeholder.length - 1,
+                      content
+                    );
 
-                  for (const entry in clientAssets) {
-                    const placeholder = escapeIfEval(
-                      `__ASSETS_MANIFEST__[${JSON.stringify(entry)}]`
-                    );
-                    const placeholderPosition = originalSource.indexOf(
-                      placeholder
-                    );
-                    if (placeholderPosition > -1) {
-                      const assetsByBundle = clientAssets[entry];
-                      const content = escapeIfEval(
-                        `{\n  getBundleName: ${
-                          this.getClientCompilerNameSource
-                        },\n  bundles: ${JSON.stringify(
-                          Object.keys(assetsByBundle)
-                            .sort()
-                            .reduce((r, k) => {
-                              r[k] = assetsByBundle[k];
-                              return r;
-                            }, {})
-                        )}\n}`
-                      );
-                      newSource =
-                        newSource ||
-                        new ReplaceSource(
-                          compilation.assets[filename],
-                          filename
-                        );
-                      newSource.replace(
-                        placeholderPosition,
-                        placeholderPosition + placeholder.length - 1,
-                        content
-                      );
-                    }
-                  }
-                  if (newSource) {
                     compilation.assets[filename] = newSource;
                   }
                 }
@@ -166,6 +180,7 @@ export default class MarkoWebpackPlugin {
       this.pendingBrowserBuilds.push(pendingBuild);
 
       compiler.hooks.invalid.tap("MarkoWebpackBrowser:invalid", () => {
+        this.invalidateServerBuild();
         pendingBuild = createResolvablePromise();
         this.pendingBrowserBuilds.push(pendingBuild);
       });

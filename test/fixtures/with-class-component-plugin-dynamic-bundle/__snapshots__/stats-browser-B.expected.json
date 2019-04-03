@@ -3,15 +3,23 @@
   "warnings": [],
   "entrypoints": {
     "test$YDNP": {
-      "chunks": ["test$YDNP"],
-      "assets": ["test$YDNP.B.css", "test$YDNP.B.js"],
+      "chunks": [
+        "test$YDNP"
+      ],
+      "assets": [
+        "test$YDNP.B.css",
+        "test$YDNP.B.js"
+      ],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
     "test$YDNP": {
-      "files": ["test$YDNP.B.css", "test$YDNP.B.js"],
+      "files": [
+        "test$YDNP.B.css",
+        "test$YDNP.B.js"
+      ],
       "modules": [
         "(webpack)/buildin/global.js",
         "./node_modules/complain/index.js",

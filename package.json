@@ -81,6 +81,8 @@
   "dependencies": {
     "base-x": "^3.0.5",
     "lasso-modules-client": "^2.0.5",
-    "loader-utils": "^1.2.3"
+    "loader-utils": "^1.2.3",
+    "sort-keys": "^2.0.0",
+    "webpack-virtual-modules": "^0.1.10"
   }
 }
