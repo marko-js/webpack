@@ -70,6 +70,7 @@ export default class MarkoWebpackPlugin {
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
         this.serverIsBuilding = true;
+        this.clientEntries = createResolvablePromise<Entry>();
       });
 
       compiler.hooks.normalModuleFactory.tap(
@@ -112,9 +113,6 @@ export default class MarkoWebpackPlugin {
               });
 
               this.clientEntries.resolve(clientEntries);
-              this.clientEntries = createResolvablePromise() as ResolvablePromise<
-                Entry
-              >;
             }
           );
           compilation.hooks.optimizeChunkAssets.tapPromise(
