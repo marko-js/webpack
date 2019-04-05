@@ -28,8 +28,7 @@ export default class MarkoWebpackPlugin {
       this.getClientCompilerNameSource = options.getClientCompilerName.toString();
 
       if (
-        this.getClientCompilerNameSource[0] !== "(" &&
-        !this.getClientCompilerNameSource.startsWith("function ")
+        /^getClientCompilerName\s*\(/.test(this.getClientCompilerNameSource)
       ) {
         this.getClientCompilerNameSource = `function ${
           this.getClientCompilerNameSource
