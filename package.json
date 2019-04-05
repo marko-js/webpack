@@ -1,7 +1,7 @@
 {
   "name": "@marko/webpack",
   "description": "a Marko plugin and loader for Webpack",
-  "version": "1.0.1-2",
+  "version": "1.0.1",
   "bugs": "https://github.com/marko-js/@marko/webpack/issues",
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
