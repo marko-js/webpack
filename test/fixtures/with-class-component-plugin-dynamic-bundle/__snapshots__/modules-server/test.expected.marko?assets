@@ -11,7 +11,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     components_module = module_components_module.default || module_components_module,
     writeInitComponentsCode = module_components_module.writeInitComponentsCode,
     template = __webpack_require__(/*! ./test.marko */ "./test/fixtures/with-class-component-plugin-dynamic-bundle/test.marko"),
-    module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
+    module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
     getBundleName = module_MARKOWEBPACKMANIFEST_module.getBundleName,
     entries = module_MARKOWEBPACKMANIFEST_module.entries,
