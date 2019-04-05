@@ -5,16 +5,11 @@ import { ReplaceSource } from "webpack-sources";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import sortKeys from "sort-keys";
 import moduleName from "../shared/module-name";
+import {
+  VIRTUAL_BROWSER_INVALIDATE_PATH,
+  VIRTUAL_SERVER_MANIFEST_PATH
+} from "../shared/paths";
 
-const VIRTUAL_BROWSER_INVALIDATE_PATH = path.join(
-  process.cwd(),
-  "__MARKO_WEBPACK_INVALIDATE__.js"
-);
-
-const VIRTUAL_SERVER_MANIFEST_PATH = path.join(
-  process.cwd(),
-  "node_modules/__MARKO_WEBPACK__/MANIFEST.js"
-);
 const MANIFEST_MARKER = "$__MARKO_MANIFEST__$";
 const MANIFEST_CONTENT = `module.exports = ${MANIFEST_MARKER}`;
 
