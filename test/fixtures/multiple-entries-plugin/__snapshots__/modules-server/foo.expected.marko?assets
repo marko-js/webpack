@@ -1,5 +1,5 @@
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.15.2 - DO NOT EDIT
+/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.16.7 - DO NOT EDIT
 
 
 var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ "./node_modules/marko/src/html.js").t(__filename),
@@ -11,18 +11,17 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     components_module = module_components_module.default || module_components_module,
     writeInitComponentsCode = module_components_module.writeInitComponentsCode,
     template = __webpack_require__(/*! ./foo.marko */ "./test/fixtures/multiple-entries-plugin/foo.marko"),
+    module_MANIFEST_module = __webpack_require__(/*! __MARKO_WEBPACK__/MANIFEST.js */ "./node_modules/__MARKO_WEBPACK__/MANIFEST.js"),
+    MANIFEST_module = module_MANIFEST_module.default || module_MANIFEST_module,
+    getBundleName = module_MANIFEST_module.getBundleName,
+    entries = module_MANIFEST_module.entries,
     marko_helpers = __webpack_require__(/*! marko/src/runtime/html/helpers */ "./node_modules/marko/src/runtime/html/helpers.js"),
     marko_dynamicTag = marko_helpers.d,
     marko_loadTag = marko_helpers.t,
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
 
-const { getBundleName, bundles } = {
-  getBundleName: function(){return "browser"},
-  bundles: {"browser":{"js":["bar$aSxt~foo$3XPO.js","foo$3XPO.js"]}}
-};
-
 const renderAssets = function(out) {
-  const assets = bundles[getBundleName(out.global)];
+  const assets = entries["foo$3XPO"][getBundleName(out.global)];
   if (!out.global.assetsRendered) {
     const target = out.stream || out;
     if (assets) {
@@ -63,7 +62,7 @@ function render(input, out, __component, component, state) {
   _end.apply(this, arguments);
 }
 
-  marko_dynamicTag(template, input, null, out, __component, "0");
+  marko_dynamicTag(out, template, input, null, null, __component, "0");
 
   init_components_tag({}, out);
 }

@@ -30,7 +30,8 @@ const checkBuild = (
       .map(module => moduleWithRelativePath(module, fixtureDir))
       .filter(
         module =>
-          !/^\.\.\/|node_modules/.test(module.relativePath) &&
+          (/\/__MARKO_WEBPACK__\//.test(module.relativePath) ||
+            !/^\.\.\/|node_modules/.test(module.relativePath)) &&
           !/code-loader/.test(module.identifier)
       )
       .forEach(module => {
