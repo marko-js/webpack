@@ -6,12 +6,17 @@ import VirtualModulesPlugin from "webpack-virtual-modules";
 import sortKeys from "sort-keys";
 import moduleName from "../shared/module-name";
 
-const VIRTUAL_MODULE_ASSETS_PATH = path.join(
+const VIRTUAL_BROWSER_INVALIDATE_PATH = path.join(
+  process.cwd(),
+  "__MARKO_WEBPACK_INVALIDATE__.js"
+);
+
+const VIRTUAL_SERVER_MANIFEST_PATH = path.join(
   process.cwd(),
   "node_modules/__MARKO_WEBPACK__/MANIFEST.js"
 );
-const ASSETS_MARKER = "$__MARKO_MANIFEST__$";
-const ASSETS_CONTENT = `module.exports = ${ASSETS_MARKER}`;
+const MANIFEST_MARKER = "$__MARKO_MANIFEST__$";
+const MANIFEST_CONTENT = `module.exports = ${MANIFEST_MARKER}`;
 
 interface ResolvablePromise<T> extends Promise<T> {
   resolve(value: T): void;
@@ -33,7 +38,7 @@ export default class MarkoWebpackPlugin {
   } = {};
   private getClientCompilerNameSource: string;
   private virtualServerModules = new VirtualModulesPlugin({
-    [VIRTUAL_MODULE_ASSETS_PATH]: ASSETS_CONTENT
+    [VIRTUAL_SERVER_MANIFEST_PATH]: MANIFEST_CONTENT
   });
 
   constructor(options?: Options) {
@@ -51,17 +56,21 @@ export default class MarkoWebpackPlugin {
     }
   }
 
+  // Overwritten by each compiler.
+  private invalidateBrowserBuild() {}
+
   private invalidateServerBuild() {
     if (!this.serverIsBuilding) {
       this.virtualServerModules.writeModule(
-        VIRTUAL_MODULE_ASSETS_PATH,
-        ASSETS_CONTENT
+        VIRTUAL_SERVER_MANIFEST_PATH,
+        MANIFEST_CONTENT
       );
     }
   }
 
   get server() {
     return (compiler: Compiler) => {
+      const seenEntries = new Set();
       const isEvalDevtool = /eval/.test(String(compiler.options.devtool));
       const escapeIfEval = (code: string) =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
@@ -107,10 +116,20 @@ export default class MarkoWebpackPlugin {
           compilation.hooks.finishModules.tap(
             "MarkoWebpackServer:finishModules",
             () => {
+              let hasNew = false;
               const clientEntries = {};
               entryTemplates.forEach(filename => {
+                if (!seenEntries.has(filename)) {
+                  hasNew = true;
+                  seenEntries.add(filename);
+                }
+
                 clientEntries[moduleName(filename)] = filename + "?hydrate";
               });
+
+              if (hasNew) {
+                this.invalidateBrowserBuild();
+              }
 
               this.clientEntries.resolve(clientEntries);
             }
@@ -128,7 +147,7 @@ export default class MarkoWebpackPlugin {
                   const originalSource = compilation.assets[
                     filename
                   ].source() as string;
-                  const placeholder = escapeIfEval(ASSETS_MARKER);
+                  const placeholder = escapeIfEval(MANIFEST_MARKER);
                   const placeholderPosition = originalSource.indexOf(
                     placeholder
                   );
@@ -174,8 +193,27 @@ export default class MarkoWebpackPlugin {
         )}}`;
       }
 
+      let isWatchMode = false;
       let pendingBuild = createResolvablePromise<void>();
+      const virtualModules = new VirtualModulesPlugin({
+        [VIRTUAL_BROWSER_INVALIDATE_PATH]: ""
+      });
+
+      virtualModules.apply(compiler);
       this.pendingBrowserBuilds.push(pendingBuild);
+
+      compiler.hooks.watchRun.tap("MarkoWebpackBrowser:watch", () => {
+        const { invalidateBrowserBuild } = this;
+        isWatchMode = true;
+
+        this.invalidateBrowserBuild = () => {
+          if (!pendingBuild) {
+            virtualModules.writeModule(VIRTUAL_BROWSER_INVALIDATE_PATH, "");
+          }
+
+          invalidateBrowserBuild();
+        };
+      });
 
       compiler.hooks.invalid.tap("MarkoWebpackBrowser:invalid", () => {
         this.invalidateServerBuild();
@@ -199,9 +237,15 @@ export default class MarkoWebpackPlugin {
         }
 
         pendingBuild.resolve();
+        pendingBuild = undefined;
       });
       new WebpackPluginAddEntries({
-        addNamed: () => this.clientEntries
+        addNamed: () =>
+          this.clientEntries.then(entries =>
+            isWatchMode
+              ? { ...entries, __INVALIDATE__: VIRTUAL_BROWSER_INVALIDATE_PATH }
+              : entries
+          )
       }).apply(compiler);
     };
   }
