@@ -19,7 +19,7 @@
         "main.js"
       ],
       "modules": [
-        "./node_modules/__MARKO_WEBPACK__/MANIFEST.js",
+        "./__MARKO_WEBPACK__MANIFEST.js",
         "./node_modules/complain/index.js",
         "./node_modules/error-stack-parser/error-stack-parser.js",
         "./node_modules/events-light/src/index.js",

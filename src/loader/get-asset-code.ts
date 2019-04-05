@@ -1,10 +1,14 @@
 import * as path from "path";
 import moduleName from "../shared/module-name";
+import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/paths";
 
 export default resourcePath => `
 import { writeInitComponentsCode } from "marko/components";
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
-import { getBundleName, entries } from "__MARKO_WEBPACK__/MANIFEST.js";
+import { getBundleName, entries } from "${path.relative(
+  path.dirname(resourcePath),
+  VIRTUAL_SERVER_MANIFEST_PATH
+)}";
 
 static const renderAssets = function(out) {
   const assets = entries[${JSON.stringify(
