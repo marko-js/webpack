@@ -93,7 +93,7 @@ export default class MarkoWebpackPlugin {
           );
         }
       );
-      compiler.hooks.compilation.tap(
+      compiler.hooks.thisCompilation.tap(
         "MarkoWebpackServer:compilation",
         compilation => {
           const entryTemplates = [];
