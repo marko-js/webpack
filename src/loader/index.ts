@@ -101,9 +101,11 @@ export default function(source) {
       // we need to also include the dependencies of
       // any tags that are used by this template
       dependencies = dependencies.concat(
-        meta.tags.map(tagPath => {
-          return `require(${JSON.stringify(tagPath + "?dependencies")});`;
-        })
+        meta.tags
+          .filter(tagPath => tagPath.endsWith(".marko"))
+          .map(tagPath => {
+            return `require(${JSON.stringify(tagPath + "?dependencies")});`;
+          })
       );
     }
 

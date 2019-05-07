@@ -20,47 +20,51 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     marko_loadTag = marko_helpers.t,
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
 
-const renderAssets = function(out) {
+function renderAssets(out) {
   const assets = entries["test$uYWJ"][getBundleName(out.global)];
-  if (!out.global.assetsRendered) {
-    const target = out.stream || out;
-    if (assets) {
-      if (assets.js) {
-        target.write(
-          `<script>(function(b,g){var d=[],e=0;g.forEach(function(c,f){var a=b.createElement("link");a.relList&&a.relList.supports&&a.relList.supports("preload")?(a.href=c,a.rel="preload",a.as="script",a.addEventListener("load",function(){d[f]=1;if(e===f)for(;d[e++];){var a=b.createElement("script");a.src=c;b.head.appendChild(a)}}),b.head.appendChild(a)):(a=b.createElement("script"),a.src=c,a.defer=!0,b.head.appendChild(a))})})(document,${
-            JSON.stringify(assets.js.map(js => __webpack_require__.p+js))
-          });</script>`
-        );
-      }
-      if (assets.css) {
-        assets.css.forEach(css => {
-          target.write(
-            `<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p+css)}>`
-          );
-        });
-      }
+  const target = out.stream || out;
+  if (assets) {
+    if (assets.js) {
+      target.write(
+        `<script>(function(b,h){var e=[],c=0;h.forEach(function(d,f){var a=b.createElement("link");a.relList&&a.relList.supports&&a.relList.supports("preload")?(a.href=d,a.rel="preload",a.as="script",a.addEventListener("load",function(){e[f]=d;if(c===f)for(var a;a=e[c];c++){var g=b.createElement("script");g.src=a;b.head.appendChild(g)}}),b.head.appendChild(a)):(a=b.createElement("script"),a.src=d,a.defer=!0,b.head.appendChild(a))})})(document,${
+          JSON.stringify(assets.js.map(js => __webpack_require__.p+js))
+        });</script>`
+      );
     }
-    out.global.assetsRendered = true;
+    if (assets.css) {
+      assets.css.forEach(css => {
+        target.write(
+          `<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p+css)}>`
+        );
+      });
+    }
   }
+};
+
+function outFlushOverride() {
+  renderAssets(this);
+  this.end = this.___end;
+  this.flush = this.___flush;
+  this.flush();
+};
+
+function outEndOverride(data, encoding, callback) {
+  renderAssets(this);
+  this.end = this.___end;
+  this.flush = this.___flush;
+  this.end(data, encoding, callback);
 };
 
 function render(input, out, __component, component, state) {
   var data = input;
 
-  const _flush = out.flush;
+  out.___flush = out.flush;
 
-  const _end = out.end;
+  out.___end = out.end;
 
-  out.flush = function () {
-  writeInitComponentsCode(out, out, false);
-  renderAssets(out);
-  _flush.apply(this, arguments);
-}
+  out.flush = outFlushOverride;
 
-  out.end = function () {
-  renderAssets(out);
-  _end.apply(this, arguments);
-}
+  out.end = outEndOverride;
 
   marko_dynamicTag(out, template, input, null, null, __component, "0");
 
