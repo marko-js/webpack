@@ -1,2 +1,6 @@
-__webpack_require__(/*! ./foo.marko?dependencies */ "./test/fixtures/multiple-entries-plugin/foo.marko?dependencies");
+if (window.$mwp) {
+        __webpack_require__.p = $mwp;
+        delete window.$mwp;
+      }
+      __webpack_require__(/*! ./foo.marko?dependencies */ "./test/fixtures/multiple-entries-plugin/foo.marko?dependencies");
       window.$initComponents && window.$initComponents();

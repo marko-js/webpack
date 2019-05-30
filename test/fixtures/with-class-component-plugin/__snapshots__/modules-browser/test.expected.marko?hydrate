@@ -1,2 +1,6 @@
-__webpack_require__(/*! ./test.marko?dependencies */ "./test/fixtures/with-class-component-plugin/test.marko?dependencies");
+if (window.$mwp) {
+        __webpack_require__.p = $mwp;
+        delete window.$mwp;
+      }
+      __webpack_require__(/*! ./test.marko?dependencies */ "./test/fixtures/with-class-component-plugin/test.marko?dependencies");
       window.$initComponents && window.$initComponents();

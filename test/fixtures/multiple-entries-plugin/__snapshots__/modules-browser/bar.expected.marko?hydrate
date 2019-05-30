@@ -1,2 +1,6 @@
-__webpack_require__(/*! ./bar.marko?dependencies */ "./test/fixtures/multiple-entries-plugin/bar.marko?dependencies");
+if (window.$mwp) {
+        __webpack_require__.p = $mwp;
+        delete window.$mwp;
+      }
+      __webpack_require__(/*! ./bar.marko?dependencies */ "./test/fixtures/multiple-entries-plugin/bar.marko?dependencies");
       window.$initComponents && window.$initComponents();
