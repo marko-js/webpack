@@ -54,7 +54,7 @@ The plugin actually creates two separate webpack plugins, the `browser` plugin a
 
 These are intended to be used in a isomorphic [webpack multi compiler](https://github.com/webpack/webpack/tree/master/examples/multi-compiler) where you are bundling both the server and the browser. The way it works is that the server plugin is going to analyze the top level Marko components in your server and automatically communicate with the browser compiler to retrieve the assets for that template.
 
-This plugin also analyzes the top level Marko templates and determines if it is possible for then to rerender (currently the heuristic is simply does the component have an associated `class` or `component.js`). The plugin will automatically skip sending down any unnecessary top level templates to the browser.
+This plugin also analyzes the top level Marko templates and determines if it is possible for them to rerender (currently the heuristic is simply does the component have an associated `class` or `component.js`). The plugin will automatically skip sending down any unnecessary top level templates to the browser.
 
 The end result is that you setup a multi compiler (as shown below) and you can simply import Marko templates, and all assets are automatically generated and inlined into an optimized server response. No need to keep track of a webpack manifest yourself!
 
@@ -134,7 +134,7 @@ export default [
     },
     plugins: [markoPlugin.server]
   },
-  Object.keys(languages).map(language => ({
+  ...Object.keys(languages).map(language => ({
     name: `Browser-${language}`,
     rules: [
       {
@@ -147,7 +147,7 @@ export default [
 ];
 ```
 
-With the above config, you can render your top level Marko template server side with a `language` global, like so:
+With the above config you can render your top level Marko template server side with a `language` global, like so:
 
 ```
 template.render({ $global: { language: "de" } });
