@@ -2,23 +2,23 @@
   "errors": [],
   "warnings": [],
   "entrypoints": {
-    "test$nzzJ": {
+    "test_nzzJ": {
       "chunks": [
-        "test$nzzJ"
+        "test_nzzJ"
       ],
       "assets": [
-        "test$nzzJ.css",
-        "test$nzzJ.js"
+        "test_nzzJ.css",
+        "test_nzzJ.js"
       ],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
-    "test$nzzJ": {
+    "test_nzzJ": {
       "files": [
-        "test$nzzJ.css",
-        "test$nzzJ.js"
+        "test_nzzJ.css",
+        "test_nzzJ.js"
       ],
       "modules": [
         "(webpack)/buildin/global.js",

@@ -2,21 +2,21 @@
   "errors": [],
   "warnings": [],
   "entrypoints": {
-    "test$uYWJ": {
+    "test_uYWJ": {
       "chunks": [
-        "test$uYWJ"
+        "test_uYWJ"
       ],
       "assets": [
-        "test$uYWJ.js"
+        "test_uYWJ.js"
       ],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
-    "test$uYWJ": {
+    "test_uYWJ": {
       "files": [
-        "test$uYWJ.js"
+        "test_uYWJ.js"
       ],
       "modules": [
         "./test/fixtures/basic-template-plugin/test.marko?dependencies",

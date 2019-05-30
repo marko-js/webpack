@@ -2,23 +2,23 @@
   "errors": [],
   "warnings": [],
   "entrypoints": {
-    "test$YDNP": {
+    "test_YDNP": {
       "chunks": [
-        "test$YDNP"
+        "test_YDNP"
       ],
       "assets": [
-        "test$YDNP.C.css",
-        "test$YDNP.C.js"
+        "test_YDNP.C.css",
+        "test_YDNP.C.js"
       ],
       "children": {},
       "childAssets": {}
     }
   },
   "chunks": {
-    "test$YDNP": {
+    "test_YDNP": {
       "files": [
-        "test$YDNP.C.css",
-        "test$YDNP.C.js"
+        "test_YDNP.C.css",
+        "test_YDNP.C.js"
       ],
       "modules": [
         "(webpack)/buildin/global.js",

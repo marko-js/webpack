@@ -7,7 +7,7 @@ const base62 = baseX(
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 );
 
-export default filename => {
+export default (filename: string) => {
   const modulePath = moduleRelativePath(filename);
   const hasher = createHash("sha256");
   hasher.update(modulePath);
@@ -15,9 +15,9 @@ export default filename => {
   const baseName = path.basename(filename);
   let name = baseName.slice(0, baseName.indexOf("."));
 
-  if (name === "index") {
+  if (name === "index" || name === "template") {
     name = path.basename(path.dirname(filename));
   }
 
-  return name + "$" + hash;
+  return name + "_" + hash;
 };

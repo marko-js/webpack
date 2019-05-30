@@ -21,7 +21,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
 
 function renderAssets(out) {
-  const assets = entries["foo$3XPO"][getBundleName(out.global)];
+  const assets = entries["foo_3XPO"][getBundleName(out.global)];
   const target = out.stream || out;
   
   
