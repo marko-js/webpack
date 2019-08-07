@@ -1,5 +1,6 @@
 <h1 align="center">
   <!-- Logo -->
+  <img src="https://user-images.githubusercontent.com/1958812/62651340-98c0db00-b90d-11e9-944a-637334391d57.png" height="118"/>
   <br/>
   @marko/webpack
 	<br/>
@@ -19,10 +20,6 @@
   <!-- CI -->
   <a href="https://travis-ci.com/marko-js/webpack">
   <img src="https://travis-ci.com/marko-js/webpack.svg?branch=master" alt="Build status"/>
-  </a>
-  <!-- Coverage -->
-  <a href="https://coveralls.io/github/marko-js/webpack">
-    <img src="https://img.shields.io/coveralls/marko-js/webpack.svg" alt="Test Coverage"/>
   </a>
   <!-- NPM Version -->
   <a href="https://npmjs.org/package/@marko/webpack">
