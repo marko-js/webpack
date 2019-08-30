@@ -16,8 +16,17 @@ const isAssets = /\?assets$/;
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
 const cacheClearSetup = new WeakMap();
+const browserJSONPrefix = "package: ";
+let supportsBrowserJSON: boolean;
 
 export default function(source) {
+  if (supportsBrowserJSON === undefined) {
+    const resolveOptions = this._compiler.options.resolve;
+    const compilerExtensions =
+      (resolveOptions && resolveOptions.extensions) || [];
+    supportsBrowserJSON = compilerExtensions.indexOf(".browser.json") !== -1;
+  }
+
   const queryOptions = loaderUtils.getOptions(this); // Not the same as this.options
   const target = normalizeTarget(
     (queryOptions && queryOptions.target) || this.target
@@ -84,6 +93,12 @@ export default function(source) {
       dependencies = dependencies.concat(
         meta.deps.map(dependency => {
           if (!dependency.code) {
+            if (
+              supportsBrowserJSON &&
+              dependency.startsWith(browserJSONPrefix)
+            ) {
+              dependency = dependency.slice(browserJSONPrefix.length);
+            }
             // external file, just require it
             return `require(${JSON.stringify(dependency)});`;
           } else {
