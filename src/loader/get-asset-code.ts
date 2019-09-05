@@ -17,7 +17,8 @@ static function renderAssets(out) {
   
   
   if (assets) {
-    target.write(\`<script>window.__mwp__=\${JSON.stringify(__webpack_public_path__)}\`)
+    target.write('<!doctype html><meta charset=utf-8>');
+    target.write(\`<script>window.__mwp__=\${JSON.stringify(__webpack_public_path__)}\`);
 
     if (assets.js) {
       target.write(
