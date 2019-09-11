@@ -2,7 +2,7 @@ import * as path from "path";
 import moduleName from "../shared/module-name";
 import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/paths";
 
-export default (resourcePath: string, needsPublicPath?: boolean) => `
+export default (resourcePath: string) => `
 import { writeInitComponentsCode } from "marko/components";
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
 import { getBundleName, entries } from ${JSON.stringify(
