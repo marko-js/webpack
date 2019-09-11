@@ -7,9 +7,6 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     components_helpers = __webpack_require__(/*! marko/src/components/helpers */ "./node_modules/marko/src/components/helpers.js"),
     marko_renderer = components_helpers.r,
     marko_defineComponent = components_helpers.c,
-    module_components_module = __webpack_require__(/*! marko/components */ "./node_modules/marko/components.js"),
-    components_module = module_components_module.default || module_components_module,
-    writeInitComponentsCode = module_components_module.writeInitComponentsCode,
     template = __webpack_require__(/*! ./test.marko */ "./test/fixtures/with-class-component-plugin/test.marko"),
     module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
@@ -20,27 +17,28 @@ var marko_template = module.exports = __webpack_require__(/*! marko/src/html */ 
     marko_loadTag = marko_helpers.t,
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/src/components/taglib/init-components-tag */ "./node_modules/marko/src/components/taglib/init-components-tag.js"));
 
-function renderAssets(out) {
-  const assets = entries["test_nzzJ"][getBundleName(out.global)];
-  const target = out.stream || out;
-  
-  
+function renderAssets() {
+  const assets = this.___assets;
+  this.___renderAssets = this.___assets = undefined;
+  this.flush = this.___flush;
+  this.end = this.___end;
+
   if (assets) {
-    target.write(`<script>window.$mwp=${JSON.stringify(__webpack_require__.p)}`)
+    this.write(`<script>window.$mwp=${JSON.stringify(__webpack_require__.p)}`)
 
     if (assets.js) {
-      target.write(
+      this.write(
         `;(function(b,h){var e=[],c=0;h.forEach(function(d,f){var a=b.createElement("link");a.relList&&a.relList.supports&&a.relList.supports("preload")?(a.href=d,a.rel="preload",a.as="script",a.addEventListener("load",function(){e[f]=d;if(c===f)for(var a;a=e[c];c++){var g=b.createElement("script");g.src=a;b.head.appendChild(g)}}),b.head.appendChild(a)):(a=b.createElement("script"),a.src=d,a.defer=!0,b.head.appendChild(a))})})(document,${
           JSON.stringify(assets.js.map(js => __webpack_require__.p+js))
         })`
       );
     }
 
-    target.write("</script>")
+    this.write("</script>")
 
     if (assets.css) {
       assets.css.forEach(css => {
-        target.write(
+        this.write(
           `<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p+css)}>`
         );
       });
@@ -49,16 +47,12 @@ function renderAssets(out) {
 };
 
 function outFlushOverride() {
-  renderAssets(this);
-  this.end = this.___end;
-  this.flush = this.___flush;
+  this.___renderAssets();
   this.flush();
 };
 
 function outEndOverride(data, encoding, callback) {
-  renderAssets(this);
-  this.end = this.___end;
-  this.flush = this.___flush;
+  this.___renderAssets();
   this.end(data, encoding, callback);
 };
 
@@ -68,6 +62,10 @@ function render(input, out, __component, component, state) {
   out.___flush = out.flush;
 
   out.___end = out.end;
+
+  out.___renderAssets = renderAssets;
+
+  out.___assets = entries["test_nzzJ"][getBundleName(out.global)];
 
   out.flush = outFlushOverride;
 

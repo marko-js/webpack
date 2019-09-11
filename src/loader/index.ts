@@ -60,7 +60,10 @@ export default function(source: string) {
     );
   } else if (hydrate) {
     return `
-      window.$mwp && __webpack_public_path__ = $mwp;
+      if (window.$mwp) {
+        __webpack_public_path__ = $mwp;
+      }
+
       require(${JSON.stringify(
         `./${path.basename(this.resourcePath)}?dependencies`
       )});
