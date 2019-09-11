@@ -1,6 +1,1 @@
-if (window.$mwp) {
-        __webpack_require__.p = $mwp;
-        delete window.$mwp;
-      }
-      __webpack_require__(/*! ./bar.marko?dependencies */ "./test/fixtures/multiple-entries-plugin/bar.marko?dependencies");
-      window.$initComponents && window.$initComponents();
+throw new Error("Module parse failed: Assigning to rvalue (2:6)\nYou may need an appropriate loader to handle this file type.\n| \n>       window.$mwp && __webpack_public_path__ = $mwp;\n|       require(\"./bar.marko?dependencies\");\n|       window.$initComponents && window.$initComponents();");

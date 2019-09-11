@@ -2,7 +2,7 @@ import * as path from "path";
 import moduleName from "../shared/module-name";
 import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/paths";
 
-export default resourcePath => `
+export default (resourcePath: string, needsPublicPath?: boolean) => `
 import { writeInitComponentsCode } from "marko/components";
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
 import { getBundleName, entries } from ${JSON.stringify(
@@ -17,7 +17,7 @@ static function renderAssets(out) {
   
   
   if (assets) {
-    target.write(\`<script>window.__mwp__=\${JSON.stringify(__webpack_public_path__)}\`)
+    target.write(\`<script>window.$mwp=\${JSON.stringify(__webpack_public_path__)}\`)
 
     if (assets.js) {
       target.write(

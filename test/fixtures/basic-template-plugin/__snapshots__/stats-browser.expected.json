@@ -1,5 +1,7 @@
 {
-  "errors": [],
+  "errors": [
+    "./test/fixtures/basic-template-plugin/test.marko?hydrate 2:6\nModule parse failed: Assigning to rvalue (2:6)\nYou may need an appropriate loader to handle this file type.\n| \n>       window.$mwp && __webpack_public_path__ = $mwp;\n|       require(\"./test.marko?dependencies\");\n|       window.$initComponents && window.$initComponents();"
+  ],
   "warnings": [],
   "entrypoints": {
     "test_uYWJ": {
@@ -19,7 +21,6 @@
         "test_uYWJ.js"
       ],
       "modules": [
-        "./test/fixtures/basic-template-plugin/test.marko?dependencies",
         "./test/fixtures/basic-template-plugin/test.marko?hydrate"
       ]
     }

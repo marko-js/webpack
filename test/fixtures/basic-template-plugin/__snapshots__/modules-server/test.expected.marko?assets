@@ -26,7 +26,7 @@ function renderAssets(out) {
   
   
   if (assets) {
-    target.write(`<script>window.__mwp__=${JSON.stringify(__webpack_require__.p)}`)
+    target.write(`<script>window.$mwp=${JSON.stringify(__webpack_require__.p)}`)
 
     if (assets.js) {
       target.write(

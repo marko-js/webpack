@@ -1,14 +1,15 @@
 {
-  "errors": [],
+  "errors": [
+    "./test/fixtures/multiple-entries-plugin/bar.marko?hydrate 2:6\nModule parse failed: Assigning to rvalue (2:6)\nYou may need an appropriate loader to handle this file type.\n| \n>       window.$mwp && __webpack_public_path__ = $mwp;\n|       require(\"./bar.marko?dependencies\");\n|       window.$initComponents && window.$initComponents();",
+    "./test/fixtures/multiple-entries-plugin/foo.marko?hydrate 2:6\nModule parse failed: Assigning to rvalue (2:6)\nYou may need an appropriate loader to handle this file type.\n| \n>       window.$mwp && __webpack_public_path__ = $mwp;\n|       require(\"./foo.marko?dependencies\");\n|       window.$initComponents && window.$initComponents();"
+  ],
   "warnings": [],
   "entrypoints": {
     "foo_3XPO": {
       "chunks": [
-        "bar_aSxt~foo_3XPO",
         "foo_3XPO"
       ],
       "assets": [
-        "bar_aSxt~foo_3XPO.js",
         "foo_3XPO.js"
       ],
       "children": {},
@@ -16,11 +17,9 @@
     },
     "bar_aSxt": {
       "chunks": [
-        "bar_aSxt~foo_3XPO",
         "bar_aSxt"
       ],
       "assets": [
-        "bar_aSxt~foo_3XPO.js",
         "bar_aSxt.js"
       ],
       "children": {},
@@ -33,16 +32,7 @@
         "bar_aSxt.js"
       ],
       "modules": [
-        "./test/fixtures/multiple-entries-plugin/bar.marko?dependencies",
         "./test/fixtures/multiple-entries-plugin/bar.marko?hydrate"
-      ]
-    },
-    "bar_aSxt~foo_3XPO": {
-      "files": [
-        "bar_aSxt~foo_3XPO.js"
-      ],
-      "modules": [
-        "./test/fixtures/multiple-entries-plugin/components/shared.marko?dependencies"
       ]
     },
     "foo_3XPO": {
@@ -50,7 +40,6 @@
         "foo_3XPO.js"
       ],
       "modules": [
-        "./test/fixtures/multiple-entries-plugin/foo.marko?dependencies",
         "./test/fixtures/multiple-entries-plugin/foo.marko?hydrate"
       ]
     }

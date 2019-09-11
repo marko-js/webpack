@@ -19,7 +19,7 @@ const cacheClearSetup = new WeakMap();
 const browserJSONPrefix = "package: ";
 let supportsBrowserJSON: boolean;
 
-export default function(source) {
+export default function(source: string) {
   if (supportsBrowserJSON === undefined) {
     const resolveOptions = this._compiler.options.resolve;
     const compilerExtensions =
@@ -60,10 +60,7 @@ export default function(source) {
     );
   } else if (hydrate) {
     return `
-      if (window.$mwp) {
-        __webpack_public_path__ = $mwp;
-        delete window.$mwp;
-      }
+      window.$mwp && __webpack_public_path__ = $mwp;
       require(${JSON.stringify(
         `./${path.basename(this.resourcePath)}?dependencies`
       )});
@@ -102,7 +99,7 @@ export default function(source) {
             // external file, just require it
             return `require(${JSON.stringify(dependency)});`;
           } else {
-            // inline content, we'll create a
+            // inline content, we'll create an inline code-loader dependency.
             const virtualPath = dependency.virtualPath;
             const loader = getLoaderMatch(virtualPath, loaders);
             const codeQuery = encode(dependency.code);
