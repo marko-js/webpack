@@ -39,7 +39,8 @@
   "files": [
     "dist",
     "loader.js",
-    "plugin.js"
+    "plugin.js",
+    "marko.json"
   ],
   "homepage": "https://github.com/marko-js/webpack",
   "husky": {
