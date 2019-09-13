@@ -142,13 +142,12 @@ export default function(source: string) {
 }
 
 function getLoaderMatch(loaderPath, loaders) {
-  let loaderString;
+  let loaderString = "";
   let ext;
 
-  loaders.some(loader => {
+  loaders.forEach(loader => {
     if (loader.test.test(loaderPath)) {
-      loaderString = getLoaderString(loader.use || loader.loader);
-      return true;
+      loaderString += getLoaderString(loader.use || loader.loader);
     }
   });
 
