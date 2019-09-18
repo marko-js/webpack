@@ -86,6 +86,11 @@ export default [
       {
         test: /\.marko?$/,
         loader: "@marko/webpack/loader"
+      },
+      // If using `style` blocks with Marko you must use an appropriate loader
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ],
     plugins: [markoPlugin.browser]
@@ -137,6 +142,11 @@ export default [
       {
         test: /\.marko?$/,
         loader: "@marko/webpack/loader"
+      },
+      // If using `style` blocks with Marko you must use an appropriate loader
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ],
     plugins: [new I18nPlugin(languages[language]), markoPlugin.browser]
