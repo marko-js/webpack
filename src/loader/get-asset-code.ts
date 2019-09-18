@@ -1,6 +1,6 @@
 import * as path from "path";
 import moduleName from "../shared/module-name";
-import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/paths";
+import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/virtual";
 
 export default (resourcePath: string) => `
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};

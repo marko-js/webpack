@@ -7,6 +7,10 @@ export default {
       {
         test: /\.marko$/,
         loader: "@marko/webpack/loader"
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ]
   }

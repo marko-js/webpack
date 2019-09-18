@@ -21,7 +21,7 @@
       "modules": [
         "(webpack)/buildin/global.js",
         "./node_modules/complain/index.js",
-        "./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-css/test.marko",
+        "./node_modules/css-loader/dist/cjs.js!./test/fixtures/with-css/test.marko.css",
         "./node_modules/css-loader/dist/runtime/api.js",
         "./node_modules/error-stack-parser/error-stack-parser.js",
         "./node_modules/events-light/src/index.js",
@@ -76,14 +76,14 @@
         "./node_modules/raptor-util/extend.js",
         "./node_modules/raptor-util/inherit.js",
         "./node_modules/stackframe/stackframe.js",
-        "./node_modules/style-loader!./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-css/test.marko",
         "./node_modules/style-loader/lib/addStyles.js",
         "./node_modules/style-loader/lib/urls.js",
         "./node_modules/warp10/constants.js",
         "./node_modules/warp10/finalize.js",
         "./node_modules/warp10/src/constants.js",
         "./node_modules/warp10/src/finalize.js",
-        "./test/fixtures/with-css/test.marko"
+        "./test/fixtures/with-css/test.marko",
+        "./test/fixtures/with-css/test.marko.css"
       ]
     }
   }

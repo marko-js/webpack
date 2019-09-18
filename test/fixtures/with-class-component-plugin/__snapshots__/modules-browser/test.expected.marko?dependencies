@@ -1,2 +1,2 @@
-__webpack_require__(/*! !../../../node_modules/mini-css-extract-plugin/dist/loader.js!css-loader!../../../src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test.marko */ "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-class-component-plugin/test.marko")
+__webpack_require__(/*! ./test.marko.css */ "./test/fixtures/with-class-component-plugin/test.marko.css")
 __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./test/fixtures/with-class-component-plugin/components/nested/index.marko?dependencies");

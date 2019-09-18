@@ -71,7 +71,6 @@
         "./node_modules/marko/src/runtime/vdom/index.js",
         "./node_modules/marko/src/runtime/vdom/vdom.js",
         "./node_modules/marko/src/vdom.js",
-        "./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-css-extract/test.marko",
         "./node_modules/process/browser.js",
         "./node_modules/raptor-util/copyProps.js",
         "./node_modules/raptor-util/extend.js",
@@ -82,7 +81,8 @@
         "./node_modules/warp10/src/constants.js",
         "./node_modules/warp10/src/finalize.js",
         "./test/fixtures/with-css-extract/test.marko",
-        "css ./node_modules/css-loader/dist/cjs.js!./src/loader/code-loader.ts?CODE=6831207b20636f6c6f723a7265643b207d!./test/fixtures/with-css-extract/test.marko"
+        "./test/fixtures/with-css-extract/test.marko.css",
+        "css ./node_modules/css-loader/dist/cjs.js!./test/fixtures/with-css-extract/test.marko.css"
       ]
     }
   }
