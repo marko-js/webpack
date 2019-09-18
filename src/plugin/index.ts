@@ -7,8 +7,9 @@ import sortKeys from "sort-keys";
 import moduleName from "../shared/module-name";
 import {
   VIRTUAL_BROWSER_INVALIDATE_PATH,
-  VIRTUAL_SERVER_MANIFEST_PATH
-} from "../shared/paths";
+  VIRTUAL_SERVER_MANIFEST_PATH,
+  registerVirtualModules
+} from "../shared/virtual";
 
 const MANIFEST_MARKER = "$__MARKO_MANIFEST__$";
 const MANIFEST_CONTENT = `module.exports = ${MANIFEST_MARKER}`;
@@ -69,7 +70,7 @@ export default class MarkoWebpackPlugin {
       const escapeIfEval = (code: string) =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
 
-      this.virtualServerModules.apply(compiler);
+      registerVirtualModules(compiler, this.virtualServerModules);
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
         this.serverIsBuilding = true;
@@ -193,7 +194,7 @@ export default class MarkoWebpackPlugin {
         [VIRTUAL_BROWSER_INVALIDATE_PATH]: ""
       });
 
-      virtualModules.apply(compiler);
+      registerVirtualModules(compiler, virtualModules);
       this.pendingBrowserBuilds.push(pendingBuild);
 
       compiler.hooks.watchRun.tap("MarkoWebpackBrowser:watch", () => {

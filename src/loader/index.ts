@@ -2,14 +2,9 @@
 
 import * as path from "path";
 import * as loaderUtils from "loader-utils";
-import { encode } from "./interface";
 import getAssetCode from "./get-asset-code";
+import { getVirtualModules } from "../shared/virtual";
 
-const defaultLoaders = {
-  css: "style-loader!css-loader!"
-};
-
-const codeLoader = require.resolve("./code-loader");
 const isHydrate = /\?hydrate$/;
 const isDependencies = /\?dependencies$/;
 const isAssets = /\?assets$/;
@@ -102,15 +97,14 @@ export default function(source: string) {
             // external file, just require it
             return `require(${JSON.stringify(dependency)});`;
           } else {
-            // inline content, we'll create an inline code-loader dependency.
-            const virtualPath = dependency.virtualPath;
-            const loader = getLoaderMatch(virtualPath, loaders);
-            const codeQuery = encode(dependency.code);
-            const loaderString = loaderUtils.stringifyRequest(
-              this,
-              `!!${loader}${codeLoader}?${codeQuery}!${this.resourcePath}`
+            // inline content, we'll create a virtual dependency.
+            const virtualPath = path.resolve(
+              path.dirname(this.resourcePath),
+              dependency.virtualPath
             );
-            return `require(${loaderString})`;
+            const virtualModules = getVirtualModules(this._compiler);
+            virtualModules.writeModule(virtualPath, dependency.code);
+            return `require(${JSON.stringify(dependency.virtualPath)})`;
           }
         })
       );
@@ -138,40 +132,6 @@ export default function(source: string) {
       writeToDisk: false,
       requireTemplates: true
     });
-  }
-}
-
-function getLoaderMatch(loaderPath, loaders) {
-  let loaderString = "";
-  let ext;
-
-  loaders.forEach(loader => {
-    if (loader.test.test(loaderPath)) {
-      loaderString += getLoaderString(loader.use || loader.loader);
-    }
-  });
-
-  if (!loaderString) {
-    ext = loaderPath.slice(loaderPath.lastIndexOf(".") + 1);
-    loaderString = getLoaderString(defaultLoaders[ext]);
-  }
-
-  return loaderString;
-}
-
-function getLoaderString(loader) {
-  if (!loader) {
-    return "";
-  } else if (typeof loader === "string") {
-    return loader.slice(-1) === "!" ? loader : loader + "!";
-  } else if (Array.isArray(loader)) {
-    return loader.map(getLoaderString).join("");
-  } else {
-    const options = loader.options;
-    const optionsString =
-      options &&
-      (typeof options === "string" ? options : JSON.stringify(options));
-    return loader.loader + (optionsString ? "?" + optionsString : "") + "!";
   }
 }
 

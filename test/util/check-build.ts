@@ -72,10 +72,7 @@ const getModuleSource = (fullSource, moduleId) => {
 };
 
 const moduleWithRelativePath = (module, fixtureDir) => {
-  module.relativePath = path.relative(
-    fixtureDir,
-    module.identifier.replace(/.*!/, "")
-  );
+  module.relativePath = path.relative(fixtureDir, module.identifier);
   return module;
 };
 
