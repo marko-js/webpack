@@ -8,10 +8,11 @@
     "lasso-modules-client": "^2.0.5",
     "loader-utils": "^1.2.3",
     "sort-keys": "^2.0.0",
+    "tslib": "^1.10.0",
     "webpack-virtual-modules": "^0.1.10"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.2.1",
+    "@commitlint/cli": "^8.3.3",
     "@commitlint/config-conventional": "^7.1.2",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.12",
@@ -27,7 +28,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "mkdirp": "^0.5.1",
     "mocha": "^5.2.0",
-    "nyc": "^13.3.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.15.3",
     "style-loader": "^0.23.1",
     "ts-node": "^7.0.1",
