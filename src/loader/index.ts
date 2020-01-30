@@ -5,6 +5,46 @@ import * as loaderUtils from "loader-utils";
 import getAssetCode from "./get-asset-code";
 import { getVirtualModules } from "../shared/virtual";
 
+const watchFiles = {
+  style: {
+    extensions: [".css", ".less", ".scss", ".stylus"],
+    has(meta) {
+      return Boolean(
+        meta.deps &&
+          meta.deps.some(dep => {
+            switch (typeof dep) {
+              case "string":
+                return watchFiles.style.extensions.includes(path.extname(dep));
+              case "object":
+                return watchFiles.style.extensions.includes(`.${dep.type}`);
+            }
+          })
+      );
+    }
+  },
+  component: {
+    extensions: [".js", ".ts"],
+    has(meta) {
+      return Boolean(meta.component);
+    }
+  },
+  "component-browser": {
+    extensions: [".js", ".ts"],
+    has(meta) {
+      return (
+        meta.deps &&
+        meta.deps.some(dep => {
+          return (
+            typeof dep === "string" &&
+            watchFiles["component-browser"].extensions.includes(
+              path.extname(dep)
+            )
+          );
+        })
+      );
+    }
+  }
+};
 const isHydrate = /\?hydrate$/;
 const isDependencies = /\?dependencies$/;
 const isAssets = /\?assets$/;
@@ -73,6 +113,10 @@ export default function(source: string) {
       }
     );
 
+    getMissingWatchDeps(this.resourcePath, meta).forEach(dep =>
+      this.addDependency(dep)
+    );
+
     let dependencies = [];
 
     if (dependenciesOnly && meta.component) {
@@ -128,12 +172,38 @@ export default function(source: string) {
 
     return dependencies.join("\n");
   } else {
-    return markoCompiler.compile(source, this.resourcePath, {
+    const { code, meta } = markoCompiler.compile(source, this.resourcePath, {
+      sourceOnly: false,
       writeToDisk: false,
       requireTemplates: true
     });
+
+    getMissingWatchDeps(this.resourcePath, meta).forEach(dep =>
+      this.addDependency(dep)
+    );
+
+    return code;
   }
 }
+
+function getMissingWatchDeps(resource: string, meta: any) {
+  const watchDeps = [];
+  const templateFileName = path.basename(resource, ".marko");
+  const isIndex = templateFileName === "index";
+  const depPathPrefix = isIndex ? "./" : `./${templateFileName}.`;
+  for (const name in watchFiles) {
+    const prefix = depPathPrefix + name;
+    const { extensions, has } = watchFiles[name];
+    if (!has(meta)) {
+      for (const ext of extensions) {
+        watchDeps.push(prefix + ext);
+      }
+    }
+  }
+
+  return watchDeps;
+}
+
 
 function normalizeTarget(target) {
   switch (target) {
