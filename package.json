@@ -1,7 +1,7 @@
 {
   "name": "@marko/webpack",
   "description": "a Marko plugin and loader for Webpack",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "bugs": "https://github.com/marko-js/webpack/issues",
   "dependencies": {
     "base-x": "^3.0.5",
