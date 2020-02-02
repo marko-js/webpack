@@ -118,7 +118,7 @@ const markoPlugin = new MarkoPlugin({
   // $global here is the `out.global` from Marko.
   getClientCompilerName($global) {
     // You must return the name of one of the browser compilers below.
-    return `Browser-${language}`;
+    return `Browser-${$global.language}`;
   }
 });
 
