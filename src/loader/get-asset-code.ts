@@ -10,22 +10,22 @@ import { getBundleName, entries } from ${JSON.stringify(
 
 static function renderAssets() {
   const assets = this.___assets;
+  const nonce = this.global.cspNonce;
   this.___renderAssets = this.___assets = undefined;
   this.flush = this.___flush;
   this.end = this.___end;
 
   if (assets) {
-    this.write(\`<script>window.$mwp=\${JSON.stringify(__webpack_public_path__)}\`)
+    this.script(\`$mwp=\${JSON.stringify(__webpack_public_path__)}\`);
 
     if (assets.js) {
-      this.write(
-        \`;(function(b,h){var e=[],c=0;h.forEach(function(d,f){var a=b.createElement("link");a.relList&&a.relList.supports&&a.relList.supports("preload")?(a.href=d,a.rel="preload",a.as="script",a.addEventListener("load",function(){e[f]=d;if(c===f)for(var a;a=e[c];c++){var g=b.createElement("script");g.src=a;b.head.appendChild(g)}}),b.head.appendChild(a)):(a=b.createElement("script"),a.src=d,a.defer=!0,b.head.appendChild(a))})})(document,\${
+      const setNonce = nonce && \`.setAttribute("nonce", \${JSON.stringify(nonce)})\`;
+      this.script(
+        \`(function(b,h){var e=[],c=0;h.forEach(function(d,f){var a=b.createElement("link");a.relList&&a.relList.supports&&a.relList.supports("preload")?(a.href=d,a.rel="preload",a.as="script",a.addEventListener("load",function(){e[f]=d;if(c===f)for(var a;a=e[c];c++){var g=b.createElement("script");g.src=a;\${setNonce ? \`g\${setNonce};\` : ""}b.head.appendChild(g)}}),b.head.appendChild(a)):(a=b.createElement("script"),a.src=d,a.defer=!0,\${setNonce ? \`a\${setNonce},\` : ""}b.head.appendChild(a))})})(document,\${
           JSON.stringify(assets.js.map(js => __webpack_public_path__+js))
         })\`
       );
     }
-
-    this.write("</script>")
 
     if (assets.css) {
       assets.css.forEach(css => {

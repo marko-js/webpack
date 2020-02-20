@@ -3,6 +3,9 @@ import webpack from "webpack";
 import MemoryFS from "memory-fs";
 import { promisify } from "util";
 
+// We import the loader so that jest can track which tests are related to it (all of them :p).
+import "../../loader";
+
 export default async function compile(config: webpack.Configuration) {
   const compiler = webpack(extendConfig(config));
   const outputFS = (compiler.outputFileSystem = new MemoryFS());
