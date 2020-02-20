@@ -1,2 +1,0 @@
-__webpack_require__(/*! ./test.marko.css */ "./test/fixtures/with-class-component-plugin/test.marko.css")
-__webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./test/fixtures/with-class-component-plugin/components/nested/index.marko?dependencies");

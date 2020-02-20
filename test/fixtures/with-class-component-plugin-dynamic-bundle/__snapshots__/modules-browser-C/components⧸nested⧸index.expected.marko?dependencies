@@ -1,6 +1,0 @@
-__webpack_require__(/*! marko/components */ "./node_modules/marko/components-browser.marko").register(
-          "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko",
-          __webpack_require__(/*! ./index.marko */ "./test/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko")
-        );
-      
-__webpack_require__(/*! ./style.css */ "./test/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/style.css");

@@ -1,6 +1,0 @@
-if (window.$mwp) {
-        __webpack_require__.p = $mwp;
-      }
-
-      __webpack_require__(/*! ./test.marko?dependencies */ "./test/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?dependencies");
-      window.$initComponents && window.$initComponents();

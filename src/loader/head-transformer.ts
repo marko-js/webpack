@@ -1,4 +1,4 @@
-export = function transformer(el: any, ctx: any) {
+export = function transformer(el, ctx): void {
   const { builder } = ctx;
   el.appendChild(
     builder.scriptlet({

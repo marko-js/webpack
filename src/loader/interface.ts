@@ -2,18 +2,18 @@ import { Buffer } from "buffer";
 
 const KEY = "CODE";
 
-function encodeAsHexString(string) {
+function encodeAsHexString(string: string): string {
   return Buffer.from(string).toString("hex");
 }
 
-function decodeHexString(string) {
+function decodeHexString(string: string): string {
   return Buffer.from(string, "hex").toString();
 }
 
-export const encode = code => {
+export function encode(code: string): string {
   return `${KEY}=${encodeAsHexString(code)}`;
-};
+}
 
-export const decode = loaderOptions => {
+export function decode(loaderOptions): string {
   return decodeHexString(loaderOptions[KEY]);
-};
+}

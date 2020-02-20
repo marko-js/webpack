@@ -8,7 +8,7 @@ import { getVirtualModules } from "../shared/virtual";
 const watchFiles = {
   style: {
     extensions: [".css", ".less", ".scss", ".stylus"],
-    has(meta) {
+    has(meta): boolean {
       return Boolean(
         meta.deps &&
           meta.deps.some(dep => {
@@ -24,13 +24,13 @@ const watchFiles = {
   },
   component: {
     extensions: [".js", ".ts"],
-    has(meta) {
+    has(meta): boolean {
       return Boolean(meta.component);
     }
   },
   "component-browser": {
     extensions: [".js", ".ts"],
-    has(meta) {
+    has(meta): boolean {
       return (
         meta.deps &&
         meta.deps.some(dep => {
@@ -45,16 +45,13 @@ const watchFiles = {
     }
   }
 };
-const isHydrate = /\?hydrate$/;
-const isDependencies = /\?dependencies$/;
-const isAssets = /\?assets$/;
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
 const cacheClearSetup = new WeakMap();
 const browserJSONPrefix = "package: ";
 let supportsBrowserJSON: boolean;
 
-export default function(source: string) {
+export default function(source: string): string {
   if (supportsBrowserJSON === undefined) {
     const resolveOptions = this._compiler.options.resolve;
     const compilerExtensions =
@@ -66,15 +63,12 @@ export default function(source: string) {
   const target = normalizeTarget(
     (queryOptions && queryOptions.target) || this.target
   );
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
     DEFAULT_COMPILER);
-  const dependenciesOnly = isDependencies.test(this.resource);
-  const hydrate = isHydrate.test(this.resource);
-  const assets = isAssets.test(this.resource);
-  const module = this.options
-    ? this.options.module
-    : this._compilation.options.module;
-  const loaders = (module && (module.loaders || module.rules)) || [];
+  const dependenciesOnly = this.resource.endsWith("?dependencies");
+  const hydrate = this.resource.endsWith("?hydrate");
+  const assets = this.resource.endsWith("?assets");
 
   this.cacheable(false);
   if (!cacheClearSetup.has(this._compiler)) {
@@ -186,7 +180,7 @@ export default function(source: string) {
   }
 }
 
-function getMissingWatchDeps(resource: string, meta: any) {
+function getMissingWatchDeps(resource: string, meta): string[] {
   const watchDeps = [];
   const templateFileName = path.basename(resource, ".marko");
   const isIndex = templateFileName === "index";
@@ -204,8 +198,7 @@ function getMissingWatchDeps(resource: string, meta: any) {
   return watchDeps;
 }
 
-
-function normalizeTarget(target) {
+function normalizeTarget(target: string): string {
   switch (target) {
     case "server":
     case "node":
