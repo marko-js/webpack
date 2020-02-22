@@ -8,8 +8,10 @@
 /***/ (function(module, exports) {
 
 module.exports = {
-  getBundleName: function(){return "browser"},
-  entries: {"test_uYWJ":{"browser":{"js":["test_uYWJ.js"]}}}
+  getAssets(entry) {
+    return this.build[entry];
+  },
+  build: {"test_uYWJ":{"js":["test_uYWJ.js"]}}
 }
 
 /***/ }),
@@ -84,8 +86,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     template = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/basic-template-plugin/test.marko"),
     module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
-    getBundleName = module_MARKOWEBPACKMANIFEST_module.getBundleName,
-    entries = module_MARKOWEBPACKMANIFEST_module.entries,
+    getAssets = module_MARKOWEBPACKMANIFEST_module.getAssets,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag"));
@@ -138,7 +139,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = entries["test_uYWJ"][getBundleName(out.global)];
+  out.___assets = getAssets("test_uYWJ", out.global.buildName);
 
   out.flush = outFlushOverride;
 

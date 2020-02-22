@@ -8,8 +8,10 @@
 /***/ (function(module, exports) {
 
 module.exports = {
-  getBundleName: function(){return "browser"},
-  entries: {"bar_aSxt":{"browser":{"js":["bar_aSxt~foo_3XPO.js","bar_aSxt.js"]}},"foo_3XPO":{"browser":{"js":["bar_aSxt~foo_3XPO.js","foo_3XPO.js"]}}}
+  getAssets(entry) {
+    return this.build[entry];
+  },
+  build: {"bar_aSxt":{"js":["bar_aSxt~foo_3XPO.js","bar_aSxt.js"]},"foo_3XPO":{"js":["bar_aSxt~foo_3XPO.js","foo_3XPO.js"]}}
 }
 
 /***/ }),
@@ -73,8 +75,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     template = __webpack_require__(/*! ./bar.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko"),
     module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
-    getBundleName = module_MARKOWEBPACKMANIFEST_module.getBundleName,
-    entries = module_MARKOWEBPACKMANIFEST_module.entries,
+    getAssets = module_MARKOWEBPACKMANIFEST_module.getAssets,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag"));
@@ -127,7 +128,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = entries["bar_aSxt"][getBundleName(out.global)];
+  out.___assets = getAssets("bar_aSxt", out.global.buildName);
 
   out.flush = outFlushOverride;
 
@@ -250,8 +251,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     template = __webpack_require__(/*! ./foo.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/foo.marko"),
     module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
-    getBundleName = module_MARKOWEBPACKMANIFEST_module.getBundleName,
-    entries = module_MARKOWEBPACKMANIFEST_module.entries,
+    getAssets = module_MARKOWEBPACKMANIFEST_module.getAssets,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag"));
@@ -304,7 +304,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = entries["foo_3XPO"][getBundleName(out.global)];
+  out.___assets = getAssets("foo_3XPO", out.global.buildName);
 
   out.flush = outFlushOverride;
 

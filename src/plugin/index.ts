@@ -18,36 +18,19 @@ interface ResolvablePromise<T> extends Promise<T> {
   resolve(value: T): void;
 }
 
-interface Options {
-  getClientCompilerName?($global): string;
-}
-
 export default class MarkoWebpackPlugin {
   private serverIsBuilding = true;
-  private totalBrowserCompilers = 0;
+  private browserCompilerNames: string[] = [];
   private pendingBrowserBuilds: Array<Promise<void>> = [];
   private clientEntries = createDeferredPromise<Entry>();
   private clientAssets: {
-    [entryName: string]: {
-      [bundleName: string]: { [assetType: string]: string[] };
+    [buildName: string]: {
+      [entryName: string]: { [assetType: string]: string[] };
     };
   } = {};
-  private getClientCompilerNameSource: string;
   private virtualServerModules = new VirtualModulesPlugin({
     [VIRTUAL_SERVER_MANIFEST_PATH]: MANIFEST_CONTENT
   });
-
-  constructor(options?: Options) {
-    if (options && options.getClientCompilerName) {
-      this.getClientCompilerNameSource = options.getClientCompilerName.toString();
-
-      if (
-        /^getClientCompilerName\s*\(/.test(this.getClientCompilerNameSource)
-      ) {
-        this.getClientCompilerNameSource = `function ${this.getClientCompilerNameSource}`;
-      }
-    }
-  }
 
   // Overwritten by each compiler.
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -148,11 +131,30 @@ export default class MarkoWebpackPlugin {
                     placeholder
                   );
                   if (placeholderPosition > -1) {
+                    const hasMultipleBuilds =
+                      this.browserCompilerNames.length > 1;
+
                     const content = escapeIfEval(
-                      `{\n  getBundleName: ${
-                        this.getClientCompilerNameSource
-                      },\n  entries: ${JSON.stringify(clientAssets)}\n}`
+                      hasMultipleBuilds
+                        ? `{
+  getAssets(entry, buildName) {
+    const buildAssets = this.builds[buildName];
+    if (!buildAssets) {
+      throw new Error("Unable to load assets for build with a '$global.buildName' of '" + buildName + "'.");
+    }
+
+    return buildAssets[entry];
+  },
+  builds: ${JSON.stringify(clientAssets)}
+}`
+                        : `{
+  getAssets(entry) {
+    return this.build[entry];
+  },
+  build: ${JSON.stringify(clientAssets[this.browserCompilerNames[0]])}
+}`
                     );
+
                     const newSource = new ReplaceSource(
                       compilation.assets[filename],
                       filename
@@ -174,28 +176,16 @@ export default class MarkoWebpackPlugin {
     };
   }
   get browser() {
-    this.totalBrowserCompilers++;
-
     return (compiler: Compiler): void => {
-      if (!this.getClientCompilerNameSource) {
-        if (this.totalBrowserCompilers > 1) {
-          throw new Error(
-            "@marko/webpack requires the 'getClientCompilerName' option when using multiple browser compilers."
-          );
-        }
-
-        this.getClientCompilerNameSource = `function(){return ${JSON.stringify(
-          compiler.options.name
-        )}}`;
-      }
-
       let isWatchMode = false;
       let pendingBuild = createDeferredPromise<void>();
+      const compilerName = compiler.options.name;
       const virtualModules = new VirtualModulesPlugin({
         [VIRTUAL_BROWSER_INVALIDATE_PATH]: ""
       });
 
       registerVirtualModules(compiler, virtualModules);
+      this.browserCompilerNames.push(compilerName);
       this.pendingBrowserBuilds.push(pendingBuild);
 
       compiler.hooks.watchRun.tap("MarkoWebpackBrowser:watch", () => {
@@ -229,9 +219,9 @@ export default class MarkoWebpackPlugin {
             type.push(asset);
           }
 
-          const entryAssets = (this.clientAssets[entryName] =
-            this.clientAssets[entryName] || {});
-          entryAssets[compiler.options.name] = assetsByType;
+          const buildAssets = (this.clientAssets[compilerName] =
+            this.clientAssets[compilerName] || {});
+          buildAssets[entryName] = assetsByType;
         }
 
         pendingBuild.resolve();
