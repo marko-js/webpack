@@ -7,8 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./test.marko.css */ "./src/__tests__/fixtures/with-css-extract/test.marko.css")
-// Compiled using marko@4.18.47 - DO NOT EDIT
+__webpack_require__(/*! ./test.marko.css */ "./src/__tests__/fixtures/with-css-extract/test.marko.css");// Compiled using marko@4.18.47 - DO NOT EDIT
 "use strict";
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/vdom */ "marko/dist/vdom").t(),
