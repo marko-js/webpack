@@ -113,8 +113,10 @@ export default function(source: string): string {
       source,
       this.resourcePath,
       {
+        sourceOnly: false,
         writeToDisk: false,
-        writeVersionComment: false
+        writeVersionComment: false,
+        sourceMaps
       }
     );
 
@@ -172,13 +174,17 @@ export default function(source: string): string {
     }
 
     if (!dependenciesOnly) {
-      if (dependencies.length) {
-        const concat = new ConcatMap(true, "", ";");
-        concat.add(null, dependencies.join("\n"));
-        concat.add(this.resource, code, map);
-        return this.callback(null, concat.content, concat.sourceMap);
+      if (map) {
+        if (dependencies.length) {
+          const concat = new ConcatMap(true, "", ";");
+          concat.add(null, dependencies.join("\n"));
+          concat.add(this.resource, code, map);
+          return this.callback(null, concat.content, concat.sourceMap);
+        } else {
+          this.callback(null, code, map);
+        }
       } else {
-        this.callback(null, code, map);
+        dependencies.push(code);
       }
     }
 
