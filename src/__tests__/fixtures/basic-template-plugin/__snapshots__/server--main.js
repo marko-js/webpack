@@ -43,8 +43,7 @@ http
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin/test.marko",
@@ -77,8 +76,7 @@ marko_template.meta = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin/test.marko",

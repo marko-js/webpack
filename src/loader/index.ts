@@ -93,7 +93,8 @@ export default function(source: string): string {
       this.resourcePath,
       {
         writeToDisk: false,
-        requireTemplates: true
+        requireTemplates: true,
+        writeVersionComment: false
       }
     );
   } else if (hydrate) {
@@ -112,7 +113,8 @@ export default function(source: string): string {
       source,
       this.resourcePath,
       {
-        writeToDisk: false
+        writeToDisk: false,
+        writeVersionComment: false
       }
     );
 
@@ -189,6 +191,7 @@ export default function(source: string): string {
         sourceOnly: false,
         writeToDisk: false,
         requireTemplates: true,
+        writeVersionComment: false,
         sourceMaps
       }
     );
