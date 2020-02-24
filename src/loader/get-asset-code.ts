@@ -4,7 +4,7 @@ import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/virtual";
 
 export default (resourcePath: string): string => `
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
-import { getAssets } from ${JSON.stringify(
+import manifest from ${JSON.stringify(
   `./${path.relative(path.dirname(resourcePath), VIRTUAL_SERVER_MANIFEST_PATH)}`
 )};
 
@@ -50,7 +50,7 @@ static function outEndOverride(data, encoding, callback) {
 $ out.___flush = out.flush;
 $ out.___end = out.end;
 $ out.___renderAssets = renderAssets;
-$ out.___assets = getAssets(${JSON.stringify(
+$ out.___assets = manifest.getAssets(${JSON.stringify(
   moduleName(resourcePath)
 )}, out.global.buildName);
 $ out.flush = outFlushOverride;

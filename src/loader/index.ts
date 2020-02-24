@@ -2,6 +2,7 @@
 
 import * as path from "path";
 import * as loaderUtils from "loader-utils";
+import ConcatMap from "concat-with-sourcemaps";
 import getAssetCode from "./get-asset-code";
 import { getVirtualModules } from "../shared/virtual";
 
@@ -69,6 +70,14 @@ export default function(source: string): string {
   const dependenciesOnly = this.resource.endsWith("?dependencies");
   const hydrate = this.resource.endsWith("?hydrate");
   const assets = this.resource.endsWith("?assets");
+  let sourceMaps =
+    !queryOptions || queryOptions.sourceMaps === undefined
+      ? this.sourceMap
+      : queryOptions.sourceMaps;
+
+  if (sourceMaps === "inline") {
+    sourceMaps = true;
+  }
 
   this.cacheable(false);
   if (!cacheClearSetup.has(this._compiler)) {
@@ -84,7 +93,8 @@ export default function(source: string): string {
       this.resourcePath,
       {
         writeToDisk: false,
-        requireTemplates: true
+        requireTemplates: true,
+        writeVersionComment: false
       }
     );
   } else if (hydrate) {
@@ -99,11 +109,14 @@ export default function(source: string): string {
       window.$initComponents && window.$initComponents();
     `;
   } else if (target !== "server" && markoCompiler.compileForBrowser) {
-    const { code, meta } = markoCompiler.compileForBrowser(
+    const { code, meta, map } = markoCompiler.compileForBrowser(
       source,
       this.resourcePath,
       {
-        writeToDisk: false
+        sourceOnly: false,
+        writeToDisk: false,
+        writeVersionComment: false,
+        sourceMaps
       }
     );
 
@@ -161,22 +174,39 @@ export default function(source: string): string {
     }
 
     if (!dependenciesOnly) {
-      dependencies = dependencies.concat(code);
+      if (map) {
+        if (dependencies.length) {
+          const concat = new ConcatMap(true, "", ";");
+          concat.add(null, dependencies.join("\n"));
+          concat.add(this.resource, code, map);
+          return this.callback(null, concat.content, concat.sourceMap);
+        } else {
+          this.callback(null, code, map);
+        }
+      } else {
+        dependencies.push(code);
+      }
     }
 
     return dependencies.join("\n");
   } else {
-    const { code, meta } = markoCompiler.compile(source, this.resourcePath, {
-      sourceOnly: false,
-      writeToDisk: false,
-      requireTemplates: true
-    });
+    const { code, meta, map } = markoCompiler.compile(
+      source,
+      this.resourcePath,
+      {
+        sourceOnly: false,
+        writeToDisk: false,
+        requireTemplates: true,
+        writeVersionComment: false,
+        sourceMaps
+      }
+    );
 
     getMissingWatchDeps(this.resourcePath, meta).forEach(dep =>
       this.addDependency(dep)
     );
 
-    return code;
+    return this.callback(null, code, map);
   }
 }
 

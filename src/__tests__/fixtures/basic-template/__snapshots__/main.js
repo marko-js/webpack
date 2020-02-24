@@ -8,7 +8,6 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-// Compiled using marko@4.18.47 - DO NOT EDIT
 
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/vdom */ "marko/dist/vdom").t(),

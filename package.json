@@ -5,6 +5,7 @@
   "bugs": "https://github.com/marko-js/webpack/issues",
   "dependencies": {
     "base-x": "^3.0.7",
+    "concat-with-sourcemaps": "^1.1.0",
     "lasso-modules-client": "^2.0.5",
     "loader-utils": "^1.4.0",
     "sort-keys": "^4.0.0",
@@ -53,7 +54,7 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "marko": "^4.18.47",
+    "marko": "^4.18.47 || ^5",
     "webpack": "^4"
   },
   "repository": {

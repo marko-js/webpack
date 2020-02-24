@@ -24,8 +24,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/bar.marko",
@@ -66,16 +65,14 @@ marko_template.meta = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/bar.marko",
     marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
     template = __webpack_require__(/*! ./bar.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko"),
-    module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
-    MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
-    getAssets = module_MARKOWEBPACKMANIFEST_module.getAssets,
+    module_manifest = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
+    manifest = module_manifest.default || module_manifest,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag"));
@@ -128,7 +125,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = getAssets("bar_aSxt", out.global.buildName);
+  out.___assets = manifest.getAssets("bar_aSxt", out.global.buildName);
 
   out.flush = outFlushOverride;
 
@@ -166,8 +163,7 @@ marko_template.meta = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/components/shared.marko",
@@ -200,8 +196,7 @@ marko_template.meta = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/foo.marko",
@@ -242,16 +237,14 @@ marko_template.meta = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {// Compiled using marko@4.18.47 - DO NOT EDIT
-
+/* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/foo.marko",
     marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
     template = __webpack_require__(/*! ./foo.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/foo.marko"),
-    module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
-    MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
-    getAssets = module_MARKOWEBPACKMANIFEST_module.getAssets,
+    module_manifest = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
+    manifest = module_manifest.default || module_manifest,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag"));
@@ -304,7 +297,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = getAssets("foo_3XPO", out.global.buildName);
+  out.___assets = manifest.getAssets("foo_3XPO", out.global.buildName);
 
   out.flush = outFlushOverride;
 
