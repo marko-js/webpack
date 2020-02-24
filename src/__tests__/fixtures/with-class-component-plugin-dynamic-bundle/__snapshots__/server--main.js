@@ -8,10 +8,15 @@
 /***/ (function(module, exports) {
 
 module.exports = {
-  getBundleName: function getClientCompilerName($global) {
-        return $global.bundle;
-    },
-  entries: {"test_YDNP":{"browser-A":{"css":["test_YDNP.A.css"],"js":["test_YDNP.A.js"]},"browser-B":{"css":["test_YDNP.B.css"],"js":["test_YDNP.B.js"]},"browser-C":{"css":["test_YDNP.C.css"],"js":["test_YDNP.C.js"]}}}
+  getAssets(entry, buildName) {
+    const buildAssets = this.builds[buildName];
+    if (!buildAssets) {
+      throw new Error("Unable to load assets for build with a '$global.buildName' of '" + buildName + "'.");
+    }
+
+    return buildAssets[entry];
+  },
+  builds: {"browser-A":{"test_YDNP":{"css":["test_YDNP.A.css"],"js":["test_YDNP.A.js"]}},"browser-B":{"test_YDNP":{"css":["test_YDNP.B.css"],"js":["test_YDNP.B.js"]}},"browser-C":{"test_YDNP":{"css":["test_YDNP.C.css"],"js":["test_YDNP.C.js"]}}}
 }
 
 /***/ }),
@@ -70,7 +75,7 @@ const test = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/w
 
 http
   .createServer((req, res) => {
-    test.render({}, res);
+    test.render({ $global: { buildName: "A" } }, res);
   })
   .listen(0);
 
@@ -144,8 +149,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     template = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko"),
     module_MARKOWEBPACKMANIFEST_module = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     MARKOWEBPACKMANIFEST_module = module_MARKOWEBPACKMANIFEST_module.default || module_MARKOWEBPACKMANIFEST_module,
-    getBundleName = module_MARKOWEBPACKMANIFEST_module.getBundleName,
-    entries = module_MARKOWEBPACKMANIFEST_module.entries,
+    getAssets = module_MARKOWEBPACKMANIFEST_module.getAssets,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag"));
@@ -198,7 +202,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = entries["test_YDNP"][getBundleName(out.global)];
+  out.___assets = getAssets("test_YDNP", out.global.buildName);
 
   out.flush = outFlushOverride;
 

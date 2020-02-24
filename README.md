@@ -102,7 +102,8 @@ export default [
 
 Sometimes you need to have multiple compilers for your client side bundles. For example with [`i18n`](https://github.com/webpack/webpack/tree/master/examples/i18n) or [even shipping dynamic runtime bundles to the browser](https://github.com/eBay/arc/tree/master/packages/arc-webpack).
 
-The Marko webpack plugin allows you to pass a function which is inlined into the server bundle and can respond with the name of the compiler whose assets should be sent to the browser.
+The Marko webpack browser plugin can be passed to multiple webpack compilers. At runtime you can provide a `$global.buildName` when rendering which will cause assets from the webpack compiler with that name to be included in the page.
+
 For example with the webpack i18n plugin you might have a config like the following:
 
 ```js
@@ -114,13 +115,7 @@ const languages = {
   de: require("./de.json")
 };
 
-const markoPlugin = new MarkoPlugin({
-  // $global here is the `out.global` from Marko.
-  getClientCompilerName($global) {
-    // You must return the name of one of the browser compilers below.
-    return `Browser-${$global.language}`;
-  }
-});
+const markoPlugin = new MarkoPlugin();
 
 export default [
   {
@@ -154,13 +149,20 @@ export default [
 ];
 ```
 
-With the above config you can render your top level Marko template server side with a `language` global, like so:
+With the above config you can render your top level Marko template server side with a `$global.bundleName`, like so:
 
-```
-template.render({ $global: { language: "de" } });
+```javascript
+template.render({ $global: { bundleName: "Browser-de" } });
 ```
 
 This will automatically send assets for the German language.
+Of course in this case you'll want to conditionally send the appropriate assets given a users locale. This can be some simply, like so:
+
+```javascript
+template.render({ $global: { bundleName: `Browser-${req.language}` } });
+```
+
+Note: If a bundle with the provided name does not exist an error will be thrown.
 
 ## Dynamic public paths
 

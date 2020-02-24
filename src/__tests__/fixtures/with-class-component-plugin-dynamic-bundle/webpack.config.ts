@@ -3,11 +3,7 @@ import * as webpack from "webpack";
 import MarkoPlugin from "../../../plugin";
 import ExtractCSSPlugin from "mini-css-extract-plugin";
 
-const markoPlugin = new MarkoPlugin({
-  getClientCompilerName($global) {
-    return $global.bundle;
-  }
-});
+const markoPlugin = new MarkoPlugin();
 
 export default [
   {

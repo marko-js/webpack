@@ -4,7 +4,7 @@ import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/virtual";
 
 export default (resourcePath: string): string => `
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
-import { getBundleName, entries } from ${JSON.stringify(
+import { getAssets } from ${JSON.stringify(
   `./${path.relative(path.dirname(resourcePath), VIRTUAL_SERVER_MANIFEST_PATH)}`
 )};
 
@@ -50,9 +50,9 @@ static function outEndOverride(data, encoding, callback) {
 $ out.___flush = out.flush;
 $ out.___end = out.end;
 $ out.___renderAssets = renderAssets;
-$ out.___assets = entries[${JSON.stringify(
+$ out.___assets = getAssets(${JSON.stringify(
   moduleName(resourcePath)
-)}][getBundleName(out.global)];
+)}, out.global.buildName);
 $ out.flush = outFlushOverride;
 $ out.end = outEndOverride;
 
