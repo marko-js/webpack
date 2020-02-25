@@ -4,10 +4,14 @@
 /*!*******************************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?dependencies ***!
   \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/components/shared.marko?dependencies");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_shared_marko_dependencies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/components/shared.marko?dependencies");
+/* harmony import */ var _components_shared_marko_dependencies__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_components_shared_marko_dependencies__WEBPACK_IMPORTED_MODULE_0__);
+
 
 /***/ }),
 
@@ -15,15 +19,18 @@ __webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests
 /*!**************************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?hydrate ***!
   \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _bar_marko_dependencies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bar.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?dependencies");
 
       if (window.$mwp) {
         __webpack_require__.p = $mwp;
       }
 
-      __webpack_require__(/*! ./bar.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?dependencies");
+      
       window.$initComponents && window.$initComponents();
     
 

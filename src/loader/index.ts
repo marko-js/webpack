@@ -103,9 +103,9 @@ export default function(source: string): string {
         __webpack_public_path__ = $mwp;
       }
 
-      require(${JSON.stringify(
+      import ${JSON.stringify(
         `./${path.basename(this.resourcePath)}?dependencies`
-      )});
+      )};
       window.$initComponents && window.$initComponents();
     `;
   } else if (target !== "server" && markoCompiler.compileForBrowser) {
@@ -128,10 +128,9 @@ export default function(source: string): string {
 
     if (dependenciesOnly && meta.component) {
       dependencies = dependencies.concat(`
-        require('marko/components').register(
-          ${JSON.stringify(meta.id)},
-          require(${JSON.stringify(meta.component)})
-        );
+      import { register } from "marko/components";
+      import component from ${JSON.stringify(meta.component)};
+      register(${JSON.stringify(meta.id)}, component);
       `);
     }
 
@@ -146,7 +145,7 @@ export default function(source: string): string {
               dependency = dependency.slice(browserJSONPrefix.length);
             }
             // external file, just require it
-            return `require(${JSON.stringify(dependency)});`;
+            return `import ${JSON.stringify(dependency)};`;
           } else {
             // inline content, we'll create a virtual dependency.
             const virtualPath = path.resolve(
@@ -155,7 +154,7 @@ export default function(source: string): string {
             );
             const virtualModules = getVirtualModules(this._compiler);
             virtualModules.writeModule(virtualPath, dependency.code);
-            return `require(${JSON.stringify(dependency.virtualPath)})`;
+            return `import ${JSON.stringify(dependency.virtualPath)};`;
           }
         })
       );
@@ -168,7 +167,7 @@ export default function(source: string): string {
         meta.tags
           .filter(tagPath => tagPath.endsWith(".marko"))
           .map(tagPath => {
-            return `require(${JSON.stringify(tagPath + "?dependencies")});`;
+            return `import ${JSON.stringify(tagPath + "?dependencies")};`;
           })
       );
     }
