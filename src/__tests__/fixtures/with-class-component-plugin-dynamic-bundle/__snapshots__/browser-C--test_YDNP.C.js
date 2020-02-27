@@ -1,13 +1,52 @@
 /******/ ({
 
+/***/ "./node_modules/webpack/buildin/harmony-module.js":
+/*!*******************************************!*\
+  !*** (webpack)/buildin/harmony-module.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(originalModule) {
+	if (!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
 /***/ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko":
 /*!*********************************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko ***!
   \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/style.css");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/style.css");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_0__);
+
 "use strict";
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/vdom */ "marko/dist/vdom").t(),
@@ -42,6 +81,7 @@ marko_template._ = marko_renderer(render, {
 
 marko_template.Component = marko_defineComponent(marko_component, marko_template._);
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -49,16 +89,22 @@ marko_template.Component = marko_defineComponent(marko_component, marko_template
 /*!**********************************************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko?dependencies ***!
   \**********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var marko_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/components */ "marko/components");
+/* harmony import */ var marko_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _index_marko__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/style.css");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_style_css__WEBPACK_IMPORTED_MODULE_2__);
 
-        __webpack_require__(/*! marko/components */ "marko/components").register(
-          "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko",
-          __webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko")
-        );
       
-__webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/style.css");
+      
+      Object(marko_components__WEBPACK_IMPORTED_MODULE_0__["register"])("/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko", _index_marko__WEBPACK_IMPORTED_MODULE_1__["default"]);
+      
+
 
 /***/ }),
 
@@ -88,11 +134,16 @@ __webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-comp
 /*!***************************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?dependencies ***!
   \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(/*! ./test.marko.css */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko.css")
-__webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko?dependencies");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _test_marko_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko.css */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko.css");
+/* harmony import */ var _test_marko_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_test_marko_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_nested_index_marko_dependencies__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/components/nested/index.marko?dependencies");
+
+
 
 /***/ }),
 
@@ -100,15 +151,18 @@ __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/_
 /*!**********************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?hydrate ***!
   \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _test_marko_dependencies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?dependencies");
 
       if (window.$mwp) {
         __webpack_require__.p = $mwp;
       }
 
-      __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?dependencies");
+      
       window.$initComponents && window.$initComponents();
     
 
