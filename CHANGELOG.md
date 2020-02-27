@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/marko-js/webpack/compare/v4.0.0...v4.1.0) (2020-02-27)
+
+
+### Features
+
+* expose babelOptions for Marko 5 compiler ([#25](https://github.com/marko-js/webpack/issues/25)) ([fb49fa9](https://github.com/marko-js/webpack/commit/fb49fa9511ef35d5cc52754126dd730d0ccbc5d4))
+* switch output from loader to use es modules ([#26](https://github.com/marko-js/webpack/issues/26)) ([8aadc82](https://github.com/marko-js/webpack/commit/8aadc82f8d49510d81dfc2f7fc8704bbf5055e4f))
+
 ## [4.0.0](https://github.com/marko-js/webpack/compare/v3.0.0...v4.0.0) (2020-02-24)
 
 
