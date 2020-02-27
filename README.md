@@ -74,7 +74,7 @@ export default [
     module: {
       rules: [
         {
-          test: /\.marko?$/,
+          test: /\.marko$/,
           loader: "@marko/webpack/loader"
         }
       ]
@@ -84,7 +84,7 @@ export default [
   {
     rules: [
       {
-        test: /\.marko?$/,
+        test: /\.marko$/,
         loader: "@marko/webpack/loader"
       },
       // If using `style` blocks with Marko you must use an appropriate loader
@@ -96,6 +96,30 @@ export default [
     plugins: [markoPlugin.browser]
   }
 ];
+```
+
+## Babel options (Marko 5+)
+
+If you are using Marko 5 with this plugin you can manually override the Babel configuration used by passing a `babelOptions` object along side the `@marko/webpack/loader`. By default Babels regular [config file resolution](https://babeljs.io/docs/en/config-files) will be used.
+
+```javascript
+export default {
+    module: {
+      rules: [
+        {
+          test: /\.marko$/,
+          loader: "@marko/webpack/loader",
+          options: {
+            babelOptions: {
+              presets: [
+                ["@babel/preset-env", { node: "current" }]
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
 ```
 
 ## Multiple client side compilers
@@ -124,7 +148,7 @@ export default [
     module: {
       rules: [
         {
-          test: /\.marko?$/,
+          test: /\.marko$/,
           loader: "@marko/webpack/loader"
         }
       ]
@@ -135,7 +159,7 @@ export default [
     name: `Browser-${language}`,
     rules: [
       {
-        test: /\.marko?$/,
+        test: /\.marko$/,
         loader: "@marko/webpack/loader"
       },
       // If using `style` blocks with Marko you must use an appropriate loader

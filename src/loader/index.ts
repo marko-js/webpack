@@ -67,6 +67,20 @@ export default function(source: string): string {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
     DEFAULT_COMPILER);
+  const babelOptions = Object.assign(
+    {},
+    queryOptions && queryOptions.babelOptions
+  );
+  babelOptions.caller = Object.assign(
+    {
+      target: this.target,
+      supportsStaticESM: true,
+      supportsDynamicImport: true,
+      supportsTopLevelAwait: true
+    },
+    babelOptions.caller
+  );
+
   const dependenciesOnly = this.resource.endsWith("?dependencies");
   const hydrate = this.resource.endsWith("?hydrate");
   const assets = this.resource.endsWith("?assets");
@@ -94,7 +108,8 @@ export default function(source: string): string {
       {
         writeToDisk: false,
         requireTemplates: true,
-        writeVersionComment: false
+        writeVersionComment: false,
+        babelOptions
       }
     );
   } else if (hydrate) {
@@ -116,7 +131,8 @@ export default function(source: string): string {
         sourceOnly: false,
         writeToDisk: false,
         writeVersionComment: false,
-        sourceMaps
+        sourceMaps,
+        babelOptions
       }
     );
 
@@ -198,7 +214,8 @@ export default function(source: string): string {
         writeToDisk: false,
         requireTemplates: true,
         writeVersionComment: false,
-        sourceMaps
+        sourceMaps,
+        babelOptions
       }
     );
 
