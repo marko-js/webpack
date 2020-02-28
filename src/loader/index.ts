@@ -67,18 +67,19 @@ export default function(source: string): string {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
     DEFAULT_COMPILER);
-  const babelOptions = Object.assign(
+  const babelConfig = Object.assign(
     {},
-    queryOptions && queryOptions.babelOptions
+    queryOptions && queryOptions.babelConfig
   );
-  babelOptions.caller = Object.assign(
+  babelConfig.caller = Object.assign(
     {
+      name: "@marko/webpack/loader",
       target: this.target,
       supportsStaticESM: true,
       supportsDynamicImport: true,
       supportsTopLevelAwait: true
     },
-    babelOptions.caller
+    babelConfig.caller
   );
 
   const dependenciesOnly = this.resource.endsWith("?dependencies");
@@ -109,7 +110,7 @@ export default function(source: string): string {
         writeToDisk: false,
         requireTemplates: true,
         writeVersionComment: false,
-        babelOptions
+        babelConfig
       }
     );
   } else if (hydrate) {
@@ -132,7 +133,7 @@ export default function(source: string): string {
         writeToDisk: false,
         writeVersionComment: false,
         sourceMaps,
-        babelOptions
+        babelConfig
       }
     );
 
@@ -214,7 +215,7 @@ export default function(source: string): string {
         requireTemplates: true,
         writeVersionComment: false,
         sourceMaps,
-        babelOptions
+        babelConfig
       }
     );
 
