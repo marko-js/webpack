@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.1](https://github.com/marko-js/webpack/compare/v4.1.0...v4.1.1) (2020-02-28)
+
+
+### Bug Fixes
+
+* provide name option to babel caller config ([266af4d](https://github.com/marko-js/webpack/commit/266af4d96b3ca0d0625e2c5a441297a504956038))
+
 ## [4.1.0](https://github.com/marko-js/webpack/compare/v4.0.0...v4.1.0) (2020-02-27)
 
 
