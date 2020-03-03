@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.2](https://github.com/marko-js/webpack/compare/v4.1.1...v4.1.2) (2020-03-03)
+
+
+### Bug Fixes
+
+* use cjs for Marko 4 and esm for 5 ([#28](https://github.com/marko-js/webpack/issues/28)) ([ea0bbde](https://github.com/marko-js/webpack/commit/ea0bbdeb22e6359fbaf2f440d68654241b16275c))
+
 ### [4.1.1](https://github.com/marko-js/webpack/compare/v4.1.0...v4.1.1) (2020-02-28)
 
 
