@@ -100,7 +100,7 @@ export default [
 
 ## Babel options (Marko 5+)
 
-If you are using Marko 5 with this plugin you can manually override the Babel configuration used by passing a `babelOptions` object along side the `@marko/webpack/loader`. By default Babels regular [config file resolution](https://babeljs.io/docs/en/config-files) will be used.
+If you are using Marko 5 with this plugin you can manually override the Babel configuration used by passing a `babelConfig` object along side the `@marko/webpack/loader`. By default Babels regular [config file resolution](https://babeljs.io/docs/en/config-files) will be used.
 
 ```javascript
 export default {
@@ -110,7 +110,7 @@ export default {
           test: /\.marko$/,
           loader: "@marko/webpack/loader",
           options: {
-            babelOptions: {
+            babelConfig: {
               presets: [
                 ["@babel/preset-env", { node: "current" }]
               ]
