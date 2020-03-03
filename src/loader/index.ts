@@ -67,6 +67,9 @@ export default function(source: string): string {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
     DEFAULT_COMPILER);
+
+  const loadStr = isMarko4Compiler(markoCompiler) ? requireStr : importStr;
+
   const babelConfig = Object.assign(
     {},
     queryOptions && queryOptions.babelConfig
@@ -119,9 +122,7 @@ export default function(source: string): string {
         __webpack_public_path__ = $mwp;
       }
 
-      import ${JSON.stringify(
-        `./${path.basename(this.resourcePath)}?dependencies`
-      )};
+      ${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}
       window.$initComponents && window.$initComponents();
     `;
   } else if (target !== "server" && markoCompiler.compileForBrowser) {
@@ -145,8 +146,8 @@ export default function(source: string): string {
 
     if (dependenciesOnly && meta.component) {
       dependencies = dependencies.concat(`
-      import { register } from "marko/components";
-      import component from ${JSON.stringify(meta.component)};
+      ${loadStr("marko/components", "{ register }")}
+      ${loadStr(meta.component, "component")}
       register(${JSON.stringify(meta.id)}, component);
       `);
     }
@@ -162,7 +163,7 @@ export default function(source: string): string {
               dependency = dependency.slice(browserJSONPrefix.length);
             }
             // external file, just require it
-            return `import ${JSON.stringify(dependency)};`;
+            return loadStr(dependency);
           } else {
             // inline content, we'll create a virtual dependency.
             const virtualPath = path.resolve(
@@ -171,7 +172,7 @@ export default function(source: string): string {
             );
             const virtualModules = getVirtualModules(this._compiler);
             virtualModules.writeModule(virtualPath, dependency.code);
-            return `import ${JSON.stringify(dependency.virtualPath)};`;
+            return loadStr(dependency.virtualPath);
           }
         })
       );
@@ -183,9 +184,7 @@ export default function(source: string): string {
       dependencies = dependencies.concat(
         meta.tags
           .filter(tagPath => tagPath.endsWith(".marko"))
-          .map(tagPath => {
-            return `import ${JSON.stringify(tagPath + "?dependencies")};`;
-          })
+          .map(tagPath => loadStr(tagPath + "?dependencies"))
       );
     }
 
@@ -243,6 +242,30 @@ function getMissingWatchDeps(resource: string, meta): string[] {
   }
 
   return watchDeps;
+}
+
+function isMarko4Compiler(compiler) {
+  return Boolean(compiler.builder);
+}
+
+function importStr(request: string, lhs?: string) {
+  const id = JSON.stringify(request);
+
+  if (lhs) {
+    return `import ${lhs} from ${id};`;
+  }
+
+  return `import ${id};`;
+}
+
+function requireStr(request: string, lhs?: string) {
+  const id = JSON.stringify(request);
+
+  if (lhs) {
+    return `const ${lhs} = require(${id});`;
+  }
+
+  return `require(${id});`;
 }
 
 function normalizeTarget(target: string): string {
