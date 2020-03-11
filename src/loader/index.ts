@@ -154,27 +154,31 @@ export default function(source: string): string {
 
     if (meta.deps) {
       dependencies = dependencies.concat(
-        meta.deps.map(dependency => {
-          if (!dependency.code) {
-            if (
-              supportsBrowserJSON &&
-              dependency.startsWith(browserJSONPrefix)
-            ) {
-              dependency = dependency.slice(browserJSONPrefix.length);
+        meta.deps
+          .map(dependency => {
+            if (!dependency.code) {
+              if (dependency.startsWith(browserJSONPrefix)) {
+                if (supportsBrowserJSON) {
+                  dependency = dependency.slice(browserJSONPrefix.length);
+                } else {
+                  return ""; // Do not load browser.json dependencies by default.
+                }
+              }
+
+              // external file, just require it
+              return loadStr(dependency);
+            } else {
+              // inline content, we'll create a virtual dependency.
+              const virtualPath = path.resolve(
+                path.dirname(this.resourcePath),
+                dependency.virtualPath
+              );
+              const virtualModules = getVirtualModules(this._compiler);
+              virtualModules.writeModule(virtualPath, dependency.code);
+              return loadStr(dependency.virtualPath);
             }
-            // external file, just require it
-            return loadStr(dependency);
-          } else {
-            // inline content, we'll create a virtual dependency.
-            const virtualPath = path.resolve(
-              path.dirname(this.resourcePath),
-              dependency.virtualPath
-            );
-            const virtualModules = getVirtualModules(this._compiler);
-            virtualModules.writeModule(virtualPath, dependency.code);
-            return loadStr(dependency.virtualPath);
-          }
-        })
+          })
+          .filter(Boolean)
       );
     }
 
