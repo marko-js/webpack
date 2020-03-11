@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.3](https://github.com/marko-js/webpack/compare/v4.1.2...v4.1.3) (2020-03-11)
+
+
+### Bug Fixes
+
+* babelConfig typo in README ([701b1e4](https://github.com/marko-js/webpack/commit/701b1e4072c88e6916b88d31ae715ad6d36df4fe))
+* do not load browser.json files by default ([0fa09f5](https://github.com/marko-js/webpack/commit/0fa09f53fb30f58fbf925b1b23e36a7df420a1f4))
+
 ### [4.1.2](https://github.com/marko-js/webpack/compare/v4.1.1...v4.1.2) (2020-03-03)
 
 
