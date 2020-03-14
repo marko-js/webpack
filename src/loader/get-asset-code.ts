@@ -2,7 +2,7 @@ import * as path from "path";
 import moduleName from "../shared/module-name";
 import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/virtual";
 
-export default (resourcePath: string): string => `
+export default (resourcePath: string, runtimeId: string | undefined): string => `
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
 import manifest from ${JSON.stringify(
   `./${path.relative(path.dirname(resourcePath), VIRTUAL_SERVER_MANIFEST_PATH)}`
@@ -47,6 +47,7 @@ static function outEndOverride(data, encoding, callback) {
   this.end(data, encoding, callback);
 }
 
+${runtimeId === undefined ? "" : `$ out.global.runtimeId = ${runtimeId};` }
 $ out.___flush = out.flush;
 $ out.___end = out.end;
 $ out.___renderAssets = renderAssets;

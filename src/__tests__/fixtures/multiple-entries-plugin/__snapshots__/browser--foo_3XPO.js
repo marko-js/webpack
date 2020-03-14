@@ -24,7 +24,8 @@ __webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests
       }
 
       __webpack_require__(/*! ./foo.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/foo.marko?dependencies");
-      window.$initComponents && window.$initComponents();
+      window.$initComponents && $initComponents();
+      
     
 
 /***/ })

@@ -70,7 +70,7 @@
     "release": "standard-version",
     "prepublishOnly": "npm run build",
     "test": "jest --watch",
-    "test:inspect": "node --inspect $(which jest) --watch --runInBand"
+    "test:inspect": "node --inspect $(which jest) --watch --runInBand --testTimeout 99999999"
   },
   "types": "dist/index.d.ts"
 }
