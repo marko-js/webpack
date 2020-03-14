@@ -1,10 +1,12 @@
 "use strict";
 
 import * as path from "path";
+import { Compiler } from 'webpack';
 import * as loaderUtils from "loader-utils";
 import ConcatMap from "concat-with-sourcemaps";
 import getAssetCode from "./get-asset-code";
 import { getVirtualModules } from "../shared/virtual";
+import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
 
 const watchFiles = {
   style: {
@@ -53,17 +55,21 @@ const browserJSONPrefix = "package: ";
 let supportsBrowserJSON: boolean;
 
 export default function(source: string): string {
+  const compiler = this._compiler as Compiler;
+
   if (supportsBrowserJSON === undefined) {
-    const resolveOptions = this._compiler.options.resolve;
+    const resolveOptions = compiler.options.resolve;
     const compilerExtensions =
       (resolveOptions && resolveOptions.extensions) || [];
-    supportsBrowserJSON = compilerExtensions.indexOf(".browser.json") !== -1;
+    supportsBrowserJSON = compilerExtensions.includes(".browser.json");
   }
 
+  const pluginOptions = pluginOptionsForCompiler.get(compiler);
   const queryOptions = loaderUtils.getOptions(this); // Not the same as this.options
   const target = normalizeTarget(
     (queryOptions && queryOptions.target) || this.target
   );
+  const runtimeId = pluginOptions && pluginOptions.runtimeId;
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
     DEFAULT_COMPILER);
@@ -107,7 +113,7 @@ export default function(source: string): string {
 
   if (assets) {
     return markoCompiler.compile(
-      getAssetCode(this.resourcePath),
+      getAssetCode(this.resourcePath, runtimeId),
       this.resourcePath,
       {
         writeToDisk: false,
@@ -123,7 +129,14 @@ export default function(source: string): string {
       }
 
       ${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}
-      window.$initComponents && window.$initComponents();
+      ${runtimeId
+        ? `
+          ${loadStr("marko/components", "{ init }")}
+          init(${runtimeId});
+        `
+        : "window.$initComponents && $initComponents();"
+      }
+      
     `;
   } else if (target !== "server" && markoCompiler.compileForBrowser) {
     const { code, meta, map } = markoCompiler.compileForBrowser(

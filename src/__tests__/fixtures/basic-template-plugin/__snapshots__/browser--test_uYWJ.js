@@ -24,7 +24,8 @@
       }
 
       __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/basic-template-plugin/test.marko?dependencies");
-      window.$initComponents && window.$initComponents();
+      window.$initComponents && $initComponents();
+      
     
 
 /***/ })

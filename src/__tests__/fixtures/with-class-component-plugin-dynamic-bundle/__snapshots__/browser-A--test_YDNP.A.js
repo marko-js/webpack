@@ -108,7 +108,8 @@ __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/_
       }
 
       __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?dependencies");
-      window.$initComponents && window.$initComponents();
+      window.$initComponents && $initComponents();
+      
     
 
 /***/ }),

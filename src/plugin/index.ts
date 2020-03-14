@@ -5,6 +5,8 @@ import { ReplaceSource } from "webpack-sources";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import sortKeys from "sort-keys";
 import moduleName from "../shared/module-name";
+import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
+
 import {
   VIRTUAL_BROWSER_INVALIDATE_PATH,
   VIRTUAL_SERVER_MANIFEST_PATH,
@@ -32,6 +34,13 @@ export default class MarkoWebpackPlugin {
     [VIRTUAL_SERVER_MANIFEST_PATH]: MANIFEST_CONTENT
   });
 
+  constructor(private options?: { runtimeId?: string }) {
+    this.options = { ...options };
+    if (this.options.runtimeId) {
+      this.options.runtimeId = JSON.stringify(options.runtimeId);
+    }
+  }
+
   // Overwritten by each compiler.
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private invalidateBrowserBuild(): void {}
@@ -52,6 +61,7 @@ export default class MarkoWebpackPlugin {
       const escapeIfEval = (code: string): string =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
 
+      pluginOptionsForCompiler.set(compiler, this.options);
       registerVirtualModules(compiler, this.virtualServerModules);
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
@@ -183,6 +193,8 @@ export default class MarkoWebpackPlugin {
       const virtualModules = new VirtualModulesPlugin({
         [VIRTUAL_BROWSER_INVALIDATE_PATH]: ""
       });
+
+      pluginOptionsForCompiler.set(compiler, this.options);
 
       registerVirtualModules(compiler, virtualModules);
       this.browserCompilerNames.push(compilerName);

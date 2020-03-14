@@ -188,6 +188,20 @@ template.render({ $global: { bundleName: `Browser-${req.language}` } });
 
 Note: If a bundle with the provided name does not exist an error will be thrown.
 
+## Multiple copies of Marko
+
+In some cases you may want to embed multiple isolated copies of Marko on the page. Since Marko relies on some `window` properties to initialize this can cause issues. For example, by default Marko will read the server rendered hydration code from `window.$components`. In Marko you can change these `window` properties by rendering with `{ $global: { runtimeId: "MY_MARKO_RUNTIME_ID" } }` as input on the server side.
+
+This plugin exposes a `runtimeId` option produces output that automatically sets `$global.runtimeId` on the server side and initializes properly in the browser.
+
+```js
+import MarkoPlugin from "@marko/webpack/plugin";
+
+const markoPlugin = new MarkoPlugin({
+  runtimeId: "MY_MARKO_RUNTIME_ID"
+});
+```
+
 ## Dynamic public paths
 
 When using the plugin, the server will automatically sync the runtime [`__webpack_public_path__`](https://webpack.js.org/guides/public-path/#on-the-fly) with the browser.
