@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/marko-js/webpack/compare/v4.1.3...v4.2.0) (2020-03-14)
+
+
+### Features
+
+* add runtimeid option ([#30](https://github.com/marko-js/webpack/issues/30)) ([4947ed6](https://github.com/marko-js/webpack/commit/4947ed651867887b0ce3aff81499ef57d29bdfbe))
+
 ### [4.1.3](https://github.com/marko-js/webpack/compare/v4.1.2...v4.1.3) (2020-03-11)
 
 
