@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/marko-js/webpack/compare/v4.2.0...v4.3.0) (2020-03-15)
+
+
+### Features
+
+* skip writing dynamic publicPath if publicPath is in output options ([#31](https://github.com/marko-js/webpack/issues/31)) ([6d117c9](https://github.com/marko-js/webpack/commit/6d117c905f3176ff89f990da28b3f303c43b05ed))
+
+
+### Bug Fixes
+
+* include runtimeId in dynamic public path var ([#32](https://github.com/marko-js/webpack/issues/32)) ([d6751af](https://github.com/marko-js/webpack/commit/d6751afce3349078e93e70a7f0461855ca56660f))
+
 ## [4.2.0](https://github.com/marko-js/webpack/compare/v4.1.3...v4.2.0) (2020-03-14)
 
 
