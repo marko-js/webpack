@@ -158,7 +158,7 @@ function renderAssets() {
   this.end = this.___end;
 
   if (assets) {
-    this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    __webpack_require__.p && this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
 
     if (assets.js) {
       const setNonce = nonce && `.setAttribute("nonce", ${JSON.stringify(nonce)})`;

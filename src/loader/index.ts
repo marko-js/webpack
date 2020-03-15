@@ -1,7 +1,7 @@
 "use strict";
 
 import * as path from "path";
-import { Compiler } from 'webpack';
+import { Compiler } from "webpack";
 import * as loaderUtils from "loader-utils";
 import ConcatMap from "concat-with-sourcemaps";
 import getAssetCode from "./get-asset-code";
@@ -69,6 +69,7 @@ export default function(source: string): string {
   const target = normalizeTarget(
     (queryOptions && queryOptions.target) || this.target
   );
+  const publicPath = compiler.options.output.publicPath;
   const runtimeId = pluginOptions && pluginOptions.runtimeId;
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
@@ -113,7 +114,7 @@ export default function(source: string): string {
 
   if (assets) {
     return markoCompiler.compile(
-      getAssetCode(this.resourcePath, runtimeId),
+      getAssetCode(this.resourcePath, runtimeId, publicPath),
       this.resourcePath,
       {
         writeToDisk: false,
@@ -124,17 +125,19 @@ export default function(source: string): string {
     );
   } else if (hydrate) {
     return `
-      if (window.$mwp) {
-        __webpack_public_path__ = $mwp;
+      ${
+        publicPath === undefined
+          ? " if (window.$mwp) __webpack_public_path__ = $mwp;"
+          : ""
       }
-
       ${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}
-      ${runtimeId
-        ? `
+      ${
+        runtimeId
+          ? `
           ${loadStr("marko/components", "{ init }")}
           init(${runtimeId});
         `
-        : "window.$initComponents && $initComponents();"
+          : "window.$initComponents && $initComponents();"
       }
       
     `;

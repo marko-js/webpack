@@ -19,10 +19,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 
-      if (window.$mwp) {
-        __webpack_require__.p = $mwp;
-      }
-
+       if (window.$mwp) __webpack_require__.p = $mwp;
       __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/basic-template-plugin/test.marko?dependencies");
       window.$initComponents && $initComponents();
       
