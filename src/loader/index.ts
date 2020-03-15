@@ -124,10 +124,15 @@ export default function(source: string): string {
       }
     );
   } else if (hydrate) {
+    let mwpVar = "$mwp";
+    if (runtimeId) {
+      mwpVar += `_${runtimeId}`;
+    }
+
     return `
       ${
         publicPath === undefined
-          ? " if (window.$mwp) __webpack_public_path__ = $mwp;"
+          ? ` if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};`
           : ""
       }
       ${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}
@@ -135,7 +140,7 @@ export default function(source: string): string {
         runtimeId
           ? `
           ${loadStr("marko/components", "{ init }")}
-          init(${runtimeId});
+          init(${JSON.stringify(runtimeId)});
         `
           : "window.$initComponents && $initComponents();"
       }
