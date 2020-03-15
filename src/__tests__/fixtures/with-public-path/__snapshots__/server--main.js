@@ -11,59 +11,20 @@ module.exports = {
   getAssets(entry) {
     return this.build[entry];
   },
-  build: {"test_nzzJ":{"css":["test_nzzJ.css"],"js":["test_nzzJ.js"]}}
+  build: {"test_CDVG":{"js":["test_CDVG.js"]}}
 }
 
 /***/ }),
 
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko":
-/*!******************************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
-
-var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
-    marko_component = {
-        onCreate: function() {}
-      },
-    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/components/nested/index.marko",
-    marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
-
-function render(input, out, __component, component, state) {
-  var data = input;
-
-  out.w("<div></div>");
-}
-
-marko_template._ = marko_renderer(render, {
-    e_: marko_componentType
-  }, marko_component);
-
-marko_template.meta = {
-    deps: [
-      "./style.css"
-    ],
-    id: "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/components/nested/index.marko",
-    component: "./index.marko"
-  };
-
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
-
-/***/ }),
-
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/server.js":
-/*!**********************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/server.js ***!
-  \**********************************************************************/
+/***/ "./src/__tests__/fixtures/with-public-path/server.js":
+/*!***********************************************************!*\
+  !*** ./src/__tests__/fixtures/with-public-path/server.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 const http = __webpack_require__(/*! http */ "http");
-const test = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?assets");
+const test = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/with-public-path/test.marko?assets");
 
 http
   .createServer((req, res) => {
@@ -74,10 +35,10 @@ http
 
 /***/ }),
 
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/test.marko":
-/*!***********************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko ***!
-  \***********************************************************************/
+/***/ "./src/__tests__/fixtures/with-public-path/test.marko":
+/*!************************************************************!*\
+  !*** ./src/__tests__/fixtures/with-public-path/test.marko ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -85,18 +46,13 @@ http
 /* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
-    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
-    marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
-    nested_template = __webpack_require__(/*! ./components/nested/index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko"),
-    marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
-    nested_tag = marko_loadTag(nested_template);
+    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-public-path/test.marko",
+    marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
 
 function render(input, out, __component, component, state) {
   var data = input;
 
   out.w("<h1>Hello World</h1>");
-
-  nested_tag({}, out, __component, "1");
 }
 
 marko_template._ = marko_renderer(render, {
@@ -105,28 +61,17 @@ marko_template._ = marko_renderer(render, {
   });
 
 marko_template.meta = {
-    deps: [
-      {
-          type: "css",
-          code: "h1 { color:red; }",
-          virtualPath: "./test.marko.css",
-          path: "./test.marko"
-        }
-    ],
-    id: "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
-    tags: [
-      "./components/nested/index.marko"
-    ]
+    id: "/@marko/webpack-tests$x.x.x/fixtures/with-public-path/test.marko"
   };
 
 /* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?assets":
-/*!******************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko?assets ***!
-  \******************************************************************************/
+/***/ "./src/__tests__/fixtures/with-public-path/test.marko?assets":
+/*!*******************************************************************!*\
+  !*** ./src/__tests__/fixtures/with-public-path/test.marko?assets ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -134,9 +79,9 @@ marko_template.meta = {
 /* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
-    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
+    marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/with-public-path/test.marko",
     marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
-    template = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko"),
+    template = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/with-public-path/test.marko"),
     module_manifest = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     manifest = module_manifest.default || module_manifest,
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
@@ -151,7 +96,7 @@ function renderAssets() {
   this.end = this.___end;
 
   if (assets) {
-    __webpack_require__.p && this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    
 
     if (assets.js) {
       const setNonce = nonce && `.setAttribute("nonce", ${JSON.stringify(nonce)})`;
@@ -191,7 +136,7 @@ function render(input, out, __component, component, state) {
 
   out.___renderAssets = renderAssets;
 
-  out.___assets = manifest.getAssets("test_nzzJ", out.global.buildName);
+  out.___assets = manifest.getAssets("test_CDVG", out.global.buildName);
 
   out.flush = outFlushOverride;
 
@@ -210,7 +155,7 @@ marko_template._ = marko_renderer(render, {
   });
 
 marko_template.meta = {
-    id: "/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/test.marko",
+    id: "/@marko/webpack-tests$x.x.x/fixtures/with-public-path/test.marko",
     tags: [
       "./test.marko",
       "marko/dist/core-tags/components/init-components-tag"

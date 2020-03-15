@@ -2,7 +2,11 @@ import * as path from "path";
 import moduleName from "../shared/module-name";
 import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/virtual";
 
-export default (resourcePath: string, runtimeId: string | undefined): string => `
+export default (
+  resourcePath: string,
+  runtimeId: string | undefined,
+  publicPath: string | undefined
+): string => `
 import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
 import manifest from ${JSON.stringify(
   `./${path.relative(path.dirname(resourcePath), VIRTUAL_SERVER_MANIFEST_PATH)}`
@@ -16,7 +20,11 @@ static function renderAssets() {
   this.end = this.___end;
 
   if (assets) {
-    this.script(\`$mwp=\${JSON.stringify(__webpack_public_path__)}\`);
+    ${
+      publicPath === undefined
+        ? "__webpack_public_path__ && this.script(`$mwp=${JSON.stringify(__webpack_public_path__)}`);"
+        : ""
+    }
 
     if (assets.js) {
       const setNonce = nonce && \`.setAttribute("nonce", \${JSON.stringify(nonce)})\`;
@@ -47,7 +55,7 @@ static function outEndOverride(data, encoding, callback) {
   this.end(data, encoding, callback);
 }
 
-${runtimeId === undefined ? "" : `$ out.global.runtimeId = ${runtimeId};` }
+${runtimeId === undefined ? "" : `$ out.global.runtimeId = ${runtimeId};`}
 $ out.___flush = out.flush;
 $ out.___end = out.end;
 $ out.___renderAssets = renderAssets;

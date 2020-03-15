@@ -19,10 +19,7 @@ __webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests
 /***/ (function(module, exports, __webpack_require__) {
 
 
-      if (window.$mwp) {
-        __webpack_require__.p = $mwp;
-      }
-
+       if (window.$mwp) __webpack_require__.p = $mwp;
       __webpack_require__(/*! ./bar.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?dependencies");
       window.$initComponents && $initComponents();
       

@@ -103,10 +103,7 @@ __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/_
 /***/ (function(module, exports, __webpack_require__) {
 
 
-      if (window.$mwp) {
-        __webpack_require__.p = $mwp;
-      }
-
+       if (window.$mwp) __webpack_require__.p = $mwp;
       __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin-dynamic-bundle/test.marko?dependencies");
       window.$initComponents && $initComponents();
       
