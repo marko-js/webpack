@@ -35,10 +35,7 @@ export default class MarkoWebpackPlugin {
   });
 
   constructor(private options?: { runtimeId?: string }) {
-    this.options = { ...options };
-    if (this.options.runtimeId) {
-      this.options.runtimeId = JSON.stringify(options.runtimeId);
-    }
+    this.options = options;
   }
 
   // Overwritten by each compiler.

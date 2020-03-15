@@ -22,7 +22,9 @@ static function renderAssets() {
   if (assets) {
     ${
       publicPath === undefined
-        ? "__webpack_public_path__ && this.script(`$mwp=${JSON.stringify(__webpack_public_path__)}`);"
+        ? `__webpack_public_path__ && this.script(\`${
+            runtimeId ? `$mwp_${runtimeId}` : "$mwp"
+          }=\${JSON.stringify(__webpack_public_path__)}\`);`
         : ""
     }
 
@@ -55,7 +57,11 @@ static function outEndOverride(data, encoding, callback) {
   this.end(data, encoding, callback);
 }
 
-${runtimeId === undefined ? "" : `$ out.global.runtimeId = ${runtimeId};`}
+${
+  runtimeId === undefined
+    ? ""
+    : `$ out.global.runtimeId = ${JSON.stringify(runtimeId)};`
+}
 $ out.___flush = out.flush;
 $ out.___end = out.end;
 $ out.___renderAssets = renderAssets;
