@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/marko-js/webpack/compare/v4.3.0...v5.0.0) (2020-03-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Webpack now controls async script order.
+
+### Features
+
+* load scripts via async script tag ([#34](https://github.com/marko-js/webpack/issues/34)) ([3feb008](https://github.com/marko-js/webpack/commit/3feb008ff85e31cf4c866cbfbd5858606ad67b9c))
+
 ## [4.3.0](https://github.com/marko-js/webpack/compare/v4.2.0...v4.3.0) (2020-03-15)
 
 
