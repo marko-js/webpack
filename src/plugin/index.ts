@@ -1,6 +1,6 @@
 import path from "path";
 import WebpackPluginAddEntries from "./webpack-plugin-add-entries";
-import { Compiler, Entry } from "webpack";
+import { Compiler, Entry, Output } from "webpack";
 import { ReplaceSource } from "webpack-sources";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import sortKeys from "sort-keys";
@@ -59,6 +59,8 @@ export default class MarkoWebpackPlugin {
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
 
       pluginOptionsForCompiler.set(compiler, this.options);
+
+      applyRuntimeIdOptions(this.options, compiler.options.output);
       registerVirtualModules(compiler, this.virtualServerModules);
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
@@ -193,7 +195,9 @@ export default class MarkoWebpackPlugin {
 
       pluginOptionsForCompiler.set(compiler, this.options);
 
+      applyRuntimeIdOptions(this.options, compiler.options.output);
       registerVirtualModules(compiler, virtualModules);
+
       this.browserCompilerNames.push(compilerName);
       this.pendingBrowserBuilds.push(pendingBuild);
 
@@ -248,7 +252,7 @@ export default class MarkoWebpackPlugin {
   }
 }
 
-const createDeferredPromise = <T>() => {
+function createDeferredPromise<T>() {
   let resolve: (value: T) => void;
   const promise = new Promise(
     _resolve => (resolve = _resolve)
@@ -257,4 +261,26 @@ const createDeferredPromise = <T>() => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   promise.resolve = resolve;
   return promise;
-};
+}
+
+function applyRuntimeIdOptions(
+  pluginOptions: ConstructorParameters<typeof MarkoWebpackPlugin>[0],
+  outputOptions: Output
+) {
+  if (pluginOptions && pluginOptions.runtimeId) {
+    const { runtimeId } = pluginOptions;
+    if (outputOptions.hotUpdateFunction === "webpackHotUpdate") {
+      outputOptions.hotUpdateFunction = `${runtimeId}HotUpdate`;
+    }
+
+    if (outputOptions.jsonpFunction === "webpackJsonp") {
+      outputOptions.jsonpFunction = `${runtimeId}Jsonp`;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((outputOptions as any).chunkCallbackName === "webpackChunk") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (outputOptions as any).chunkCallbackName = `${runtimeId}Chunk`;
+    }
+  }
+}
