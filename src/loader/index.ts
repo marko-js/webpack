@@ -92,7 +92,6 @@ export default function(source: string): string {
     babelConfig.caller
   );
 
-  const dependenciesOnly = this.resource.endsWith("?dependencies");
   const hydrate = this.resource.endsWith("?hydrate");
   const assets = this.resource.endsWith("?assets");
   let sourceMaps =
@@ -163,14 +162,22 @@ export default function(source: string): string {
       this.addDependency(dep)
     );
 
+    const dependenciesOnly = this.resource.endsWith("?dependencies");
     let dependencies = [];
 
     if (dependenciesOnly && meta.component) {
-      dependencies = dependencies.concat(`
-      ${loadStr("marko/components", "{ register }")}
-      ${loadStr(meta.component, "component")}
-      register(${JSON.stringify(meta.id)}, component);
-      `);
+      if (
+        path.join(path.dirname(this.resourcePath), meta.component) ===
+        this.resourcePath
+      ) {
+        dependencies.push(loadStr(meta.component));
+      } else {
+        dependencies = dependencies.concat(`
+        ${loadStr("marko/components", "{ register }")}
+        ${loadStr(meta.component, "component")}
+        register(${JSON.stringify(meta.id)}, component);
+        `);
+      }
     }
 
     if (meta.deps) {
