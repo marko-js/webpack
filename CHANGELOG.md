@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.1](https://github.com/marko-js/webpack/compare/v5.0.0...v5.0.1) (2020-03-17)
+
+
+### Bug Fixes
+
+* automatically configure webpack options when runtimeid set ([#35](https://github.com/marko-js/webpack/issues/35)) ([f5a620e](https://github.com/marko-js/webpack/commit/f5a620e1021ddb386d919eb08371f24cca8aba84))
+
 ## [5.0.0](https://github.com/marko-js/webpack/compare/v4.3.0...v5.0.0) (2020-03-16)
 
 
