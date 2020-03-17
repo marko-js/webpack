@@ -50,11 +50,7 @@ marko_template.Component = marko_defineComponent(marko_component, marko_template
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-
-      const { register } = __webpack_require__(/*! marko/components */ "marko/components");
-      const component = __webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko");
-      register("/@marko/webpack-tests$x.x.x/fixtures/with-class-component-plugin/components/nested/index.marko", component);
-      
+__webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko");
 __webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css");
 
 /***/ }),
@@ -106,17 +102,6 @@ __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/_
       window.$initComponents && $initComponents();
       
     
-
-/***/ }),
-
-/***/ "marko/components":
-/*!***********************************!*\
-  !*** external "marko/components" ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/components;
 
 /***/ }),
 
