@@ -202,6 +202,8 @@ const markoPlugin = new MarkoPlugin({
 });
 ```
 
+Note: This option will also override the default values for the `jsonpFunction`, `chunkCallbackName` and `hotUpdateFunction` webpack `output` options, which all use global variables, to be prefixed with the `runtimeId`.
+
 ## Dynamic public paths
 
 When using the plugin, the server will automatically sync the runtime [`__webpack_public_path__`](https://webpack.js.org/guides/public-path/#on-the-fly) with the browser.
