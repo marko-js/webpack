@@ -71,6 +71,8 @@ $ out.___assets = manifest.getAssets(${JSON.stringify(
 $ out.flush = outFlushOverride;
 $ out.end = outEndOverride;
 
+<component-globals/>
 <\${template} ...input/>
 <init-components/>
+<await-reorderer/>
 `;
