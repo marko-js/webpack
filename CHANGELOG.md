@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.3](https://github.com/marko-js/webpack/compare/v5.0.2...v5.0.3) (2020-03-19)
+
+
+### Bug Fixes
+
+* include component-globals and await-reorderer tags inn ssr code ([#37](https://github.com/marko-js/webpack/issues/37)) ([63f0ce5](https://github.com/marko-js/webpack/commit/63f0ce58485738c080b20a6dc4c74eb4984027e7))
+
 ### [5.0.2](https://github.com/marko-js/webpack/compare/v5.0.1...v5.0.2) (2020-03-17)
 
 
