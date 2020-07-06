@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.1](https://github.com/marko-js/webpack/compare/v6.0.0...v6.0.1) (2020-07-06)
+
+
+### Bug Fixes
+
+* head transformer append scripts inside for Marko 5 ([cd66494](https://github.com/marko-js/webpack/commit/cd664945f31a2159ffb246e0bd8f729cfc66bd5c))
+
 ## [6.0.0](https://github.com/marko-js/webpack/compare/v5.0.3...v6.0.0) (2020-04-27)
 
 
