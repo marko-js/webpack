@@ -84,9 +84,8 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     template = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko"),
     module_manifest = __webpack_require__(/*! ./../../../../__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
     manifest = module_manifest.default || module_manifest,
-    marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
-    component_globals_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/component-globals-tag */ "marko/dist/core-tags/components/component-globals-tag")),
     marko_dynamicTag = __webpack_require__(/*! marko/dist/runtime/helpers/dynamic-tag */ "marko/dist/runtime/helpers/dynamic-tag"),
+    marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag")),
     await_reorderer_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/core/await/reorderer-renderer */ "marko/dist/core-tags/core/await/reorderer-renderer"));
 
@@ -146,8 +145,6 @@ function render(input, out, __component, component, state) {
 
   out.end = outEndOverride;
 
-  component_globals_tag({}, out);
-
   marko_dynamicTag(out, template, function() {
     return input;
   }, null, null, null, __component, "0");
@@ -166,7 +163,6 @@ marko_template.meta = {
     id: "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin-custom-runtime-id/test.marko",
     tags: [
       "./test.marko",
-      "marko/dist/core-tags/components/component-globals-tag",
       "marko/dist/core-tags/components/init-components-tag",
       "marko/dist/core-tags/core/await/reorderer-renderer"
     ]
@@ -184,17 +180,6 @@ marko_template.meta = {
 /***/ (function(module, exports) {
 
 module.exports = http;
-
-/***/ }),
-
-/***/ "marko/dist/core-tags/components/component-globals-tag":
-/*!************************************************************************!*\
-  !*** external "marko/dist/core-tags/components/component-globals-tag" ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/core-tags/components/component-globals-tag;
 
 /***/ }),
 
