@@ -19,15 +19,18 @@ function transformerMarko5(path, t): void {
     t.identifier("out"),
     t.identifier("___renderAssets")
   );
-  path.replaceWith(
-    t.markoScriptlet([
-      t.expressionStatement(
-        t.logicalExpression(
-          "&&",
-          renderAssetsMember,
-          t.callExpression(renderAssetsMember, [])
+  path
+    .get("body")
+    .pushContainer(
+      "body",
+      t.markoScriptlet([
+        t.expressionStatement(
+          t.logicalExpression(
+            "&&",
+            renderAssetsMember,
+            t.callExpression(renderAssetsMember, [])
+          )
         )
-      )
-    ])
-  );
+      ])
+    );
 }
