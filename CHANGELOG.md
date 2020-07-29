@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.1](https://github.com/marko-js/webpack/compare/v6.1.0...v6.1.1) (2020-07-29)
+
+
+### Bug Fixes
+
+* revert asset export change which broke Marko 4 builds ([bcd8c0d](https://github.com/marko-js/webpack/commit/bcd8c0df9cdc916020d7ac53ab471654056fb5af))
+
 ## [6.1.0](https://github.com/marko-js/webpack/compare/v6.0.1...v6.1.0) (2020-07-29)
 
 
