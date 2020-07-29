@@ -16,6 +16,41 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/webpack/buildin/harmony-module.js":
+/*!*******************************************!*\
+  !*** (webpack)/buildin/harmony-module.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(originalModule) {
+	if (!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
 /***/ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko":
 /*!******************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/bar.marko ***!
@@ -62,10 +97,14 @@ marko_template.meta = {
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?assets ***!
   \*************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__filename, module) {/* harmony import */ var _bar_marko__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bar.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko");
+/* harmony import */ var _bar_marko__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bar_marko__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _bar_marko__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _bar_marko__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/bar.marko",
@@ -77,6 +116,8 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag")),
     await_reorderer_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/core/await/reorderer-renderer */ "marko/dist/core-tags/core/await/reorderer-renderer"));
+
+
 
 function renderAssets() {
   const assets = this.___assets;
@@ -155,7 +196,7 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
+/* WEBPACK VAR INJECTION */}.call(this, "/index.js", __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -238,10 +279,14 @@ marko_template.meta = {
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/foo.marko?assets ***!
   \*************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__filename, module) {/* harmony import */ var _foo_marko__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./foo.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/foo.marko");
+/* harmony import */ var _foo_marko__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_foo_marko__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _foo_marko__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _foo_marko__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/foo.marko",
@@ -253,6 +298,8 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     init_components_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/components/init-components-tag */ "marko/dist/core-tags/components/init-components-tag")),
     await_reorderer_tag = marko_loadTag(__webpack_require__(/*! marko/dist/core-tags/core/await/reorderer-renderer */ "marko/dist/core-tags/core/await/reorderer-renderer"));
+
+
 
 function renderAssets() {
   const assets = this.___assets;
@@ -331,7 +378,7 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
+/* WEBPACK VAR INJECTION */}.call(this, "/index.js", __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
