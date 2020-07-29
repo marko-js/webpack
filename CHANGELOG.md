@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/marko-js/webpack/compare/v6.0.1...v6.1.0) (2020-07-29)
+
+
+### Features
+
+* expose template exports from top level asset wrappers ([be3e1c9](https://github.com/marko-js/webpack/commit/be3e1c924a99444f21292a6893befcb7463ccf96))
+
 ### [6.0.1](https://github.com/marko-js/webpack/compare/v6.0.0...v6.0.1) (2020-07-06)
 
 
