@@ -12,8 +12,6 @@ import manifest from ${JSON.stringify(
   `./${path.relative(path.dirname(resourcePath), VIRTUAL_SERVER_MANIFEST_PATH)}`
 )};
 
-static export * from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
-
 static function renderAssets() {
   const assets = this.___assets;
   const nonce = this.global.cspNonce;
