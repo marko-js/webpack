@@ -119,6 +119,7 @@ export default function(source: string): string {
         writeToDisk: false,
         requireTemplates: true,
         writeVersionComment: false,
+        fileSystem: this.fs,
         babelConfig
       }
     );
@@ -153,6 +154,7 @@ export default function(source: string): string {
         sourceOnly: false,
         writeToDisk: false,
         writeVersionComment: false,
+        fileSystem: this.fs,
         sourceMaps,
         babelConfig
       }
@@ -245,6 +247,7 @@ export default function(source: string): string {
         writeToDisk: false,
         requireTemplates: true,
         writeVersionComment: false,
+        fileSystem: this.fs,
         sourceMaps,
         babelConfig
       }
