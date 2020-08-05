@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/marko-js/webpack/compare/v6.1.3...v6.2.0) (2020-08-05)
+
+
+### Features
+
+* include watch dependencies output from Marko compiler ([9bc613d](https://github.com/marko-js/webpack/commit/9bc613dfec882b90fe6eada8c1fe9c3de3102cc1))
+
 ### [6.1.3](https://github.com/marko-js/webpack/compare/v6.1.2...v6.1.3) (2020-08-05)
 
 ### [6.1.2](https://github.com/marko-js/webpack/compare/v6.1.1...v6.1.2) (2020-08-04)
