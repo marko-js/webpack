@@ -8,7 +8,7 @@ import getAssetCode from "./get-asset-code";
 import { getVirtualModules } from "../shared/virtual";
 import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
 
-const watchFiles = {
+const WATCH_FILES = {
   style: {
     extensions: [".css", ".less", ".scss", ".stylus"],
     has(meta): boolean {
@@ -17,9 +17,9 @@ const watchFiles = {
           meta.deps.some(dep => {
             switch (typeof dep) {
               case "string":
-                return watchFiles.style.extensions.includes(path.extname(dep));
+                return WATCH_FILES.style.extensions.includes(path.extname(dep));
               case "object":
-                return watchFiles.style.extensions.includes(`.${dep.type}`);
+                return WATCH_FILES.style.extensions.includes(`.${dep.type}`);
             }
           })
       );
@@ -39,7 +39,7 @@ const watchFiles = {
         meta.deps.some(dep => {
           return (
             typeof dep === "string" &&
-            watchFiles["component-browser"].extensions.includes(
+            WATCH_FILES["component-browser"].extensions.includes(
               path.extname(dep)
             )
           );
@@ -103,7 +103,6 @@ export default function(source: string): string {
     sourceMaps = true;
   }
 
-  this.cacheable(false);
   if (!cacheClearSetup.has(this._compiler)) {
     this._compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () => {
       markoCompiler.clearCaches();
@@ -262,13 +261,13 @@ export default function(source: string): string {
 }
 
 function getMissingWatchDeps(resource: string, meta): string[] {
-  const watchDeps = [];
+  const watchDeps = meta.watchFiles || [];
   const templateFileName = path.basename(resource, ".marko");
   const isIndex = templateFileName === "index";
   const depPathPrefix = isIndex ? "./" : `./${templateFileName}.`;
-  for (const name in watchFiles) {
+  for (const name in WATCH_FILES) {
     const prefix = depPathPrefix + name;
-    const { extensions, has } = watchFiles[name];
+    const { extensions, has } = WATCH_FILES[name];
     if (!has(meta)) {
       for (const ext of extensions) {
         watchDeps.push(prefix + ext);
