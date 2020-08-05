@@ -221,15 +221,18 @@ export default class MarkoWebpackPlugin {
         this.pendingBrowserBuilds.push(pendingBuild);
       });
 
-      compiler.hooks.done.tap("MarkoWebpackBrowser:done", stats => {
-        for (const [entryName, { assets }] of Object.entries(
-          stats.toJson().entrypoints
-        )) {
+      compiler.hooks.done.tap("MarkoWebpackBrowser:done", ({ compilation }) => {
+        for (const [entryName, { chunks }] of compilation.entrypoints) {
           const assetsByType = {};
-          for (const asset of assets) {
-            const ext = path.extname(asset).slice(1);
-            const type = (assetsByType[ext] = assetsByType[ext] || []);
-            type.push(asset);
+
+          for (const { files } of chunks) {
+            if (files) {
+              for (const asset of files) {
+                const ext = path.extname(asset).slice(1);
+                const type = (assetsByType[ext] = assetsByType[ext] || []);
+                type.push(asset);
+              }
+            }
           }
 
           const buildAssets = (this.clientAssets[compilerName] =
