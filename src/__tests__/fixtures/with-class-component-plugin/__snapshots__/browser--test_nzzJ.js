@@ -50,7 +50,6 @@ marko_template.Component = marko_defineComponent(marko_component, marko_template
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css");
 __webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko");
 
 /***/ }),

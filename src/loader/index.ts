@@ -42,18 +42,25 @@ const WATCH_MISSING_FILES = [
 ];
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
-const cacheClearSetup = new WeakMap();
-const browserJSONPrefix = "package: ";
-let supportsBrowserJSON: boolean;
+const COMPILATION_CACHE = new WeakMap();
+const ADDED_CACHE_CLEAR = new WeakSet();
+const BROWSER_JSON_PREFIX = "package: ";
+let SUPPORTS_BROWSER_JSON: boolean;
 
-export default function(source: string): void {
+export default function(source: string): void | string {
   const compiler = this._compiler as Compiler;
+  let compiledCache = COMPILATION_CACHE.get(this._compilation);
 
-  if (supportsBrowserJSON === undefined) {
+  if (!compiledCache) {
+    compiledCache = new Map();
+    COMPILATION_CACHE.set(this._compilation, compiledCache);
+  }
+
+  if (SUPPORTS_BROWSER_JSON === undefined) {
     const resolveOptions = compiler.options.resolve;
     const compilerExtensions =
       (resolveOptions && resolveOptions.extensions) || [];
-    supportsBrowserJSON = compilerExtensions.includes(".browser.json");
+    SUPPORTS_BROWSER_JSON = compilerExtensions.includes(".browser.json");
   }
 
   const pluginOptions = pluginOptionsForCompiler.get(compiler);
@@ -95,11 +102,11 @@ export default function(source: string): void {
     sourceMaps = true;
   }
 
-  if (!cacheClearSetup.has(this._compiler)) {
+  if (!ADDED_CACHE_CLEAR.has(this._compiler)) {
     this._compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () => {
       markoCompiler.clearCaches();
     });
-    cacheClearSetup.set(this._compiler, true);
+    ADDED_CACHE_CLEAR.add(this._compiler);
   }
 
   let dependencies: string[];
@@ -137,25 +144,32 @@ export default function(source: string): void {
     const dependenciesOnly = this.resourceQuery.endsWith("?dependencies");
     dependencies = [];
 
-    ({ code, meta, map } = markoCompiler.compileForBrowser(
-      source,
-      this.resourcePath,
-      {
+    ({ code, meta, map } = getAndCache(compiledCache, this.resourcePath, () =>
+      markoCompiler.compileForBrowser(source, this.resourcePath, {
         sourceOnly: false,
         writeToDisk: false,
         writeVersionComment: false,
         fileSystem: this.fs,
         sourceMaps,
         babelConfig
-      }
+      })
     ));
+
+    if (
+      dependenciesOnly &&
+      meta.component &&
+      path.extname(this.resourcePath) === path.extname(meta.component)
+    ) {
+      // Normal stateful component, just load it directly even in dependencies only mode.
+      return loadStr(meta.component);
+    }
 
     if (meta.deps) {
       for (let dep of meta.deps) {
         if (!dep.code) {
-          if (dep.startsWith(browserJSONPrefix)) {
-            if (supportsBrowserJSON) {
-              dep = dep.slice(browserJSONPrefix.length);
+          if (dep.startsWith(BROWSER_JSON_PREFIX)) {
+            if (SUPPORTS_BROWSER_JSON) {
+              dep = dep.slice(BROWSER_JSON_PREFIX.length);
             } else {
               continue; // Do not load browser.json dependencies by default.
             }
@@ -180,18 +194,12 @@ export default function(source: string): void {
       code = "";
 
       if (meta.component) {
-        if (
-          path.join(path.dirname(this.resourcePath), meta.component) ===
-          this.resourcePath
-        ) {
-          dependencies.push(loadStr(meta.component));
-        } else {
-          dependencies = dependencies.concat(`
-          ${loadStr("marko/components", "{ register }")}
-          ${loadStr(meta.component, "component")}
-          register(${JSON.stringify(meta.id)}, component);
-          `);
-        }
+        // Register a split component.
+        dependencies = dependencies.concat(
+          loadStr("marko/components", "{ register }"),
+          loadStr(meta.component, "component"),
+          `register(${JSON.stringify(meta.id)}, component);`
+        );
       }
 
       if (meta.tags) {
@@ -205,15 +213,17 @@ export default function(source: string): void {
       }
     }
   } else {
-    ({ code, map, meta } = markoCompiler.compile(source, this.resourcePath, {
-      sourceOnly: false,
-      writeToDisk: false,
-      requireTemplates: true,
-      writeVersionComment: false,
-      fileSystem: this.fs,
-      sourceMaps,
-      babelConfig
-    }));
+    ({ code, map, meta } = getAndCache(compiledCache, this.resourcePath, () =>
+      markoCompiler.compile(source, this.resourcePath, {
+        sourceOnly: false,
+        writeToDisk: false,
+        requireTemplates: true,
+        writeVersionComment: false,
+        fileSystem: this.fs,
+        sourceMaps,
+        babelConfig
+      })
+    ));
   }
 
   if (meta) {
@@ -265,6 +275,20 @@ function getMissingDepRequire(resource: string, meta): string | false {
   }
 
   return false;
+}
+
+function getAndCache<T extends Map<unknown, unknown>, F extends () => unknown>(
+  cache: T,
+  cacheKey: string,
+  get: F
+) {
+  let cached = cache.get(cacheKey);
+
+  if (!cached) {
+    cache.set(cacheKey, (cached = get()));
+  }
+
+  return cached as ReturnType<F>;
 }
 
 function getBasenameWithoutExt(file: string): string {
