@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.2](https://github.com/marko-js/webpack/compare/v6.2.1...v6.2.2) (2020-08-06)
+
+
+### Bug Fixes
+
+* regression in watch mode ([8ca2ee1](https://github.com/marko-js/webpack/commit/8ca2ee14931f2e3fb1d6356c6b70a400e58ca244))
+
 ### [6.2.1](https://github.com/marko-js/webpack/compare/v6.2.0...v6.2.1) (2020-08-06)
 
 
