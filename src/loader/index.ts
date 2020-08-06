@@ -8,53 +8,45 @@ import getAssetCode from "./get-asset-code";
 import { getVirtualModules } from "../shared/virtual";
 import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
 
-const WATCH_FILES = {
-  style: {
-    extensions: [".css", ".less", ".scss", ".stylus"],
+const WATCH_MISSING_FILES = [
+  {
+    basename: "style",
     has(meta): boolean {
       return Boolean(
         meta.deps &&
-          meta.deps.some(dep => {
-            switch (typeof dep) {
-              case "string":
-                return WATCH_FILES.style.extensions.includes(path.extname(dep));
-              case "object":
-                return WATCH_FILES.style.extensions.includes(`.${dep.type}`);
-            }
-          })
+          meta.deps.some(
+            dep =>
+              getBasenameWithoutExt(dep.virtualPath || dep) === this.basename
+          )
       );
     }
   },
-  component: {
-    extensions: [".js", ".ts"],
+  {
+    basename: "component",
     has(meta): boolean {
       return Boolean(meta.component);
     }
   },
-  "component-browser": {
-    extensions: [".js", ".ts"],
+  {
+    basename: "component-browser",
     has(meta): boolean {
-      return (
+      return Boolean(
         meta.deps &&
-        meta.deps.some(dep => {
-          return (
-            typeof dep === "string" &&
-            WATCH_FILES["component-browser"].extensions.includes(
-              path.extname(dep)
-            )
-          );
-        })
+          meta.deps.some(
+            dep =>
+              getBasenameWithoutExt(dep.virtualPath || dep) === this.basename
+          )
       );
     }
   }
-};
+];
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
 const cacheClearSetup = new WeakMap();
 const browserJSONPrefix = "package: ";
 let supportsBrowserJSON: boolean;
 
-export default function(source: string): string {
+export default function(source: string): void {
   const compiler = this._compiler as Compiler;
 
   if (supportsBrowserJSON === undefined) {
@@ -92,8 +84,8 @@ export default function(source: string): string {
     babelConfig.caller
   );
 
-  const hydrate = this.resource.endsWith("?hydrate");
-  const assets = this.resource.endsWith("?assets");
+  const hydrate = this.resourceQuery.endsWith("?hydrate");
+  const assets = this.resourceQuery.endsWith("?assets");
   let sourceMaps =
     !queryOptions || queryOptions.sourceMaps === undefined
       ? this.sourceMap
@@ -110,43 +102,42 @@ export default function(source: string): string {
     cacheClearSetup.set(this._compiler, true);
   }
 
+  let dependencies: string[];
+  let code: string | Buffer;
+  let map;
+  let meta;
+
   if (assets) {
-    return markoCompiler.compile(
+    ({ code, map, meta } = markoCompiler.compile(
       getAssetCode(this.resourcePath, runtimeId, publicPath),
       this.resourcePath,
       {
+        sourceOnly: false,
         writeToDisk: false,
         requireTemplates: true,
         writeVersionComment: false,
         fileSystem: this.fs,
         babelConfig
       }
-    );
+    ));
   } else if (hydrate) {
-    let mwpVar = "$mwp";
-    if (runtimeId) {
-      mwpVar += `_${runtimeId}`;
-    }
-
-    return `
-      ${
-        publicPath === undefined
-          ? ` if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};`
-          : ""
-      }
-      ${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}
-      ${
-        runtimeId
-          ? `
-          ${loadStr("marko/components", "{ init }")}
-          init(${JSON.stringify(runtimeId)});
-        `
-          : "window.$initComponents && $initComponents();"
-      }
-      
-    `;
+    const mwpVar = `$mwp${runtimeId ? `_${runtimeId}` : ""}`;
+    code = `${
+      publicPath === undefined
+        ? `if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};\n`
+        : ""
+    }${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}\n${
+      runtimeId
+        ? `${loadStr("marko/components", "{ init }")}\nuinit(${JSON.stringify(
+            runtimeId
+          )});`
+        : "window.$initComponents && $initComponents();"
+    }\n`;
   } else if (target !== "server" && markoCompiler.compileForBrowser) {
-    const { code, meta, map } = markoCompiler.compileForBrowser(
+    const dependenciesOnly = this.resourceQuery.endsWith("?dependencies");
+    dependencies = [];
+
+    ({ code, meta, map } = markoCompiler.compileForBrowser(
       source,
       this.resourcePath,
       {
@@ -157,125 +148,129 @@ export default function(source: string): string {
         sourceMaps,
         babelConfig
       }
-    );
-
-    getMissingWatchDeps(this.resourcePath, meta).forEach(dep =>
-      this.addDependency(dep)
-    );
-
-    const dependenciesOnly = this.resource.endsWith("?dependencies");
-    let dependencies = [];
-
-    if (dependenciesOnly && meta.component) {
-      if (
-        path.join(path.dirname(this.resourcePath), meta.component) ===
-        this.resourcePath
-      ) {
-        dependencies.push(loadStr(meta.component));
-      } else {
-        dependencies = dependencies.concat(`
-        ${loadStr("marko/components", "{ register }")}
-        ${loadStr(meta.component, "component")}
-        register(${JSON.stringify(meta.id)}, component);
-        `);
-      }
-    }
+    ));
 
     if (meta.deps) {
-      dependencies = dependencies.concat(
-        meta.deps
-          .map(dependency => {
-            if (!dependency.code) {
-              if (dependency.startsWith(browserJSONPrefix)) {
-                if (supportsBrowserJSON) {
-                  dependency = dependency.slice(browserJSONPrefix.length);
-                } else {
-                  return ""; // Do not load browser.json dependencies by default.
-                }
-              }
-
-              // external file, just require it
-              return loadStr(dependency);
+      for (let dep of meta.deps) {
+        if (!dep.code) {
+          if (dep.startsWith(browserJSONPrefix)) {
+            if (supportsBrowserJSON) {
+              dep = dep.slice(browserJSONPrefix.length);
             } else {
-              // inline content, we'll create a virtual dependency.
-              const virtualPath = path.resolve(
-                path.dirname(this.resourcePath),
-                dependency.virtualPath
-              );
-              const virtualModules = getVirtualModules(this._compiler);
-              virtualModules.writeModule(virtualPath, dependency.code);
-              return loadStr(dependency.virtualPath);
+              continue; // Do not load browser.json dependencies by default.
             }
-          })
-          .filter(Boolean)
-      );
-    }
+          }
 
-    if (dependenciesOnly && meta.tags) {
-      // we need to also include the dependencies of
-      // any tags that are used by this template
-      dependencies = dependencies.concat(
-        meta.tags
-          .filter(tagPath => tagPath.endsWith(".marko"))
-          .map(tagPath => loadStr(tagPath + "?dependencies"))
-      );
-    }
-
-    if (!dependenciesOnly) {
-      if (map) {
-        if (dependencies.length) {
-          const concat = new ConcatMap(true, "", ";");
-          concat.add(null, dependencies.join("\n"));
-          concat.add(this.resource, code, map);
-          return this.callback(null, concat.content, concat.sourceMap);
+          // external file, just require it
+          dependencies.push(loadStr(dep));
         } else {
-          this.callback(null, code, map);
+          // inline content, we'll create a virtual dependency.
+          const virtualPath = path.resolve(
+            path.dirname(this.resourcePath),
+            dep.virtualPath
+          );
+          const virtualModules = getVirtualModules(this._compiler);
+          virtualModules.writeModule(virtualPath, dep.code);
+          dependencies.push(loadStr(dep.virtualPath));
         }
-      } else {
-        dependencies.push(code);
       }
     }
 
-    return dependencies.join("\n");
-  } else {
-    const { code, meta, map } = markoCompiler.compile(
-      source,
-      this.resourcePath,
-      {
-        sourceOnly: false,
-        writeToDisk: false,
-        requireTemplates: true,
-        writeVersionComment: false,
-        fileSystem: this.fs,
-        sourceMaps,
-        babelConfig
+    if (dependenciesOnly) {
+      code = "";
+
+      if (meta.component) {
+        if (
+          path.join(path.dirname(this.resourcePath), meta.component) ===
+          this.resourcePath
+        ) {
+          dependencies.push(loadStr(meta.component));
+        } else {
+          dependencies = dependencies.concat(`
+          ${loadStr("marko/components", "{ register }")}
+          ${loadStr(meta.component, "component")}
+          register(${JSON.stringify(meta.id)}, component);
+          `);
+        }
       }
-    );
 
-    getMissingWatchDeps(this.resourcePath, meta).forEach(dep =>
-      this.addDependency(dep)
-    );
-
-    return this.callback(null, code, map);
+      if (meta.tags) {
+        // we need to also include the dependencies of
+        // any tags that are used by this template
+        dependencies = dependencies.concat(
+          meta.tags
+            .filter(tagPath => tagPath.endsWith(".marko"))
+            .map(tagPath => loadStr(tagPath + "?dependencies"))
+        );
+      }
+    }
+  } else {
+    ({ code, map, meta } = markoCompiler.compile(source, this.resourcePath, {
+      sourceOnly: false,
+      writeToDisk: false,
+      requireTemplates: true,
+      writeVersionComment: false,
+      fileSystem: this.fs,
+      sourceMaps,
+      babelConfig
+    }));
   }
+
+  if (meta) {
+    if ((compiler as any).watchMode) {
+      const missingWatchDep = getMissingDepRequire(this.resourcePath, meta);
+
+      if (missingWatchDep) {
+        if (dependencies) {
+          dependencies.push(missingWatchDep);
+        } else {
+          dependencies = [missingWatchDep];
+        }
+      }
+
+      if (meta.watchFiles) {
+        meta.watchFiles.forEach((dep: string) => this.addDependency(dep));
+      }
+    }
+  }
+
+  if (dependencies && dependencies.length) {
+    const concat = new ConcatMap(true, "", "\n");
+    concat.add(null, dependencies.join("\n"));
+
+    if (code) {
+      concat.add(this.resourcePath, code, map); // Todo: this.resource vs this.resourcePath
+    }
+
+    map = concat.sourceMap;
+    code = concat.content;
+  }
+
+  this.callback(null, code, map);
 }
 
-function getMissingWatchDeps(resource: string, meta): string[] {
-  const watchDeps = meta.watchFiles || [];
-  const templateFileName = path.basename(resource, ".marko");
-  const isIndex = templateFileName === "index";
-  const depPathPrefix = isIndex ? "./" : `./${templateFileName}.`;
-  for (const name in WATCH_FILES) {
-    const prefix = depPathPrefix + name;
-    const { extensions, has } = WATCH_FILES[name];
+function getMissingDepRequire(resource: string, meta): string | false {
+  const missingDeps = [];
+  for (const { basename, has } of WATCH_MISSING_FILES) {
     if (!has(meta)) {
-      for (const ext of extensions) {
-        watchDeps.push(prefix + ext);
-      }
+      missingDeps.push(basename);
     }
   }
 
-  return watchDeps;
+  if (missingDeps.length) {
+    const templateFileName = getBasenameWithoutExt(resource);
+    return `require.context(".", false, /\\${path.sep}${
+      templateFileName === "index" ? "" : `${templateFileName}\\.`
+    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/, "weak");`;
+  }
+
+  return false;
+}
+
+function getBasenameWithoutExt(file: string): string {
+  const baseStart = file.lastIndexOf(path.sep) + 1;
+  const extStart = file.indexOf(".", baseStart + 1);
+  return file.slice(baseStart, extStart);
 }
 
 function isMarko4Compiler(compiler) {

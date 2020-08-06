@@ -50,8 +50,8 @@ marko_template.Component = marko_defineComponent(marko_component, marko_template
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko");
 __webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css");
+__webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko");
 
 /***/ }),
 
@@ -96,12 +96,10 @@ __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/_
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+if (window.$mwp) __webpack_require__.p = $mwp;
+__webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?dependencies");
+window.$initComponents && $initComponents();
 
-       if (window.$mwp) __webpack_require__.p = $mwp;
-      __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?dependencies");
-      window.$initComponents && $initComponents();
-      
-    
 
 /***/ }),
 
