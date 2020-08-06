@@ -251,9 +251,9 @@ export default function(source: string): void {
 
 function getMissingDepRequire(resource: string, meta): string | false {
   const missingDeps = [];
-  for (const { basename, has } of WATCH_MISSING_FILES) {
-    if (!has(meta)) {
-      missingDeps.push(basename);
+  for (const watchFile of WATCH_MISSING_FILES) {
+    if (!watchFile.has(meta)) {
+      missingDeps.push(watchFile.basename);
     }
   }
 
