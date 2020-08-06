@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.1](https://github.com/marko-js/webpack/compare/v6.2.0...v6.2.1) (2020-08-06)
+
+
+### Bug Fixes
+
+* refactor loader, fix issue with caching and watching missing files ([c1af31a](https://github.com/marko-js/webpack/commit/c1af31add6ccb37b7bedd1381a9cd5aa94816f96))
+
 ## [6.2.0](https://github.com/marko-js/webpack/compare/v6.1.3...v6.2.0) (2020-08-05)
 
 
