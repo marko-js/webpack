@@ -24,7 +24,8 @@ export default class MarkoWebpackPlugin {
   private serverIsBuilding = true;
   private browserCompilerNames: string[] = [];
   private pendingBrowserBuilds: Array<Promise<void>> = [];
-  private clientEntries = createDeferredPromise<Entry>();
+  private pendingFinishModules = createDeferredPromise<void>();
+  private clientEntries: Entry = {};
   private clientAssets: {
     [buildName: string]: {
       [entryName: string]: { [assetType: string]: string[] };
@@ -53,7 +54,7 @@ export default class MarkoWebpackPlugin {
 
   get server() {
     return (compiler: Compiler): void => {
-      const seenEntries = new Set();
+      const entryTemplates = new Set<string>();
       const isEvalDevtool = String(compiler.options.devtool).includes("eval");
       const escapeIfEval = (code: string): string =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
@@ -65,7 +66,7 @@ export default class MarkoWebpackPlugin {
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
         this.serverIsBuilding = true;
-        this.clientEntries = createDeferredPromise<Entry>();
+        this.pendingFinishModules = createDeferredPromise<void>();
       });
 
       compiler.hooks.normalModuleFactory.tap(
@@ -88,14 +89,13 @@ export default class MarkoWebpackPlugin {
       compiler.hooks.thisCompilation.tap(
         "MarkoWebpackServer:compilation",
         compilation => {
-          const entryTemplates = [];
           compilation.hooks.normalModuleLoader.tap(
             "MarkoWebpackServer:normalModuleLoader",
             (_, mod): void => {
               const resource = ((mod as unknown) as { resource: string })
                 .resource;
               if (resource.endsWith(".marko?assets")) {
-                entryTemplates.push(
+                entryTemplates.add(
                   resource.replace(/\.marko\?assets$/, ".marko")
                 );
               }
@@ -104,22 +104,35 @@ export default class MarkoWebpackPlugin {
           compilation.hooks.finishModules.tap(
             "MarkoWebpackServer:finishModules",
             () => {
-              let hasNew = false;
-              const clientEntries = {};
-              entryTemplates.forEach(filename => {
-                if (!seenEntries.has(filename)) {
-                  hasNew = true;
-                  seenEntries.add(filename);
+              let hasChanged = false;
+
+              for (const filename of entryTemplates) {
+                const moduleNameForFile = moduleName(filename);
+                if (this.clientEntries[moduleNameForFile]) {
+                  try {
+                    if (
+                      !compilation.inputFileSystem.statSync(filename).isFile()
+                    ) {
+                      throw new Error();
+                    }
+                  } catch {
+                    // entry was removed.
+                    hasChanged = true;
+                    entryTemplates.delete(filename);
+                    delete this.clientEntries[moduleNameForFile];
+                  }
+                } else {
+                  // new entry.
+                  hasChanged = true;
+                  this.clientEntries[moduleNameForFile] = filename + "?hydrate";
                 }
+              }
 
-                clientEntries[moduleName(filename)] = filename + "?hydrate";
-              });
-
-              if (hasNew) {
+              if (hasChanged) {
                 this.invalidateBrowserBuild();
               }
 
-              this.clientEntries.resolve(clientEntries);
+              this.pendingFinishModules.resolve();
             }
           );
           compilation.hooks.optimizeChunkAssets.tapPromise(
@@ -186,7 +199,6 @@ export default class MarkoWebpackPlugin {
   }
   get browser() {
     return (compiler: Compiler): void => {
-      let isWatchMode = false;
       let pendingBuild = createDeferredPromise<void>();
       const compilerName = compiler.options.name;
       const virtualModules = new VirtualModulesPlugin({
@@ -203,7 +215,7 @@ export default class MarkoWebpackPlugin {
 
       compiler.hooks.watchRun.tap("MarkoWebpackBrowser:watch", () => {
         const { invalidateBrowserBuild } = this;
-        isWatchMode = true;
+        this.clientEntries.__INVALIDATE__ = VIRTUAL_BROWSER_INVALIDATE_PATH;
 
         // eslint-disable-next-line @typescript-eslint/unbound-method
         this.invalidateBrowserBuild = () => {
@@ -244,12 +256,7 @@ export default class MarkoWebpackPlugin {
         pendingBuild = undefined;
       });
       new WebpackPluginAddEntries({
-        addNamed: () =>
-          this.clientEntries.then(entries =>
-            isWatchMode
-              ? { ...entries, __INVALIDATE__: VIRTUAL_BROWSER_INVALIDATE_PATH }
-              : entries
-          )
+        addNamed: () => this.pendingFinishModules.then(() => this.clientEntries)
       }).apply(compiler);
     };
   }
