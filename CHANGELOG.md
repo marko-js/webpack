@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.4](https://github.com/marko-js/webpack/compare/v6.2.3...v6.2.4) (2020-08-07)
+
+
+### Bug Fixes
+
+* issue with client entries disappearing when assets cached ([ce6b138](https://github.com/marko-js/webpack/commit/ce6b138a2c36f71f58cfa332a3afaed669d5a48a))
+
 ### [6.2.3](https://github.com/marko-js/webpack/compare/v6.2.2...v6.2.3) (2020-08-06)
 
 ### [6.2.2](https://github.com/marko-js/webpack/compare/v6.2.1...v6.2.2) (2020-08-06)
