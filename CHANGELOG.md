@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.5](https://github.com/marko-js/webpack/compare/v6.2.4...v6.2.5) (2020-08-07)
+
+
+### Bug Fixes
+
+* avoid writing unchanged virtual modules to disk ([ab30570](https://github.com/marko-js/webpack/commit/ab3057041acd66e38dd722fcbb2519429ed73c35))
+
 ### [6.2.4](https://github.com/marko-js/webpack/compare/v6.2.3...v6.2.4) (2020-08-07)
 
 
