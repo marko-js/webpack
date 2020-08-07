@@ -183,8 +183,19 @@ export default function(source: string): void | string {
             path.dirname(this.resourcePath),
             dep.virtualPath
           );
-          const virtualModules = getVirtualModules(this._compiler);
-          virtualModules.writeModule(virtualPath, dep.code);
+
+          // We don't want to hit the disk, but instead check if the viritual file was already written.
+          const existingContent =
+            this.fs._readFileStorage &&
+            this.fs._readFileStorage.data.get(virtualPath);
+
+          if (!existingContent || existingContent[1] !== dep.code) {
+            getVirtualModules(this._compiler).writeModule(
+              virtualPath,
+              dep.code
+            );
+          }
+
           dependencies.push(loadStr(dep.virtualPath));
         }
       }
