@@ -282,7 +282,7 @@ function getMissingDepRequire(resource: string, meta): string | false {
     const templateFileName = getBasenameWithoutExt(resource);
     return `require.context(".", false, /\\${path.sep}${
       templateFileName === "index" ? "" : `${templateFileName}\\.`
-    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/, "weak");`;
+    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/);`;
   }
 
   return false;
