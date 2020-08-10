@@ -133,9 +133,9 @@ export default function(source: string): void | string | Buffer {
       publicPath === undefined
         ? `if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};\n`
         : ""
-    }${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)}\n${
+    }${loadStr(`./${path.basename(this.resourcePath)}?dependencies`)};\n${
       runtimeId
-        ? `${loadStr("marko/components", "{ init }")}\nuinit(${JSON.stringify(
+        ? `${loadStr("marko/components", "{ init }")};\ninit(${JSON.stringify(
             runtimeId
           )});`
         : "window.$initComponents && $initComponents();"
@@ -203,13 +203,14 @@ export default function(source: string): void | string | Buffer {
 
     if (dependenciesOnly) {
       code = "";
+      map = undefined;
 
       if (meta.component) {
         // Register a split component.
-        dependencies = dependencies.concat(
+        dependencies.push(
           loadStr("marko/components", "{ register }"),
           loadStr(meta.component, "component"),
-          `register(${JSON.stringify(meta.id)}, component);`
+          `register(${JSON.stringify(meta.id)}, component)`
         );
       }
 
@@ -259,16 +260,16 @@ export default function(source: string): void | string | Buffer {
     if (code) {
       if (map) {
         const concat = new ConcatMap(true, "", "\n");
-        concat.add(null, dependencies.join("\n"));
+        concat.add(null, dependencies.join(";\n"));
         concat.add(this.resourcePath, code, map);
         map = concat.sourceMap;
         code = concat.content;
       } else {
         dependencies.push(code as string);
-        code = dependencies.join("\n");
+        code = dependencies.join(";\n");
       }
     } else {
-      code = dependencies.join("\n");
+      code = dependencies.join(";\n");
       map = undefined;
     }
   }
@@ -292,7 +293,7 @@ function getMissingDepRequire(resource: string, meta): string | false {
     const templateFileName = getBasenameWithoutExt(resource);
     return `require.context(".", false, /\\${path.sep}${
       templateFileName === "index" ? "" : `${templateFileName}\\.`
-    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/);`;
+    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/)`;
   }
 
   return false;
@@ -326,20 +327,20 @@ function importStr(request: string, lhs?: string) {
   const id = JSON.stringify(request);
 
   if (lhs) {
-    return `import ${lhs} from ${id};`;
+    return `import ${lhs} from ${id}`;
   }
 
-  return `import ${id};`;
+  return `import ${id}`;
 }
 
 function requireStr(request: string, lhs?: string) {
   const id = JSON.stringify(request);
 
   if (lhs) {
-    return `const ${lhs} = require(${id});`;
+    return `const ${lhs} = require(${id})`;
   }
 
-  return `require(${id});`;
+  return `require(${id})`;
 }
 
 function normalizeTarget(target: string): string {

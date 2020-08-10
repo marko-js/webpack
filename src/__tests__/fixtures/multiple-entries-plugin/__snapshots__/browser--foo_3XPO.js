@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/components/shared.marko?dependencies");
+__webpack_require__(/*! ./components/shared.marko?dependencies */ "./src/__tests__/fixtures/multiple-entries-plugin/components/shared.marko?dependencies")
 
 /***/ }),
 

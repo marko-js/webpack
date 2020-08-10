@@ -21,7 +21,7 @@
 if (window.$mwp_testruntime) __webpack_require__.p = $mwp_testruntime;
 __webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko?dependencies");
 const { init } = __webpack_require__(/*! marko/components */ "marko/components");
-uinit("testruntime");
+init("testruntime");
 
 
 /***/ }),
