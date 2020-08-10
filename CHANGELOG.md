@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.7](https://github.com/marko-js/webpack/compare/v6.2.6...v6.2.7) (2020-08-10)
+
+
+### Bug Fixes
+
+* issue with returning sourcemap for empty code ([2f8473a](https://github.com/marko-js/webpack/commit/2f8473a2498496a4f197e061d5e20e2d53f341ee))
+
 ### [6.2.6](https://github.com/marko-js/webpack/compare/v6.2.5...v6.2.6) (2020-08-10)
 
 
