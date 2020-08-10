@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.6](https://github.com/marko-js/webpack/compare/v6.2.5...v6.2.6) (2020-08-10)
+
+
+### Bug Fixes
+
+* not reloading on adding style/component files ([c0c3b25](https://github.com/marko-js/webpack/commit/c0c3b258e7c0647034453ea85d412a418682d7b6))
+
 ### [6.2.5](https://github.com/marko-js/webpack/compare/v6.2.4...v6.2.5) (2020-08-07)
 
 
