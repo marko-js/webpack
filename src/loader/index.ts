@@ -47,7 +47,7 @@ const ADDED_CACHE_CLEAR = new WeakSet();
 const BROWSER_JSON_PREFIX = "package: ";
 let SUPPORTS_BROWSER_JSON: boolean;
 
-export default function(source: string): void | string {
+export default function(source: string): void | string | Buffer {
   const compiler = this._compiler as Compiler;
   let compiledCache = COMPILATION_CACHE.get(this._compilation);
 
@@ -216,11 +216,11 @@ export default function(source: string): void | string {
       if (meta.tags) {
         // we need to also include the dependencies of
         // any tags that are used by this template
-        dependencies = dependencies.concat(
-          meta.tags
-            .filter(tagPath => tagPath.endsWith(".marko"))
-            .map(tagPath => loadStr(tagPath + "?dependencies"))
-        );
+        for (const tagPath of meta.tags) {
+          if (tagPath.endsWith(".marko")) {
+            dependencies.push(loadStr(`${tagPath}?dependencies`));
+          }
+        }
       }
     }
   } else {
@@ -256,18 +256,28 @@ export default function(source: string): void | string {
   }
 
   if (dependencies && dependencies.length) {
-    const concat = new ConcatMap(true, "", "\n");
-    concat.add(null, dependencies.join("\n"));
-
     if (code) {
-      concat.add(this.resourcePath, code, map); // Todo: this.resource vs this.resourcePath
+      if (map) {
+        const concat = new ConcatMap(true, "", "\n");
+        concat.add(null, dependencies.join("\n"));
+        concat.add(this.resourcePath, code, map);
+        map = concat.sourceMap;
+        code = concat.content;
+      } else {
+        dependencies.push(code as string);
+        code = dependencies.join("\n");
+      }
+    } else {
+      code = dependencies.join("\n");
+      map = undefined;
     }
-
-    map = concat.sourceMap;
-    code = concat.content;
   }
 
-  this.callback(null, code, map);
+  if (map) {
+    this.callback(null, code, map);
+  } else {
+    return code;
+  }
 }
 
 function getMissingDepRequire(resource: string, meta): string | false {
