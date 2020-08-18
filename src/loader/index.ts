@@ -4,6 +4,7 @@ import * as path from "path";
 import { Compiler } from "webpack";
 import * as loaderUtils from "loader-utils";
 import ConcatMap from "concat-with-sourcemaps";
+import escapeRegExp from "escape-string-regexp";
 import getAssetCode from "./get-asset-code";
 import { getVirtualModules } from "../shared/virtual";
 import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
@@ -292,7 +293,7 @@ function getMissingDepRequire(resource: string, meta): string | false {
   if (missingDeps.length) {
     const templateFileName = getBasenameWithoutExt(resource);
     return `require.context(".", false, /\\${path.sep}${
-      templateFileName === "index" ? "" : `${templateFileName}\\.`
+      templateFileName === "index" ? "" : `${escapeRegExp(templateFileName)}\\.`
     }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/)`;
   }
 
