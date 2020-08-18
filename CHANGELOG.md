@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.9](https://github.com/marko-js/webpack/compare/v6.2.8...v6.2.9) (2020-08-18)
+
+
+### Bug Fixes
+
+* issue with regexp chars in multi file component files ([64224c3](https://github.com/marko-js/webpack/commit/64224c3622f8ae58d64809329a2eea728f6568fa))
+
 ### [6.2.8](https://github.com/marko-js/webpack/compare/v6.2.7...v6.2.8) (2020-08-10)
 
 
