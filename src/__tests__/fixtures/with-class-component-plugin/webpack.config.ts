@@ -14,16 +14,16 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
-        }
-      ]
+          loader: "@marko/webpack/loader",
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env.BUNDLE": true
+        "process.env.BUNDLE": true,
       }),
-      markoPlugin.server
-    ]
+      markoPlugin.server,
+    ],
   },
   {
     name: "browser",
@@ -32,20 +32,20 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
+          loader: "@marko/webpack/loader",
         },
         {
           test: /\.css$/,
-          use: [ExtractCSSPlugin.loader, "css-loader"]
-        }
-      ]
+          use: [ExtractCSSPlugin.loader, "css-loader"],
+        },
+      ],
     },
     plugins: [
       new ExtractCSSPlugin({
         filename: `[name].css`,
-        allChunks: true
+        allChunks: true,
       }),
-      markoPlugin.browser
-    ]
-  }
+      markoPlugin.browser,
+    ],
+  },
 ];

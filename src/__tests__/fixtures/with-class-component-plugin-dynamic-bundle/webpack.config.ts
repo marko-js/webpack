@@ -14,44 +14,44 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
-        }
-      ]
+          loader: "@marko/webpack/loader",
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env.BUNDLE": true
+        "process.env.BUNDLE": true,
       }),
-      markoPlugin.server
-    ]
+      markoPlugin.server,
+    ],
   },
-  ...["A", "B", "C"].map(id => ({
+  ...["A", "B", "C"].map((id) => ({
     name: `browser-${id}`,
     output: {
-      filename: `[name].${id}.js`
+      filename: `[name].${id}.js`,
     },
     target: "web",
     module: {
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
+          loader: "@marko/webpack/loader",
         },
         {
           test: /\.css$/,
-          use: [ExtractCSSPlugin.loader, "css-loader"]
-        }
-      ]
+          use: [ExtractCSSPlugin.loader, "css-loader"],
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
-        __BUILD_ID__: id
+        __BUILD_ID__: id,
       }),
       new ExtractCSSPlugin({
         filename: `[name].${id}.css`,
-        allChunks: true
+        allChunks: true,
       }),
-      markoPlugin.browser
-    ]
-  }))
+      markoPlugin.browser,
+    ],
+  })),
 ];

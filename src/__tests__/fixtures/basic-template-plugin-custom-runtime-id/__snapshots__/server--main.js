@@ -1,11 +1,14 @@
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./__MARKO_WEBPACK__MANIFEST.js":
 /*!**************************************!*\
   !*** ./__MARKO_WEBPACK__MANIFEST.js ***!
   \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 1:0-14 */
+/***/ ((module) => {
 
 module.exports = {
   getAssets(entry) {
@@ -16,34 +19,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/server.js":
-/*!**********************************************************************************!*\
-  !*** ./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/server.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-const http = __webpack_require__(/*! http */ "http");
-const test = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko?assets");
-
-http
-  .createServer((req, res) => {
-    test.render({}, res);
-  })
-  .listen(0);
-
-
-/***/ }),
-
 /***/ "./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko":
 /*!***********************************************************************************!*\
   !*** ./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko ***!
   \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin-custom-runtime-id/test.marko",
@@ -64,7 +50,6 @@ marko_template.meta = {
     id: "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin-custom-runtime-id/test.marko"
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
@@ -72,11 +57,13 @@ marko_template.meta = {
 /*!******************************************************************************************!*\
   !*** ./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko?assets ***!
   \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__, __webpack_require__.p, __webpack_require__.* */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/basic-template-plugin-custom-runtime-id/test.marko",
@@ -168,7 +155,6 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
@@ -176,10 +162,13 @@ marko_template.meta = {
 /*!***********************!*\
   !*** external "http" ***!
   \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
-module.exports = http;
+"use strict";
+module.exports = require("http");;
 
 /***/ }),
 
@@ -187,9 +176,12 @@ module.exports = http;
 /*!**********************************************************************!*\
   !*** external "marko/dist/core-tags/components/init-components-tag" ***!
   \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/core-tags/components/init-components-tag;
 
 /***/ }),
@@ -198,9 +190,12 @@ module.exports = marko/dist/core-tags/components/init-components-tag;
 /*!*********************************************************************!*\
   !*** external "marko/dist/core-tags/core/await/reorderer-renderer" ***!
   \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/core-tags/core/await/reorderer-renderer;
 
 /***/ }),
@@ -209,9 +204,12 @@ module.exports = marko/dist/core-tags/core/await/reorderer-renderer;
 /*!**********************************!*\
   !*** external "marko/dist/html" ***!
   \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/html;
 
 /***/ }),
@@ -220,9 +218,12 @@ module.exports = marko/dist/html;
 /*!*********************************************************!*\
   !*** external "marko/dist/runtime/components/renderer" ***!
   \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/components/renderer;
 
 /***/ }),
@@ -231,9 +232,12 @@ module.exports = marko/dist/runtime/components/renderer;
 /*!*********************************************************!*\
   !*** external "marko/dist/runtime/helpers/dynamic-tag" ***!
   \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/helpers/dynamic-tag;
 
 /***/ }),
@@ -242,11 +246,64 @@ module.exports = marko/dist/runtime/helpers/dynamic-tag;
 /*!******************************************************!*\
   !*** external "marko/dist/runtime/helpers/load-tag" ***!
   \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/helpers/load-tag;
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "";
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+(() => {
+/*!**********************************************************************************!*\
+  !*** ./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/server.js ***!
+  \**********************************************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__ */
+const http = __webpack_require__(/*! http */ "http");
+const test = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/basic-template-plugin-custom-runtime-id/test.marko?assets");
+
+http
+  .createServer((req, res) => {
+    test.render({}, res);
+  })
+  .listen(0);
+
+})();
+
+/******/ })()
+;

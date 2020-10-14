@@ -4,9 +4,12 @@ import { Compiler } from "webpack";
 
 const CWD = process.cwd();
 
-const virtualModulesByCompiler = new WeakMap();
+const virtualModulesByCompiler = new WeakMap<Compiler, VirtualModulesPlugin>();
 
-export function registerVirtualModules(compiler: Compiler, virtualModules) {
+export function registerVirtualModules(
+  compiler: Compiler,
+  virtualModules: VirtualModulesPlugin
+) {
   virtualModules.apply(compiler);
   virtualModulesByCompiler.set(compiler, virtualModules);
 }
@@ -22,9 +25,9 @@ export function getVirtualModules(compiler: Compiler) {
     // When we're in this branch, it's because the loader is adding this plugin after the compilation has started
     // This means that we missed the afterEnvironmentHook where the VirtualModulesPlugin setup the writeModule method
     // Since the plugin doesn't work unless this function is called, we'll call it manually
-    const taps = compiler.hooks.afterEnvironment.taps;
+    const taps = (compiler.hooks.afterEnvironment as any).taps;
     const hook = taps.find(({ name }) => name === "VirtualModulesPlugin");
-    hook.fn();
+    void hook.fn(undefined, undefined, undefined);
   }
 
   return virtualModules;

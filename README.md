@@ -57,8 +57,16 @@ The end result is that you setup a multi compiler (as shown below) and you can s
 
 # Installation
 
-```console
+> webpack@5 requires @marko/webpack@7
+
+```bash
 npm install @marko/webpack
+```
+
+> webpack@4 requires @marko/webpack@6
+
+```bash
+npm install @marko/webpack@6
 ```
 
 # Example
@@ -75,26 +83,26 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
-        }
-      ]
+          loader: "@marko/webpack/loader",
+        },
+      ],
     },
-    plugins: [markoPlugin.server]
+    plugins: [markoPlugin.server],
   },
   {
     rules: [
       {
         test: /\.marko$/,
-        loader: "@marko/webpack/loader"
+        loader: "@marko/webpack/loader",
       },
       // If using `style` blocks with Marko you must use an appropriate loader
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
+        use: ["style-loader", "css-loader"],
+      },
     ],
-    plugins: [markoPlugin.browser]
-  }
+    plugins: [markoPlugin.browser],
+  },
 ];
 ```
 
@@ -136,7 +144,7 @@ import I18nPlugin from "i18n-webpack-plugin";
 
 const languages = {
   en: null,
-  de: require("./de.json")
+  de: require("./de.json"),
 };
 
 const markoPlugin = new MarkoPlugin();
@@ -149,27 +157,27 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
-        }
-      ]
+          loader: "@marko/webpack/loader",
+        },
+      ],
     },
-    plugins: [markoPlugin.server]
+    plugins: [markoPlugin.server],
   },
-  ...Object.keys(languages).map(language => ({
+  ...Object.keys(languages).map((language) => ({
     name: `Browser-${language}`,
     rules: [
       {
         test: /\.marko$/,
-        loader: "@marko/webpack/loader"
+        loader: "@marko/webpack/loader",
       },
       // If using `style` blocks with Marko you must use an appropriate loader
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
+        use: ["style-loader", "css-loader"],
+      },
     ],
-    plugins: [new I18nPlugin(languages[language]), markoPlugin.browser]
-  }))
+    plugins: [new I18nPlugin(languages[language]), markoPlugin.browser],
+  })),
 ];
 ```
 
@@ -198,7 +206,7 @@ This plugin exposes a `runtimeId` option produces output that automatically sets
 import MarkoPlugin from "@marko/webpack/plugin";
 
 const markoPlugin = new MarkoPlugin({
-  runtimeId: "MY_MARKO_RUNTIME_ID"
+  runtimeId: "MY_MARKO_RUNTIME_ID",
 });
 ```
 

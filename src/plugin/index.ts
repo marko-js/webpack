@@ -1,6 +1,6 @@
 import path from "path";
 import WebpackPluginAddEntries from "./webpack-plugin-add-entries";
-import { Compiler, Entry, Output } from "webpack";
+import { Compiler, Entry, NormalModule, Compilation } from "webpack";
 import { ReplaceSource } from "webpack-sources";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import sortKeys from "sort-keys";
@@ -10,7 +10,7 @@ import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
 import {
   VIRTUAL_BROWSER_INVALIDATE_PATH,
   VIRTUAL_SERVER_MANIFEST_PATH,
-  registerVirtualModules
+  registerVirtualModules,
 } from "../shared/virtual";
 
 const MANIFEST_MARKER = "$__MARKO_MANIFEST__$";
@@ -32,7 +32,7 @@ export default class MarkoWebpackPlugin {
     };
   } = {};
   private virtualServerModules = new VirtualModulesPlugin({
-    [VIRTUAL_SERVER_MANIFEST_PATH]: MANIFEST_CONTENT
+    [VIRTUAL_SERVER_MANIFEST_PATH]: MANIFEST_CONTENT,
   });
 
   constructor(private options?: { runtimeId?: string }) {
@@ -61,7 +61,6 @@ export default class MarkoWebpackPlugin {
 
       pluginOptionsForCompiler.set(compiler, this.options);
 
-      applyRuntimeIdOptions(this.options, compiler.options.output);
       registerVirtualModules(compiler, this.virtualServerModules);
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
@@ -71,16 +70,16 @@ export default class MarkoWebpackPlugin {
 
       compiler.hooks.normalModuleFactory.tap(
         "MarkoWebpackServer:normalModuleFactory",
-        normalModuleFactory => {
+        (normalModuleFactory) => {
           normalModuleFactory.hooks.beforeResolve.tap(
             "MarkoWebpackServer:resolver",
-            data => {
+            (data) => {
               if (
                 data.request.endsWith(".marko") &&
                 (!data.contextInfo.issuer ||
                   data.contextInfo.issuer.endsWith(".js"))
               ) {
-                data.request = data.request + "?assets";
+                data.request = `${data.request}?assets`;
               }
             }
           );
@@ -88,8 +87,8 @@ export default class MarkoWebpackPlugin {
       );
       compiler.hooks.thisCompilation.tap(
         "MarkoWebpackServer:compilation",
-        compilation => {
-          compilation.hooks.normalModuleLoader.tap(
+        (compilation) => {
+          NormalModule.getCompilationHooks(compilation).loader.tap(
             "MarkoWebpackServer:normalModuleLoader",
             (_, mod): void => {
               const resource = ((mod as unknown) as { resource: string })
@@ -111,7 +110,9 @@ export default class MarkoWebpackPlugin {
                 if (this.clientEntries[moduleNameForFile]) {
                   try {
                     if (
-                      !compilation.inputFileSystem.statSync(filename).isFile()
+                      !(compilation.inputFileSystem as typeof import("fs"))
+                        .statSync(filename)
+                        .isFile()
                     ) {
                       throw new Error();
                     }
@@ -124,7 +125,7 @@ export default class MarkoWebpackPlugin {
                 } else {
                   // new entry.
                   hasChanged = true;
-                  this.clientEntries[moduleNameForFile] = filename + "?hydrate";
+                  this.clientEntries[moduleNameForFile] = `${filename}?hydrate`;
                 }
               }
 
@@ -135,23 +136,24 @@ export default class MarkoWebpackPlugin {
               this.pendingFinishModules.resolve();
             }
           );
-          compilation.hooks.optimizeChunkAssets.tapPromise(
-            "MarkoWebpackServer:optimizeChunkAssets",
-            async () => {
+          compilation.hooks.processAssets.tapPromise(
+            {
+              name: "MarkoWebpackServer:processAssets",
+              stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
+            },
+            async (assets) => {
               await Promise.all(this.pendingBrowserBuilds);
               const clientAssets = sortKeys(this.clientAssets, { deep: true });
               this.pendingBrowserBuilds = [];
               this.serverIsBuilding = false;
 
-              for (const filename in compilation.assets) {
+              for (const filename in assets) {
                 if (filename.endsWith(".js")) {
-                  const originalSource = compilation.assets[
-                    filename
-                  ].source() as string;
+                  const asset = compilation.getAsset(filename);
                   const placeholder = escapeIfEval(MANIFEST_MARKER);
-                  const placeholderPosition = originalSource.indexOf(
-                    placeholder
-                  );
+                  const placeholderPosition = asset.source
+                    .source()
+                    .indexOf(placeholder);
                   if (placeholderPosition > -1) {
                     const hasMultipleBuilds =
                       this.browserCompilerNames.length > 1;
@@ -177,17 +179,14 @@ export default class MarkoWebpackPlugin {
 }`
                     );
 
-                    const newSource = new ReplaceSource(
-                      compilation.assets[filename],
-                      filename
-                    );
+                    const newSource = new ReplaceSource(asset.source, filename);
                     newSource.replace(
                       placeholderPosition,
                       placeholderPosition + placeholder.length - 1,
                       content
                     );
 
-                    compilation.assets[filename] = newSource;
+                    compilation.updateAsset(filename, newSource, asset.info);
                   }
                 }
               }
@@ -202,28 +201,27 @@ export default class MarkoWebpackPlugin {
       let pendingBuild = createDeferredPromise<void>();
       const compilerName = compiler.options.name;
       const virtualModules = new VirtualModulesPlugin({
-        [VIRTUAL_BROWSER_INVALIDATE_PATH]: ""
+        [VIRTUAL_BROWSER_INVALIDATE_PATH]: "",
       });
 
       pluginOptionsForCompiler.set(compiler, this.options);
 
-      applyRuntimeIdOptions(this.options, compiler.options.output);
       registerVirtualModules(compiler, virtualModules);
 
       this.browserCompilerNames.push(compilerName);
       this.pendingBrowserBuilds.push(pendingBuild);
 
       compiler.hooks.watchRun.tap("MarkoWebpackBrowser:watch", () => {
-        const { invalidateBrowserBuild } = this;
-        this.clientEntries.__INVALIDATE__ = VIRTUAL_BROWSER_INVALIDATE_PATH;
+        ((this.clientEntries as unknown) as Record<
+          string,
+          string
+        >).__INVALIDATE__ = VIRTUAL_BROWSER_INVALIDATE_PATH;
 
         // eslint-disable-next-line @typescript-eslint/unbound-method
         this.invalidateBrowserBuild = () => {
           if (pendingBuild !== undefined) {
             virtualModules.writeModule(VIRTUAL_BROWSER_INVALIDATE_PATH, "");
           }
-
-          invalidateBrowserBuild();
         };
       });
 
@@ -235,7 +233,7 @@ export default class MarkoWebpackPlugin {
 
       compiler.hooks.done.tap("MarkoWebpackBrowser:done", ({ compilation }) => {
         for (const [entryName, { chunks }] of compilation.entrypoints) {
-          const assetsByType = {};
+          const assetsByType: { [x: string]: string[] } = {};
 
           for (const { files } of chunks) {
             if (files) {
@@ -252,11 +250,14 @@ export default class MarkoWebpackPlugin {
           buildAssets[entryName] = assetsByType;
         }
 
-        pendingBuild.resolve();
-        pendingBuild = undefined;
+        if (pendingBuild as undefined) {
+          pendingBuild.resolve();
+          pendingBuild = undefined;
+        }
       });
       new WebpackPluginAddEntries({
-        addNamed: () => this.pendingFinishModules.then(() => this.clientEntries)
+        addNamed: () =>
+          this.pendingFinishModules.then(() => this.clientEntries),
       }).apply(compiler);
     };
   }
@@ -265,32 +266,10 @@ export default class MarkoWebpackPlugin {
 function createDeferredPromise<T>() {
   let resolve: (value: T) => void;
   const promise = new Promise(
-    _resolve => (resolve = _resolve)
+    (_resolve) => (resolve = _resolve)
   ) as ResolvablePromise<T>;
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   promise.resolve = resolve;
   return promise;
-}
-
-function applyRuntimeIdOptions(
-  pluginOptions: ConstructorParameters<typeof MarkoWebpackPlugin>[0],
-  outputOptions: Output
-) {
-  if (pluginOptions && pluginOptions.runtimeId) {
-    const { runtimeId } = pluginOptions;
-    if (outputOptions.hotUpdateFunction === "webpackHotUpdate") {
-      outputOptions.hotUpdateFunction = `${runtimeId}HotUpdate`;
-    }
-
-    if (outputOptions.jsonpFunction === "webpackJsonp") {
-      outputOptions.jsonpFunction = `${runtimeId}Jsonp`;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((outputOptions as any).chunkCallbackName === "webpackChunk") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (outputOptions as any).chunkCallbackName = `${runtimeId}Chunk`;
-    }
-  }
 }

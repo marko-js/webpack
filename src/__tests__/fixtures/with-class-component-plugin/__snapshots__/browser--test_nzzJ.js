@@ -1,11 +1,47 @@
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css":
+/*!****************************************************************************************!*\
+  !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css ***!
+  \****************************************************************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/__tests__/fixtures/with-class-component-plugin/test.marko.css":
+/*!***************************************************************************!*\
+  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko.css ***!
+  \***************************************************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
 
 /***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko":
 /*!******************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko ***!
   \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 4:21-35 */
+/*! CommonJS bailout: module.exports is used directly at 11:13-27 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 __webpack_require__(/*! ./style.css */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css");
 "use strict";
@@ -47,32 +83,11 @@ marko_template.Component = marko_defineComponent(marko_component, marko_template
 /*!*******************************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?dependencies ***!
   \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__ */
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 __webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko")
-
-/***/ }),
-
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css":
-/*!****************************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/style.css ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/test.marko.css":
-/*!***************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko.css ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -80,25 +95,12 @@ __webpack_require__(/*! ./index.marko */ "./src/__tests__/fixtures/with-class-co
 /*!************************************************************************************!*\
   !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko?dependencies ***!
   \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__ */
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 __webpack_require__(/*! ./test.marko.css */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko.css");
 __webpack_require__(/*! ./components/nested/index.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?dependencies")
-
-/***/ }),
-
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?hydrate":
-/*!*******************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko?hydrate ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-if (window.$mwp) __webpack_require__.p = $mwp;
-__webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?dependencies");
-window.$initComponents && $initComponents();
-
 
 /***/ }),
 
@@ -106,9 +108,12 @@ window.$initComponents && $initComponents();
 /*!****************************************************************!*\
   !*** external "marko/dist/runtime/components/defineComponent" ***!
   \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/components/defineComponent;
 
 /***/ }),
@@ -117,9 +122,12 @@ module.exports = marko/dist/runtime/components/defineComponent;
 /*!*****************************************************************!*\
   !*** external "marko/dist/runtime/components/registry-browser" ***!
   \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/components/registry-browser;
 
 /***/ }),
@@ -128,9 +136,12 @@ module.exports = marko/dist/runtime/components/registry-browser;
 /*!*********************************************************!*\
   !*** external "marko/dist/runtime/components/renderer" ***!
   \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/components/renderer;
 
 /***/ }),
@@ -139,9 +150,12 @@ module.exports = marko/dist/runtime/components/renderer;
 /*!********************************************************!*\
   !*** external "marko/dist/runtime/vdom/helpers/const" ***!
   \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/vdom/helpers/const;
 
 /***/ }),
@@ -150,9 +164,12 @@ module.exports = marko/dist/runtime/vdom/helpers/const;
 /*!************************************************************!*\
   !*** external "marko/dist/runtime/vdom/helpers/v-element" ***!
   \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/runtime/vdom/helpers/v-element;
 
 /***/ }),
@@ -161,11 +178,64 @@ module.exports = marko/dist/runtime/vdom/helpers/v-element;
 /*!**********************************!*\
   !*** external "marko/dist/vdom" ***!
   \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = marko/dist/vdom;
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+(() => {
+/*!*******************************************************************************!*\
+  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko?hydrate ***!
+  \*******************************************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__ */
+__webpack_require__(/*! ./test.marko?dependencies */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?dependencies");
+window.$initComponents && $initComponents();
+
+})();
+
+/******/ })()
+;

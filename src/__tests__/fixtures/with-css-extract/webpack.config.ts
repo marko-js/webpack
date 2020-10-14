@@ -7,18 +7,18 @@ export default {
     rules: [
       {
         test: /\.marko$/,
-        loader: "@marko/webpack/loader"
+        loader: "@marko/webpack/loader",
       },
       {
         test: /\.css$/,
-        use: [ExtractCSSPlugin.loader, "css-loader"]
-      }
-    ]
+        use: [ExtractCSSPlugin.loader, "css-loader"],
+      },
+    ],
   },
   plugins: [
     new ExtractCSSPlugin({
       filename: `[name].css`,
-      allChunks: true
-    })
-  ]
+      allChunks: true,
+    }),
+  ],
 };

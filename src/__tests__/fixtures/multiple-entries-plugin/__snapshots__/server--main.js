@@ -1,17 +1,20 @@
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./__MARKO_WEBPACK__MANIFEST.js":
 /*!**************************************!*\
   !*** ./__MARKO_WEBPACK__MANIFEST.js ***!
   \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 1:0-14 */
+/***/ ((module) => {
 
 module.exports = {
   getAssets(entry) {
     return this.build[entry];
   },
-  build: {"bar_aSxt":{"js":["bar_aSxt~foo_3XPO.js","bar_aSxt.js"]},"foo_3XPO":{"js":["bar_aSxt~foo_3XPO.js","foo_3XPO.js"]}}
+  build: {"bar_aSxt":{"js":["src___tests___fixtures_multiple-entries-plugin_components_shared_marko_dependencies.js","bar_aSxt.js"]},"foo_3XPO":{"js":["src___tests___fixtures_multiple-entries-plugin_components_shared_marko_dependencies.js","foo_3XPO.js"]}}
 }
 
 /***/ }),
@@ -20,11 +23,13 @@ module.exports = {
 /*!******************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/bar.marko ***!
   \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/bar.marko",
@@ -53,7 +58,6 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
@@ -61,11 +65,13 @@ marko_template.meta = {
 /*!*************************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?assets ***!
   \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__, __webpack_require__.p, __webpack_require__.* */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/bar.marko",
@@ -155,7 +161,6 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
@@ -163,11 +168,13 @@ marko_template.meta = {
 /*!********************************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/components/shared.marko ***!
   \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/components/shared.marko",
@@ -188,7 +195,6 @@ marko_template.meta = {
     id: "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/components/shared.marko"
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
@@ -196,11 +202,13 @@ marko_template.meta = {
 /*!******************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/foo.marko ***!
   \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/foo.marko",
@@ -229,7 +237,6 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
@@ -237,11 +244,13 @@ marko_template.meta = {
 /*!*************************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/foo.marko?assets ***!
   \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__, __webpack_require__.p, __webpack_require__.* */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
+
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/multiple-entries-plugin/foo.marko",
@@ -331,17 +340,145 @@ marko_template.meta = {
     ]
   };
 
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
 
 /***/ }),
 
-/***/ "./src/__tests__/fixtures/multiple-entries-plugin/server.js":
+/***/ "http":
+/*!***********************!*\
+  !*** external "http" ***!
+  \***********************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("http");;
+
+/***/ }),
+
+/***/ "marko/dist/core-tags/components/init-components-tag":
+/*!**********************************************************************!*\
+  !*** external "marko/dist/core-tags/components/init-components-tag" ***!
+  \**********************************************************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = marko/dist/core-tags/components/init-components-tag;
+
+/***/ }),
+
+/***/ "marko/dist/core-tags/core/await/reorderer-renderer":
+/*!*********************************************************************!*\
+  !*** external "marko/dist/core-tags/core/await/reorderer-renderer" ***!
+  \*********************************************************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = marko/dist/core-tags/core/await/reorderer-renderer;
+
+/***/ }),
+
+/***/ "marko/dist/html":
+/*!**********************************!*\
+  !*** external "marko/dist/html" ***!
+  \**********************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = marko/dist/html;
+
+/***/ }),
+
+/***/ "marko/dist/runtime/components/renderer":
+/*!*********************************************************!*\
+  !*** external "marko/dist/runtime/components/renderer" ***!
+  \*********************************************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = marko/dist/runtime/components/renderer;
+
+/***/ }),
+
+/***/ "marko/dist/runtime/helpers/dynamic-tag":
+/*!*********************************************************!*\
+  !*** external "marko/dist/runtime/helpers/dynamic-tag" ***!
+  \*********************************************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = marko/dist/runtime/helpers/dynamic-tag;
+
+/***/ }),
+
+/***/ "marko/dist/runtime/helpers/load-tag":
+/*!******************************************************!*\
+  !*** external "marko/dist/runtime/helpers/load-tag" ***!
+  \******************************************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
+
+"use strict";
+module.exports = marko/dist/runtime/helpers/load-tag;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "";
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+(() => {
 /*!******************************************************************!*\
   !*** ./src/__tests__/fixtures/multiple-entries-plugin/server.js ***!
   \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__ */
 const http = __webpack_require__(/*! http */ "http");
 const foo = __webpack_require__(/*! ./foo.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/foo.marko?assets");
 const bar = __webpack_require__(/*! ./bar.marko */ "./src/__tests__/fixtures/multiple-entries-plugin/bar.marko?assets");
@@ -353,84 +490,7 @@ http
   })
   .listen(0);
 
+})();
 
-/***/ }),
-
-/***/ "http":
-/*!***********************!*\
-  !*** external "http" ***!
-  \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = http;
-
-/***/ }),
-
-/***/ "marko/dist/core-tags/components/init-components-tag":
-/*!**********************************************************************!*\
-  !*** external "marko/dist/core-tags/components/init-components-tag" ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/core-tags/components/init-components-tag;
-
-/***/ }),
-
-/***/ "marko/dist/core-tags/core/await/reorderer-renderer":
-/*!*********************************************************************!*\
-  !*** external "marko/dist/core-tags/core/await/reorderer-renderer" ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/core-tags/core/await/reorderer-renderer;
-
-/***/ }),
-
-/***/ "marko/dist/html":
-/*!**********************************!*\
-  !*** external "marko/dist/html" ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/html;
-
-/***/ }),
-
-/***/ "marko/dist/runtime/components/renderer":
-/*!*********************************************************!*\
-  !*** external "marko/dist/runtime/components/renderer" ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/runtime/components/renderer;
-
-/***/ }),
-
-/***/ "marko/dist/runtime/helpers/dynamic-tag":
-/*!*********************************************************!*\
-  !*** external "marko/dist/runtime/helpers/dynamic-tag" ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/runtime/helpers/dynamic-tag;
-
-/***/ }),
-
-/***/ "marko/dist/runtime/helpers/load-tag":
-/*!******************************************************!*\
-  !*** external "marko/dist/runtime/helpers/load-tag" ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = marko/dist/runtime/helpers/load-tag;
-
-/***/ })
-
-/******/ });
+/******/ })()
+;

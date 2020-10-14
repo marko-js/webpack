@@ -21,7 +21,7 @@ static function renderAssets() {
 
   if (assets) {
     ${
-      publicPath === undefined
+      !publicPath
         ? `__webpack_public_path__ && this.script(\`${
             runtimeId ? `$mwp_${runtimeId}` : "$mwp"
           }=\${JSON.stringify(__webpack_public_path__)}\`);`

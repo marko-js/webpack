@@ -9,7 +9,7 @@ export = function transformer(a, b) {
 function transformerMarko4(el, { builder }): void {
   el.appendChild(
     builder.scriptlet({
-      value: "out.___renderAssets && out.___renderAssets()"
+      value: "out.___renderAssets && out.___renderAssets()",
     })
   );
 }
@@ -30,7 +30,7 @@ function transformerMarko5(path, t): void {
             renderAssetsMember,
             t.callExpression(renderAssetsMember, [])
           )
-        )
+        ),
       ])
     );
 }

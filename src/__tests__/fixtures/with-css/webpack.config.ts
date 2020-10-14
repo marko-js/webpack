@@ -6,12 +6,12 @@ export default {
     rules: [
       {
         test: /\.marko$/,
-        loader: "@marko/webpack/loader"
+        loader: "@marko/webpack/loader",
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
-  }
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
 };

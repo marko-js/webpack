@@ -16,17 +16,17 @@ const WATCH_MISSING_FILES = [
       return Boolean(
         meta.deps &&
           meta.deps.some(
-            dep =>
+            (dep) =>
               getBasenameWithoutExt(dep.virtualPath || dep) === this.basename
           )
       );
-    }
+    },
   },
   {
     basename: "component",
     has(meta): boolean {
       return Boolean(meta.component);
-    }
+    },
   },
   {
     basename: "component-browser",
@@ -34,12 +34,12 @@ const WATCH_MISSING_FILES = [
       return Boolean(
         meta.deps &&
           meta.deps.some(
-            dep =>
+            (dep) =>
               getBasenameWithoutExt(dep.virtualPath || dep) === this.basename
           )
       );
-    }
-  }
+    },
+  },
 ];
 
 const DEFAULT_COMPILER = require.resolve("marko/compiler");
@@ -48,7 +48,7 @@ const ADDED_CACHE_CLEAR = new WeakSet();
 const BROWSER_JSON_PREFIX = "package: ";
 let SUPPORTS_BROWSER_JSON: boolean;
 
-export default function(source: string): void | string | Buffer {
+export default function (source: string): void | string | Buffer {
   const compiler = this._compiler as Compiler;
   let compiledCache = COMPILATION_CACHE.get(this._compilation);
 
@@ -69,7 +69,7 @@ export default function(source: string): void | string | Buffer {
   const target = normalizeTarget(
     (queryOptions && queryOptions.target) || this.target
   );
-  const publicPath = compiler.options.output.publicPath;
+  const publicPath = (compiler.options.output.publicPath as unknown) as string;
   const runtimeId = pluginOptions && pluginOptions.runtimeId;
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require((queryOptions && queryOptions.compiler) ||
@@ -87,7 +87,7 @@ export default function(source: string): void | string | Buffer {
       target: this.target,
       supportsStaticESM: true,
       supportsDynamicImport: true,
-      supportsTopLevelAwait: true
+      supportsTopLevelAwait: true,
     },
     babelConfig.caller
   );
@@ -125,7 +125,7 @@ export default function(source: string): void | string | Buffer {
         requireTemplates: true,
         writeVersionComment: false,
         fileSystem: this.fs,
-        babelConfig
+        babelConfig,
       }
     ));
   } else if (hydrate) {
@@ -152,7 +152,7 @@ export default function(source: string): void | string | Buffer {
         writeVersionComment: false,
         fileSystem: this.fs,
         sourceMaps,
-        babelConfig
+        babelConfig,
       })
     ));
 
@@ -220,7 +220,7 @@ export default function(source: string): void | string | Buffer {
         // any tags that are used by this template
         for (const tagPath of meta.tags) {
           if (tagPath.endsWith(".marko")) {
-            dependencies.push(loadStr(`${tagPath}?dependencies`));
+            dependencies.push(loadStr(`${tagPath as string}?dependencies`));
           }
         }
       }
@@ -234,13 +234,13 @@ export default function(source: string): void | string | Buffer {
         writeVersionComment: false,
         fileSystem: this.fs,
         sourceMaps,
-        babelConfig
+        babelConfig,
       })
     ));
   }
 
   if (meta) {
-    if ((compiler as any).watchMode) {
+    if (((compiler as unknown) as { watchMode: boolean }).watchMode) {
       const missingWatchDep = getMissingDepRequire(this.resourcePath, meta);
 
       if (missingWatchDep) {

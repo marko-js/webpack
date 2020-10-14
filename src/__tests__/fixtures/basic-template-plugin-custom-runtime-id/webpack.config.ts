@@ -3,7 +3,7 @@ import * as webpack from "webpack";
 import MarkoPlugin from "../../../plugin";
 
 const markoPlugin = new MarkoPlugin({
-  runtimeId: "testruntime"
+  runtimeId: "testruntime",
 });
 
 export default [
@@ -15,16 +15,16 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
-        }
-      ]
+          loader: "@marko/webpack/loader",
+        },
+      ],
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env.BUNDLE": true
+        "process.env.BUNDLE": true,
       }),
-      markoPlugin.server
-    ]
+      markoPlugin.server,
+    ],
   },
   {
     name: "browser",
@@ -33,10 +33,10 @@ export default [
       rules: [
         {
           test: /\.marko$/,
-          loader: "@marko/webpack/loader"
-        }
-      ]
+          loader: "@marko/webpack/loader",
+        },
+      ],
     },
-    plugins: [markoPlugin.browser]
-  }
+    plugins: [markoPlugin.browser],
+  },
 ];

@@ -17,7 +17,7 @@ export default async function compile(config: webpack.Configuration) {
     stats = [stats];
   }
 
-  return { outputFS, stats: stats as webpack.Stats[] };
+  return { compiler, outputFS, stats: stats as webpack.Stats[] };
 }
 
 function extendConfig(config: webpack.Configuration) {

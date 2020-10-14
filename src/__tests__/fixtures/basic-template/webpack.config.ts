@@ -6,8 +6,8 @@ export default {
     rules: [
       {
         test: /\.marko$/,
-        loader: "@marko/webpack/loader"
-      }
-    ]
-  }
+        loader: "@marko/webpack/loader",
+      },
+    ],
+  },
 };

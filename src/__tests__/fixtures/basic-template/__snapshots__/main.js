@@ -1,13 +1,17 @@
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/__tests__/fixtures/basic-template/test.marko":
 /*!**********************************************************!*\
   !*** ./src/__tests__/fixtures/basic-template/test.marko ***!
   \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 3:21-35 */
+/*! CommonJS bailout: module.exports is used directly at 7:13-27 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-"use strict";
 
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/vdom */ "marko/dist/vdom").t(),
@@ -46,8 +50,10 @@ marko_template.Component = marko_defineComponent({}, marko_template._);
 /*!****************************************************************!*\
   !*** external "marko/dist/runtime/components/defineComponent" ***!
   \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
 module.exports = marko/dist/runtime/components/defineComponent;
 
@@ -57,8 +63,10 @@ module.exports = marko/dist/runtime/components/defineComponent;
 /*!*****************************************************************!*\
   !*** external "marko/dist/runtime/components/registry-browser" ***!
   \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
 module.exports = marko/dist/runtime/components/registry-browser;
 
@@ -68,8 +76,10 @@ module.exports = marko/dist/runtime/components/registry-browser;
 /*!*********************************************************!*\
   !*** external "marko/dist/runtime/components/renderer" ***!
   \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
 module.exports = marko/dist/runtime/components/renderer;
 
@@ -79,8 +89,10 @@ module.exports = marko/dist/runtime/components/renderer;
 /*!********************************************************!*\
   !*** external "marko/dist/runtime/vdom/helpers/const" ***!
   \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
 module.exports = marko/dist/runtime/vdom/helpers/const;
 
@@ -90,8 +102,10 @@ module.exports = marko/dist/runtime/vdom/helpers/const;
 /*!************************************************************!*\
   !*** external "marko/dist/runtime/vdom/helpers/v-element" ***!
   \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
 module.exports = marko/dist/runtime/vdom/helpers/v-element;
 
@@ -101,11 +115,44 @@ module.exports = marko/dist/runtime/vdom/helpers/v-element;
 /*!**********************************!*\
   !*** external "marko/dist/vdom" ***!
   \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
 module.exports = marko/dist/vdom;
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	// startup
+/******/ 	// Load entry module
+/******/ 	__webpack_require__("./src/__tests__/fixtures/basic-template/test.marko");
+/******/ 	// This entry module used 'module' so it can't be inlined
+/******/ })()
+;

@@ -8,7 +8,7 @@ const base62 = baseX(
 );
 
 export default (filename: string) => {
-  const modulePath = moduleRelativePath(filename);
+  const modulePath = moduleRelativePath(filename) as string;
   const hasher = createHash("sha256");
   hasher.update(modulePath);
   const hash = base62.encode(hasher.digest()).slice(0, 4);
