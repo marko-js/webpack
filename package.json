@@ -4,6 +4,7 @@
   "version": "6.2.2",
   "bugs": "https://github.com/marko-js/webpack/issues",
   "dependencies": {
+    "@marko/babel-utils": "^5.0.0-next.50",
     "base-x": "^3.0.7",
     "concat-with-sourcemaps": "^1.1.0",
     "lasso-modules-client": "^2.0.5",
@@ -21,6 +22,7 @@
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "coveralls": "^3.0.9",
+    "cpy-cli": "^3.1.1",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
@@ -62,7 +64,7 @@
     "url": "https://github.com/marko-js/webpack"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && cpy '**/*.marko' '!__tests__/**' '../dist/' --cwd=src --parents",
     "ci:report": "cat coverage/lcov.info | coveralls",
     "ci:test": "jest --ci --coverage",
     "format": "prettier \"**/*.{json,md,js,ts}\" --write",
