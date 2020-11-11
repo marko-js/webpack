@@ -16,71 +16,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./dist/components/webpack-assets/index.marko":
-/*!****************************************************!*\
-  !*** ./dist/components/webpack-assets/index.marko ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(__filename) {
-
-var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
-    marko_componentType = "/@marko/webpack$6.2.2/dist/components/webpack-assets/index.marko",
-    marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
-    marko_forOf = __webpack_require__(/*! marko/dist/runtime/helpers/for-of */ "marko/dist/runtime/helpers/for-of"),
-    marko_mergeAttrs = __webpack_require__(/*! marko/dist/runtime/html/helpers/merge-attrs */ "marko/dist/runtime/html/helpers/merge-attrs");
-
-function render(input, out, __component, component, state) {
-  var data = input;
-
-  const { entry, manifest, types, scriptAttrs, styleAttrs } = input;
-
-  const assets = manifest.getAssets(entry, out.global.buildName);
-
-  if (assets.js) {
-    const nonce = out.global.cspNonce;
-
-    marko_forOf(assets.js, function(js) {
-      out.w("<script" +
-        marko_mergeAttrs({
-          src: __webpack_require__.p + js,
-          nonce: nonce
-        }, scriptAttrs) +
-        "></script>");
-    });
-  }
-
-  if (assets.css) {
-    var $for$0 = 0;
-
-    marko_forOf(assets.css, function(css) {
-      var $keyScope$0 = "[" + (($for$0++) + "]");
-
-      out.w("<link" +
-        marko_mergeAttrs({
-          rel: "stylesheet",
-          href: __webpack_require__.p + css
-        }, styleAttrs) +
-        ">");
-    });
-  }
-}
-
-marko_template._ = marko_renderer(render, {
-    d_: true,
-    e_: marko_componentType
-  });
-
-marko_template.meta = {
-    id: "/@marko/webpack$6.2.2/dist/components/webpack-assets/index.marko"
-  };
-
-/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
-
-/***/ }),
-
 /***/ "./src/__tests__/fixtures/asset-tag/server.js":
 /*!****************************************************!*\
   !*** ./src/__tests__/fixtures/asset-tag/server.js ***!
@@ -114,7 +49,7 @@ var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */
     marko_componentType = "/@marko/webpack-tests$x.x.x/fixtures/asset-tag/test.marko",
     marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
     _webpackManifest = __webpack_require__(/*! ./__MARKO_WEBPACK__MANIFEST.js */ "./__MARKO_WEBPACK__MANIFEST.js"),
-    webpack_assets_template = __webpack_require__(/*! ../../../../dist/components/webpack-assets/index.marko */ "./dist/components/webpack-assets/index.marko"),
+    webpack_assets_template = __webpack_require__(/*! ../../../components/webpack-assets/index.marko */ "./src/components/webpack-assets/index.marko"),
     marko_loadTag = __webpack_require__(/*! marko/dist/runtime/helpers/load-tag */ "marko/dist/runtime/helpers/load-tag"),
     webpack_assets_tag = marko_loadTag(webpack_assets_template);
 
@@ -137,7 +72,7 @@ marko_template._ = marko_renderer(render, {
 marko_template.meta = {
     id: "/@marko/webpack-tests$x.x.x/fixtures/asset-tag/test.marko",
     tags: [
-      "../../../../dist/components/webpack-assets/index.marko"
+      "../../../components/webpack-assets/index.marko"
     ]
   };
 
@@ -241,6 +176,71 @@ marko_template.meta = {
       "marko/dist/core-tags/components/init-components-tag",
       "marko/dist/core-tags/core/await/reorderer-renderer"
     ]
+  };
+
+/* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
+
+/***/ }),
+
+/***/ "./src/components/webpack-assets/index.marko":
+/*!***************************************************!*\
+  !*** ./src/components/webpack-assets/index.marko ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(__filename) {
+
+var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
+    marko_componentType = "/@marko/webpack$6.2.2/src/components/webpack-assets/index.marko",
+    marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
+    marko_forOf = __webpack_require__(/*! marko/dist/runtime/helpers/for-of */ "marko/dist/runtime/helpers/for-of"),
+    marko_mergeAttrs = __webpack_require__(/*! marko/dist/runtime/html/helpers/merge-attrs */ "marko/dist/runtime/html/helpers/merge-attrs");
+
+function render(input, out, __component, component, state) {
+  var data = input;
+
+  const { entry, manifest, types, scriptAttrs, styleAttrs } = input;
+
+  const assets = manifest.getAssets(entry, out.global.buildName);
+
+  if (assets.js) {
+    const nonce = out.global.cspNonce;
+
+    marko_forOf(assets.js, function(js) {
+      out.w("<script" +
+        marko_mergeAttrs({
+          src: __webpack_require__.p + js,
+          nonce: nonce
+        }, scriptAttrs) +
+        "></script>");
+    });
+  }
+
+  if (assets.css) {
+    var $for$0 = 0;
+
+    marko_forOf(assets.css, function(css) {
+      var $keyScope$0 = "[" + (($for$0++) + "]");
+
+      out.w("<link" +
+        marko_mergeAttrs({
+          rel: "stylesheet",
+          href: __webpack_require__.p + css
+        }, styleAttrs) +
+        ">");
+    });
+  }
+}
+
+marko_template._ = marko_renderer(render, {
+    d_: true,
+    e_: marko_componentType
+  });
+
+marko_template.meta = {
+    id: "/@marko/webpack$6.2.2/src/components/webpack-assets/index.marko"
   };
 
 /* WEBPACK VAR INJECTION */}.call(this, "/index.js"))
