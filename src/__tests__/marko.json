@@ -1,9 +1,3 @@
 {
-  "<head>": {
-    "transformer": "../components/head/transformer.ts"
-  },
-  "<webpack-assets>": {
-    "template": "../components/webpack-assets/index.marko",
-    "transformer": "../components/webpack-assets/transformer.ts"
-  }
+  "taglibImports": ["../../marko.json"]
 }
