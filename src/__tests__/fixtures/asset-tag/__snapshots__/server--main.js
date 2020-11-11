@@ -27,7 +27,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(__filename) {
 
 var marko_template = module.exports = __webpack_require__(/*! marko/dist/html */ "marko/dist/html").t(__filename),
-    marko_componentType = "/@marko/webpack$6.2.2/dist/components/webpack-assets/index.marko",
+    marko_componentType = "/@marko/webpack$x.x.x/dist/components/webpack-assets/index.marko",
     marko_renderer = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer"),
     marko_forOf = __webpack_require__(/*! marko/dist/runtime/helpers/for-of */ "marko/dist/runtime/helpers/for-of"),
     marko_mergeAttrs = __webpack_require__(/*! marko/dist/runtime/html/helpers/merge-attrs */ "marko/dist/runtime/html/helpers/merge-attrs");
@@ -74,7 +74,7 @@ marko_template._ = marko_renderer(render, {
   });
 
 marko_template.meta = {
-    id: "/@marko/webpack$6.2.2/dist/components/webpack-assets/index.marko"
+    id: "/@marko/webpack$x.x.x/dist/components/webpack-assets/index.marko"
   };
 
 /* WEBPACK VAR INJECTION */}.call(this, "/index.js"))

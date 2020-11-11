@@ -26,6 +26,10 @@ fs.readdirSync(fixturesDir).forEach(name => {
           "utf-8"
         );
         source = source.slice(source.indexOf("/******/ ({")); // Remove webpack module bootstrap code.
+        source = source.replace(
+          /\/@marko\/webpack\$\d+.\d+.\d+\//g,
+          "/@marko/webpack$x.x.x/"
+        );
         expect(source).toMatchFile(
           path.join(snapshotDir, prefixName + assetName)
         );
