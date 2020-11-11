@@ -55,6 +55,36 @@ This plugin also analyzes the top level Marko templates and determines if it is 
 
 The end result is that you setup a multi compiler (as shown below) and you can simply import Marko templates, and all assets are automatically generated and inlined into an optimized server response. No need to keep track of a webpack manifest yourself!
 
+### Tag: `<webpack-assets>`
+
+The `<webpack-assets>` tag can be used along with the plugin in a multi-compiler setup. This tag allows you to inject `<script>`/`<style>` tags into a server-rendered template for the assets of an entry in the client compiler.
+
+#### Example Usage
+
+```marko
+<webpack-assets entry="tracking"/>
+```
+
+#### Example Config
+
+```js
+// ...
+export default [
+  {
+    entry: "./server.js",
+    plugins: [markoPlugin.server]
+    // ...
+  },
+  {
+    // ...
+    entry: {
+      tracking: "./tracking.js"
+    },
+    plugins: [markoPlugin.browser]
+  }
+];
+```
+
 # Installation
 
 ```console

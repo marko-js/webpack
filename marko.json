@@ -1,5 +1,9 @@
 {
   "<head>": {
-    "transformer": "./dist/loader/head-transformer.js"
+    "transformer": "./dist/components/head/transformer.js"
+  },
+  "<webpack-assets>": {
+    "template": "./dist/components/webpack-assets/index.marko",
+    "transformer": "./dist/components/webpack-assets/transformer.js"
   }
 }
