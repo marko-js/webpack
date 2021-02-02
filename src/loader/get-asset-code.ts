@@ -1,16 +1,16 @@
-import * as path from "path";
+import path from "path";
 import moduleName from "../shared/module-name";
-import { VIRTUAL_SERVER_MANIFEST_PATH } from "../shared/virtual";
 
 export default (
   resourcePath: string,
   runtimeId: string | undefined,
   publicPath: string | undefined
-): string => `
-import template from ${JSON.stringify(`./${path.basename(resourcePath)}`)};
-import manifest from ${JSON.stringify(
-  `./${path.relative(path.dirname(resourcePath), VIRTUAL_SERVER_MANIFEST_PATH)}`
-)};
+): string => {
+  const templatePath = JSON.stringify(`./${path.basename(resourcePath)}`);
+  return `\
+import template from ${templatePath};
+import manifest from "!!@marko/webpack/loader!?manifest";
+export * from ${templatePath};
 
 static function renderAssets() {
   const assets = this.___assets;
@@ -21,7 +21,7 @@ static function renderAssets() {
 
   if (assets) {
     ${
-      publicPath === undefined
+      !publicPath
         ? `__webpack_public_path__ && this.script(\`${
             runtimeId ? `$mwp_${runtimeId}` : "$mwp"
           }=\${JSON.stringify(__webpack_public_path__)}\`);`
@@ -66,8 +66,8 @@ $ out.___flush = out.flush;
 $ out.___end = out.end;
 $ out.___renderAssets = renderAssets;
 $ out.___assets = manifest.getAssets(${JSON.stringify(
-  moduleName(resourcePath)
-)}, out.global.buildName);
+    moduleName(resourcePath)
+  )}, out.global.buildName);
 $ out.flush = outFlushOverride;
 $ out.end = outEndOverride;
 
@@ -75,3 +75,4 @@ $ out.end = outEndOverride;
 <init-components/>
 <await-reorderer/>
 `;
+};

@@ -1,23 +1,25 @@
 import path from "path";
-import baseX from "base-x";
 import { createHash } from "crypto";
-import { getClientPath as moduleRelativePath } from "lasso-modules-client/transport";
 
-const base62 = baseX(
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-);
+const CWD = process.cwd();
 
 export default (filename: string) => {
-  const modulePath = moduleRelativePath(filename);
-  const hasher = createHash("sha256");
-  hasher.update(modulePath);
-  const hash = base62.encode(hasher.digest()).slice(0, 4);
-  const baseName = path.basename(filename);
-  let name = baseName.slice(0, baseName.indexOf("."));
+  const lastSepIndex = filename.lastIndexOf(path.sep);
+  let name = filename.slice(
+    lastSepIndex + 1,
+    filename.indexOf(".", lastSepIndex)
+  );
 
   if (name === "index" || name === "template") {
-    name = path.basename(path.dirname(filename));
+    name = filename.slice(
+      filename.lastIndexOf(path.sep, lastSepIndex - 1) + 1,
+      lastSepIndex
+    );
   }
 
-  return name + "_" + hash;
+  return `${name}_${createHash("MD5")
+    .update(path.relative(CWD, filename))
+    .digest("base64")
+    .replace(/[/+]/g, "-")
+    .slice(0, 4)}`;
 };

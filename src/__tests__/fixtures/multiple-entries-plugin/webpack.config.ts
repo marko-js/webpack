@@ -35,13 +35,6 @@ export default [
         }
       ]
     },
-    optimization: {
-      splitChunks: {
-        minSize: 0,
-        minChunks: 2,
-        chunks: "all"
-      }
-    },
     plugins: [markoPlugin.browser]
   }
 ];

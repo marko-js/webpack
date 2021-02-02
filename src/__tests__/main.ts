@@ -1,40 +1,67 @@
 import * as fs from "fs";
 import * as path from "path";
+import webpack4 from "webpack";
+import webpack5 from "webpack5";
 import { toMatchFile } from "jest-file-snapshot";
 import compilation from "./util/compilation";
 
-jest.setTimeout(15000);
 expect.extend({ toMatchFile });
 
 const fixturesDir = path.join(__dirname, "fixtures");
-fs.readdirSync(fixturesDir).forEach(name => {
-  test(name, async () => {
-    const fixtureDir = path.join(fixturesDir, name);
-    const snapshotDir = path.join(fixtureDir, "__snapshots__");
-    const configPath = path.join(fixtureDir, "webpack.config.ts");
-    const config = (await import(configPath)).default;
-    const { outputFS, stats } = await compilation(config);
+const fixtures = fs.readdirSync(fixturesDir);
 
-    for (const stat of stats) {
-      const compilation = stat.compilation;
-      const compilationName = ((compilation as unknown) as { name?: string })
-        .name;
-      const prefixName = compilationName ? `${compilationName}--` : "";
-      for (const assetName in compilation.assets) {
-        let source = outputFS.readFileSync(
-          compilation.assets[assetName].existsAt,
-          "utf-8"
+for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
+  describe(`${version}`, () => {
+    beforeAll(() => {
+      jest.doMock("webpack", () => webpack);
+    });
+
+    afterAll(() => {
+      jest.resetModules();
+    });
+
+    for (const name of fixtures) {
+      test(`${name}`, async () => {
+        const fixtureDir = path.join(fixturesDir, name);
+        const snapshotDir = path.join(fixtureDir, "__snapshots__", version);
+        const configPath = path.join(fixtureDir, "webpack.config.ts");
+        const { outputPath, outputFS, stats } = await compilation(
+          webpack as typeof webpack4,
+          (await import(configPath)).default
         );
-        source = source.slice(source.indexOf("/******/ ({")); // Remove webpack module bootstrap code.
-        source = source.replace(
-          /\/@marko\/webpack\$\d+.\d+.\d+\//g,
-          "/@marko/webpack$x.x.x/"
-        );
-        expect(source).toMatchFile(
-          path.join(snapshotDir, prefixName + assetName)
-        );
-      }
+
+        for (const stat of stats) {
+          const compilation = stat.compilation;
+          const compilationName = ((compilation as unknown) as {
+            name?: string;
+          }).name;
+
+          const prefixName = compilationName ? `${compilationName}--` : "";
+          for (const assetName in compilation.assets) {
+            let source = outputFS.readFileSync(
+              path.join(outputPath, assetName),
+              "utf-8"
+            );
+
+            if (webpack.version[0] === "4") {
+              const bootstrapIndex = source.indexOf("/******/ ({");
+
+              if (bootstrapIndex !== -1) {
+                source = source.slice(source.indexOf("/******/ ({")); // Remove webpack module bootstrap code.
+              }
+            } else {
+              const bootstrapIndex = source.lastIndexOf("/******/ 	});");
+              if (bootstrapIndex !== -1) {
+                source = source.slice(0, bootstrapIndex - 1);
+              }
+            }
+
+            expect(source).toMatchFile(
+              path.join(snapshotDir, prefixName + assetName)
+            );
+          }
+        }
+      });
     }
-    expect(true).toBe(true);
   });
-});
+}
