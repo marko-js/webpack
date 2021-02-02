@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/marko-js/webpack/compare/v6.2.10...v7.0.0) (2021-02-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop Marko 4 support
+
+### Features
+
+* remove virtual module plugin, much refactoring, webpack 5 support ([#48](https://github.com/marko-js/webpack/issues/48)) ([c8da6e7](https://github.com/marko-js/webpack/commit/c8da6e7bc2e081e6a4ddbfc17d6ed9ca9bf77f29))
+
 ### [6.2.10](https://github.com/marko-js/webpack/compare/v6.2.9...v6.2.10) (2020-11-11)
 
 ### [6.2.9](https://github.com/marko-js/webpack/compare/v6.2.8...v6.2.9) (2020-08-18)
