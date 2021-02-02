@@ -3,12 +3,12 @@ import webpack from "webpack";
 import MemoryFS from "memory-fs";
 import { promisify } from "util";
 
-// We import the loader so that jest can track which tests are related to it (all of them :p).
-import "../../loader";
-
-export default async function compile(config: webpack.Configuration) {
-  const compiler = webpack(extendConfig(config));
-  const outputFS = (compiler.outputFileSystem = new MemoryFS());
+export default async function compile(
+  w: typeof webpack,
+  config: webpack.Configuration
+) {
+  const compiler = w(extendConfig(config));
+  const outputFS = (compiler.outputFileSystem = new MemoryFS()) as typeof import("fs");
   let stats = await promisify(compiler.run.bind(compiler))();
 
   if (stats.stats) {
@@ -17,7 +17,11 @@ export default async function compile(config: webpack.Configuration) {
     stats = [stats];
   }
 
-  return { outputFS, stats: stats as webpack.Stats[] };
+  return {
+    outputFS,
+    stats: stats as webpack.Stats[],
+    outputPath: compiler.outputPath
+  };
 }
 
 function extendConfig(config: webpack.Configuration) {

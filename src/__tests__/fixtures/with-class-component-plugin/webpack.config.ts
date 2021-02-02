@@ -43,7 +43,7 @@ export default [
     plugins: [
       new ExtractCSSPlugin({
         filename: `[name].css`,
-        allChunks: true
+        ignoreOrder: true
       }),
       markoPlugin.browser
     ]

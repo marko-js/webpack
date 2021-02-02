@@ -87,6 +87,9 @@ export default [
 
 # Installation
 
+> `@marko/webpack` >= 7 Only supports Marko 5+.
+> For Marko 4 support use `@marko/webpack@6`.
+
 ```console
 npm install @marko/webpack
 ```

@@ -1,72 +1,62 @@
 import path from "path";
-import WebpackPluginAddEntries from "./webpack-plugin-add-entries";
-import { Compiler, Entry, Output } from "webpack";
-import { ReplaceSource } from "webpack-sources";
-import VirtualModulesPlugin from "webpack-virtual-modules";
 import sortKeys from "sort-keys";
+import { ReplaceSource } from "webpack-sources";
+import * as webpack from "webpack";
+import { MANIFEST_PLACEHOLDER } from "../shared/manifest";
 import moduleName from "../shared/module-name";
-import pluginOptionsForCompiler from "../shared/plugin-options-for-compiler";
 
-import {
-  VIRTUAL_BROWSER_INVALIDATE_PATH,
-  VIRTUAL_SERVER_MANIFEST_PATH,
-  registerVirtualModules
-} from "../shared/virtual";
-
-const MANIFEST_MARKER = "$__MARKO_MANIFEST__$";
-const MANIFEST_CONTENT = `module.exports = ${MANIFEST_MARKER}`;
+const WEBPACK_5 =
+  parseInt(webpack.version.slice(0, webpack.version.indexOf(".")), 10) >= 5;
 
 interface ResolvablePromise<T> extends Promise<T> {
   resolve(value: T): void;
 }
 
+declare module "webpack" {
+  interface Compiler {
+    watchMode?: boolean;
+    watching?: webpack.Watching;
+    markoCompileCache?: Map<unknown, unknown>;
+    markoPluginOptions?: MarkoWebpackPlugin["options"];
+    markoAssetsPending?: ResolvablePromise<void>;
+    markoAssetsRead?: boolean;
+    markoEntriesPending?: ResolvablePromise<void>;
+    markoEntriesRead?: boolean;
+  }
+}
+
 export default class MarkoWebpackPlugin {
-  private serverIsBuilding = true;
-  private browserCompilerNames: string[] = [];
-  private pendingBrowserBuilds: Array<Promise<void>> = [];
-  private pendingFinishModules = createDeferredPromise<void>();
-  private clientEntries: Entry = {};
+  private compileCache = new Map<unknown, unknown>();
+  private serverCompiler: webpack.Compiler;
+  private browserCompilers: webpack.Compiler[] = [];
+  private clientEntries: { [x: string]: string } = {};
   private clientAssets: {
     [buildName: string]: {
       [entryName: string]: { [assetType: string]: string[] };
     };
   } = {};
-  private virtualServerModules = new VirtualModulesPlugin({
-    [VIRTUAL_SERVER_MANIFEST_PATH]: MANIFEST_CONTENT
-  });
 
   constructor(private options?: { runtimeId?: string }) {
     this.options = options;
   }
 
-  // Overwritten by each compiler.
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private invalidateBrowserBuild(): void {}
-
-  private invalidateServerBuild(): void {
-    if (!this.serverIsBuilding) {
-      this.virtualServerModules.writeModule(
-        VIRTUAL_SERVER_MANIFEST_PATH,
-        MANIFEST_CONTENT
-      );
-    }
-  }
-
   get server() {
-    return (compiler: Compiler): void => {
-      const entryTemplates = new Set<string>();
+    return (compiler: webpack.Compiler): void => {
       const isEvalDevtool = String(compiler.options.devtool).includes("eval");
       const escapeIfEval = (code: string): string =>
         isEvalDevtool ? JSON.stringify(code).slice(1, -1) : code;
+      this.serverCompiler = compiler;
 
-      pluginOptionsForCompiler.set(compiler, this.options);
-
-      applyRuntimeIdOptions(this.options, compiler.options.output);
-      registerVirtualModules(compiler, this.virtualServerModules);
+      addLoaderAlias(compiler.options);
+      patchWatchingWebpack4(compiler);
+      compiler.markoAssetsRead = false;
+      compiler.markoPluginOptions = this.options;
+      compiler.markoCompileCache = this.compileCache;
+      compiler.markoEntriesPending = createDeferredPromise<void>();
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
-        this.serverIsBuilding = true;
-        this.pendingFinishModules = createDeferredPromise<void>();
+        compiler.markoAssetsRead = false;
+        compiler.markoEntriesPending ??= createDeferredPromise<void>();
       });
 
       compiler.hooks.normalModuleFactory.tap(
@@ -74,91 +64,101 @@ export default class MarkoWebpackPlugin {
         normalModuleFactory => {
           normalModuleFactory.hooks.beforeResolve.tap(
             "MarkoWebpackServer:resolver",
-            data => {
+            (data: { request: string; contextInfo: { issuer?: string } }) => {
               if (
                 data.request.endsWith(".marko") &&
-                (!data.contextInfo.issuer ||
-                  data.contextInfo.issuer.endsWith(".js"))
+                !data.contextInfo.issuer?.endsWith(".marko")
               ) {
-                data.request = data.request + "?assets";
+                data.request = `${data.request}?server-entry`;
               }
             }
           );
         }
       );
+
       compiler.hooks.thisCompilation.tap(
         "MarkoWebpackServer:compilation",
         compilation => {
-          compilation.hooks.normalModuleLoader.tap(
-            "MarkoWebpackServer:normalModuleLoader",
-            (_, mod): void => {
-              const resource = ((mod as unknown) as { resource: string })
-                .resource;
-              if (resource.endsWith(".marko?assets")) {
-                entryTemplates.add(
-                  resource.replace(/\.marko\?assets$/, ".marko")
-                );
-              }
-            }
-          );
           compilation.hooks.finishModules.tap(
             "MarkoWebpackServer:finishModules",
-            () => {
-              let hasChanged = false;
+            modules => {
+              let hasChangedEntries = false;
+              const removedEntryIds = new Set(Object.keys(this.clientEntries));
 
-              for (const filename of entryTemplates) {
-                const moduleNameForFile = moduleName(filename);
-                if (this.clientEntries[moduleNameForFile]) {
-                  try {
-                    if (
-                      !compilation.inputFileSystem.statSync(filename).isFile()
-                    ) {
-                      throw new Error();
-                    }
-                  } catch {
-                    // entry was removed.
-                    hasChanged = true;
-                    entryTemplates.delete(filename);
-                    delete this.clientEntries[moduleNameForFile];
+              for (const mod of modules) {
+                const resource = (mod as typeof mod & { resource?: string })
+                  .resource;
+
+                if (resource && resource.endsWith(".marko?server-entry")) {
+                  const filename = resource.replace(/\?server-entry$/, "");
+                  const entryTemplateId = moduleName(filename);
+
+                  if (!removedEntryIds.delete(entryTemplateId)) {
+                    hasChangedEntries = true;
+                    this.clientEntries[
+                      entryTemplateId
+                    ] = `${filename}?browser-entry`;
                   }
-                } else {
-                  // new entry.
-                  hasChanged = true;
-                  this.clientEntries[moduleNameForFile] = filename + "?hydrate";
                 }
               }
 
-              if (hasChanged) {
-                this.invalidateBrowserBuild();
+              for (const removedEntryId of removedEntryIds) {
+                hasChangedEntries = true;
+                delete this.clientEntries[removedEntryId];
+                for (const compilerName in this.clientAssets) {
+                  delete this.clientAssets[compilerName][removedEntryId];
+                }
               }
 
-              this.pendingFinishModules.resolve();
+              if (hasChangedEntries) {
+                for (const browserCompiler of this.browserCompilers) {
+                  if (browserCompiler.markoEntriesRead) {
+                    browserCompiler.watching?.invalidate();
+                  }
+                }
+              }
+
+              compiler.markoEntriesPending.resolve();
+              compiler.markoEntriesPending = undefined;
             }
           );
-          compilation.hooks.optimizeChunkAssets.tapPromise(
-            "MarkoWebpackServer:optimizeChunkAssets",
+
+          (WEBPACK_5
+            ? (compilation as any).hooks.processAssets
+            : compilation.hooks.optimizeChunkAssets
+          ).tapPromise(
+            {
+              name: "MarkoWebpackServer:optimizeChunkAssets",
+              stage: WEBPACK_5
+                ? (webpack as any).Compilation.PROCESS_ASSETS_STAGE_ADDITIONS
+                : undefined
+            },
             async () => {
-              await Promise.all(this.pendingBrowserBuilds);
+              await Promise.all(
+                this.browserCompilers.map(it => it.markoAssetsPending)
+              );
+
+              compiler.markoAssetsRead = true;
               const clientAssets = sortKeys(this.clientAssets, { deep: true });
-              this.pendingBrowserBuilds = [];
-              this.serverIsBuilding = false;
 
-              for (const filename in compilation.assets) {
-                if (filename.endsWith(".js")) {
-                  const originalSource = compilation.assets[
-                    filename
-                  ].source() as string;
-                  const placeholder = escapeIfEval(MANIFEST_MARKER);
-                  const placeholderPosition = originalSource.indexOf(
-                    placeholder
-                  );
-                  if (placeholderPosition > -1) {
-                    const hasMultipleBuilds =
-                      this.browserCompilerNames.length > 1;
+              for (const chunk of compilation.chunks) {
+                if (!chunk.canBeInitial()) {
+                  continue;
+                }
 
-                    const content = escapeIfEval(
-                      hasMultipleBuilds
-                        ? `{
+                for (const file of chunk.files) {
+                  compilation.updateAsset(file, old => {
+                    const placeholder = escapeIfEval(MANIFEST_PLACEHOLDER);
+                    const placeholderPosition = (old.source() as string).indexOf(
+                      placeholder
+                    );
+                    if (placeholderPosition > -1) {
+                      const hasMultipleBuilds =
+                        this.browserCompilers.length > 1;
+
+                      const content = escapeIfEval(
+                        hasMultipleBuilds
+                          ? `{
   getAssets(entry, buildName) {
     const buildAssets = this.builds[buildName];
     if (!buildAssets) {
@@ -169,26 +169,28 @@ export default class MarkoWebpackPlugin {
   },
   builds: ${JSON.stringify(clientAssets)}
 }`
-                        : `{
+                          : `{
   getAssets(entry) {
     return this.build[entry];
   },
-  build: ${JSON.stringify(clientAssets[this.browserCompilerNames[0]])}
+  build: ${JSON.stringify(clientAssets[this.browserCompilers[0].name])}
 }`
-                    );
+                      );
 
-                    const newSource = new ReplaceSource(
-                      compilation.assets[filename],
-                      filename
-                    );
-                    newSource.replace(
-                      placeholderPosition,
-                      placeholderPosition + placeholder.length - 1,
-                      content
-                    );
+                      const newSource = new ReplaceSource(
+                        (old as any).original ? (old as any).original() : old
+                      );
+                      newSource.replace(
+                        placeholderPosition,
+                        placeholderPosition + placeholder.length - 1,
+                        content
+                      );
 
-                    compilation.assets[filename] = newSource;
-                  }
+                      return newSource;
+                    }
+
+                    return old;
+                  });
                 }
               }
             }
@@ -198,44 +200,55 @@ export default class MarkoWebpackPlugin {
     };
   }
   get browser() {
-    return (compiler: Compiler): void => {
-      let pendingBuild = createDeferredPromise<void>();
+    return (compiler: webpack.Compiler): void => {
       const compilerName = compiler.options.name;
-      const virtualModules = new VirtualModulesPlugin({
-        [VIRTUAL_BROWSER_INVALIDATE_PATH]: ""
-      });
+      const entryOption = compiler.options.entry;
+      this.browserCompilers.push(compiler);
 
-      pluginOptionsForCompiler.set(compiler, this.options);
+      addLoaderAlias(compiler.options);
+      patchWatchingWebpack4(compiler);
+      compiler.markoEntriesRead = false;
+      compiler.markoPluginOptions = this.options;
+      compiler.markoCompileCache = this.compileCache;
+      compiler.markoAssetsPending = createDeferredPromise<void>();
 
-      applyRuntimeIdOptions(this.options, compiler.options.output);
-      registerVirtualModules(compiler, virtualModules);
+      compiler.options.entry = async () => {
+        await this.serverCompiler.markoEntriesPending;
+        compiler.markoEntriesRead = true;
 
-      this.browserCompilerNames.push(compilerName);
-      this.pendingBrowserBuilds.push(pendingBuild);
+        let normalizedEntries = this.clientEntries;
 
-      compiler.hooks.watchRun.tap("MarkoWebpackBrowser:watch", () => {
-        const { invalidateBrowserBuild } = this;
-        this.clientEntries.__INVALIDATE__ = VIRTUAL_BROWSER_INVALIDATE_PATH;
-
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        this.invalidateBrowserBuild = () => {
-          if (pendingBuild !== undefined) {
-            virtualModules.writeModule(VIRTUAL_BROWSER_INVALIDATE_PATH, "");
+        if (WEBPACK_5) {
+          normalizedEntries = {};
+          for (const key in this.clientEntries) {
+            (normalizedEntries as any)[key] = {
+              import: [this.clientEntries[key]]
+            };
           }
+        }
 
-          invalidateBrowserBuild();
-        };
-      });
+        if (isDefaultEntry(entryOption)) {
+          return normalizedEntries;
+        }
+
+        const currentEntry =
+          typeof entryOption === "function" ? await entryOption() : entryOption;
+
+        if (typeof currentEntry === "string" || Array.isArray(currentEntry)) {
+          return Object.assign({ main: currentEntry }, normalizedEntries);
+        } else if (typeof currentEntry === "object") {
+          return { ...currentEntry, ...normalizedEntries };
+        }
+      };
 
       compiler.hooks.invalid.tap("MarkoWebpackBrowser:invalid", () => {
-        this.invalidateServerBuild();
-        pendingBuild = createDeferredPromise();
-        this.pendingBrowserBuilds.push(pendingBuild);
+        compiler.markoEntriesRead = false;
+        compiler.markoAssetsPending ??= createDeferredPromise();
       });
 
       compiler.hooks.done.tap("MarkoWebpackBrowser:done", ({ compilation }) => {
         for (const [entryName, { chunks }] of compilation.entrypoints) {
-          const assetsByType = {};
+          const assetsByType: { [x: string]: string[] } = {};
 
           for (const { files } of chunks) {
             if (files) {
@@ -252,45 +265,61 @@ export default class MarkoWebpackPlugin {
           buildAssets[entryName] = assetsByType;
         }
 
-        pendingBuild.resolve();
-        pendingBuild = undefined;
+        if (this.serverCompiler.markoAssetsRead) {
+          this.serverCompiler.watching?.invalidate();
+        }
+
+        compiler.markoAssetsPending.resolve();
+        compiler.markoAssetsPending = undefined;
       });
-      new WebpackPluginAddEntries({
-        addNamed: () => this.pendingFinishModules.then(() => this.clientEntries)
-      }).apply(compiler);
     };
   }
 }
 
-function createDeferredPromise<T>() {
-  let resolve: (value: T) => void;
-  const promise = new Promise(
-    _resolve => (resolve = _resolve)
-  ) as ResolvablePromise<T>;
-
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  promise.resolve = resolve;
-  return promise;
+function patchWatchingWebpack4(compiler: webpack.Compiler) {
+  if (!WEBPACK_5) {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const { watch } = compiler;
+    compiler.watch = (...args) => {
+      return (compiler.watching = watch.apply(compiler, args));
+    };
+  }
 }
 
-function applyRuntimeIdOptions(
-  pluginOptions: ConstructorParameters<typeof MarkoWebpackPlugin>[0],
-  outputOptions: Output
-) {
-  if (pluginOptions && pluginOptions.runtimeId) {
-    const { runtimeId } = pluginOptions;
-    if (outputOptions.hotUpdateFunction === "webpackHotUpdate") {
-      outputOptions.hotUpdateFunction = `${runtimeId}HotUpdate`;
+function addLoaderAlias(config: webpack.Configuration) {
+  const resolveLoader = (config.resolveLoader ??= {});
+  const resolveLoaderAlias = (resolveLoader.alias ??= {});
+  resolveLoaderAlias["@marko/webpack/loader"] = require.resolve("../loader");
+}
+
+function isDefaultEntry(entry: unknown) {
+  if (WEBPACK_5) {
+    if (typeof entry === "object") {
+      for (const key in entry) {
+        if (key !== "main") {
+          return false;
+        }
+
+        for (const _ in entry[key]) {
+          return false;
+        }
+      }
+
+      return true;
     }
 
-    if (outputOptions.jsonpFunction === "webpackJsonp") {
-      outputOptions.jsonpFunction = `${runtimeId}Jsonp`;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((outputOptions as any).chunkCallbackName === "webpackChunk") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (outputOptions as any).chunkCallbackName = `${runtimeId}Chunk`;
-    }
+    return false;
   }
+
+  return entry === "./src";
+}
+
+function createDeferredPromise<T>() {
+  let resolve: (value: T) => void;
+  const promise = new Promise(_resolve => {
+    resolve = _resolve;
+  }) as ResolvablePromise<T>;
+
+  promise.resolve = resolve;
+  return promise;
 }

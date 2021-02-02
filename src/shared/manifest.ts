@@ -1,0 +1,1 @@
+export const MANIFEST_PLACEHOLDER = "$__MARKO_MANIFEST__$";

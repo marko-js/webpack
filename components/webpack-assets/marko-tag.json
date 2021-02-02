@@ -1,0 +1,5 @@
+{
+  "@entry": "string",
+  "@scriptAttrs": "object",
+  "@styleAttrs": "object"
+}
