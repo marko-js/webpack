@@ -206,17 +206,17 @@ export default [
 ];
 ```
 
-With the above config you can render your top level Marko template server side with a `$global.bundleName`, like so:
+With the above config you can render your top level Marko template server side with a `$global.buildName`, like so:
 
 ```javascript
-template.render({ $global: { bundleName: "Browser-de" } });
+template.render({ $global: { buildName: "Browser-de" } });
 ```
 
 This will automatically send assets for the German language.
 Of course in this case you'll want to conditionally send the appropriate assets given a users locale. This can be some simply, like so:
 
 ```javascript
-template.render({ $global: { bundleName: `Browser-${req.language}` } });
+template.render({ $global: { buildName: `Browser-${req.language}` } });
 ```
 
 Note: If a bundle with the provided name does not exist an error will be thrown.
