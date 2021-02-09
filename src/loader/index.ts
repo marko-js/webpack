@@ -127,150 +127,157 @@ export default async function (
   }
 
   const done = this.async();
-  const baseConfig = {
-    sourceMaps,
-    fileSystem: this.fs,
-    writeVersionComment: false,
-    cache: (compiler.markoCompileCache ||= new Map()),
-    babelConfig: {
-      ...loaderOptions.babelConfig,
-      compact: false,
-      comments: false,
-      caller: {
-        name: "@marko/webpack/loader",
-        target: this.target,
-        supportsStaticESM: true,
-        supportsDynamicImport: true,
-        supportsTopLevelAwait: true,
-        ...loaderOptions.babelConfig?.caller
+
+  try {
+    const baseConfig = {
+      sourceMaps,
+      fileSystem: this.fs,
+      writeVersionComment: false,
+      cache: (compiler.markoCompileCache ||= new Map()),
+      babelConfig: {
+        ...loaderOptions.babelConfig,
+        compact: false,
+        comments: false,
+        caller: {
+          name: "@marko/webpack/loader",
+          target: this.target,
+          supportsStaticESM: true,
+          supportsDynamicImport: true,
+          supportsTopLevelAwait: true,
+          ...loaderOptions.babelConfig?.caller
+        }
       }
-    }
-  };
+    };
 
-  if (resourceQuery === "?server-entry") {
-    const { code, map } = await markoCompiler.compile(
-      getAssetCode(
+    if (resourceQuery === "?server-entry") {
+      const { code, map } = await markoCompiler.compile(
+        getAssetCode(
+          resourcePath,
+          pluginOptions.runtimeId,
+          compiler.options.output.publicPath
+        ),
         resourcePath,
-        pluginOptions.runtimeId,
-        compiler.options.output.publicPath
-      ),
-      resourcePath,
-      baseConfig
-    );
+        baseConfig
+      );
 
-    return done(null, code, map as string);
-  }
+      return done(null, code, map as string);
+    }
 
-  if (target === "server") {
-    const { code, map, meta } = await markoCompiler.compile(
+    if (target === "server") {
+      const { code, map, meta } = await markoCompiler.compile(
+        source,
+        resourcePath,
+        baseConfig
+      );
+
+      return done(
+        null,
+        code + referenceMissingDeps(this, resourcePath, meta),
+        map as string
+      );
+    }
+
+    const { code, meta, map } = await markoCompiler.compile(
       source,
       resourcePath,
-      baseConfig
+      {
+        ...baseConfig,
+        output: "dom"
+      }
     );
 
-    return done(
-      null,
-      code + referenceMissingDeps(this, resourcePath, meta),
-      map as string
-    );
-  }
+    const deps = [];
+    const basePath = `./${path.basename(resourcePath)}`;
 
-  const { code, meta, map } = await markoCompiler.compile(
-    source,
-    resourcePath,
-    {
-      ...baseConfig,
-      output: "dom"
-    }
-  );
-
-  const deps = [];
-  const basePath = `./${path.basename(resourcePath)}`;
-
-  if (meta.deps) {
-    for (let dep of meta.deps) {
-      if (typeof dep === "string") {
-        if (dep.startsWith(BROWSER_JSON_PREFIX)) {
-          if (compiler.options.resolve?.extensions?.includes(".browser.json")) {
-            dep = dep.slice(BROWSER_JSON_PREFIX.length);
-          } else {
-            continue; // Do not load browser.json deps by default.
+    if (meta.deps) {
+      for (let dep of meta.deps) {
+        if (typeof dep === "string") {
+          if (dep.startsWith(BROWSER_JSON_PREFIX)) {
+            if (
+              compiler.options.resolve?.extensions?.includes(".browser.json")
+            ) {
+              dep = dep.slice(BROWSER_JSON_PREFIX.length);
+            } else {
+              continue; // Do not load browser.json deps by default.
+            }
           }
-        }
 
-        // external file, just require it.
-        deps.push(importStr(dep));
-      } else {
-        // inline content, we'll create a virtual dependency.
-        const virtualPath = `${resourcePath}?virtual=${dep.virtualPath}`;
-        virtualSources.set(virtualPath, { code: dep.code });
-        deps.push(
-          importStr(`${dep.virtualPath}!=!${__filename}!${virtualPath}`)
-        );
-      }
-    }
-  }
-
-  if (resourceQuery === "?hydrate") {
-    const hydrateDeps = [];
-    let isStateless = true;
-
-    if (deps.length) {
-      virtualSources.set(`${resourcePath}?deps`, { code: deps.join("\n") });
-      hydrateDeps.push(importStr(`${basePath}?deps`));
-    }
-
-    if (meta.component) {
-      if (path.extname(meta.component) === ".marko") {
-        // Load code for stateful components.
-        isStateless = false;
-        virtualSources.set(`${resourcePath}?code`, { code, map });
-        hydrateDeps.push(importStr(`${basePath}?code`));
-      } else {
-        hydrateDeps.push(
-          importStr("marko/components", "{ register }"),
-          importStr(meta.component, "component"),
-          `register(${JSON.stringify(meta.id)}, component)`
-        );
-      }
-    }
-
-    if (isStateless) {
-      // Register a split component.
-      if (meta.tags) {
-        // we need to also include the hydrate of
-        // any tags that are used by this template
-        for (const tagPath of meta.tags) {
-          if (tagPath.endsWith(".marko")) {
-            hydrateDeps.push(importStr(`${tagPath}?hydrate`));
-          }
+          // external file, just require it.
+          deps.push(importStr(dep));
+        } else {
+          // inline content, we'll create a virtual dependency.
+          const virtualPath = `${resourcePath}?virtual=${dep.virtualPath}`;
+          virtualSources.set(virtualPath, { code: dep.code });
+          deps.push(
+            importStr(`${dep.virtualPath}!=!${__filename}!${virtualPath}`)
+          );
         }
       }
     }
 
-    return done(null, hydrateDeps.join("\n"));
-  }
+    if (resourceQuery === "?hydrate") {
+      const hydrateDeps = [];
+      let isStateless = true;
 
-  const missingDeps = referenceMissingDeps(this, resourcePath, meta);
-  const hasDeps = deps.length;
+      if (deps.length) {
+        virtualSources.set(`${resourcePath}?deps`, { code: deps.join("\n") });
+        hydrateDeps.push(importStr(`${basePath}?deps`));
+      }
 
-  if (hasDeps || missingDeps) {
-    let codeWithDeps = exportStr(`${basePath}?code`);
-    virtualSources.set(`${resourcePath}?code`, { code, map });
+      if (meta.component) {
+        if (path.extname(meta.component) === ".marko") {
+          // Load code for stateful components.
+          isStateless = false;
+          virtualSources.set(`${resourcePath}?code`, { code, map });
+          hydrateDeps.push(importStr(`${basePath}?code`));
+        } else {
+          hydrateDeps.push(
+            importStr("marko/components", "{ register }"),
+            importStr(meta.component, "component"),
+            `register(${JSON.stringify(meta.id)}, component)`
+          );
+        }
+      }
 
-    if (hasDeps) {
-      virtualSources.set(`${resourcePath}?deps`, { code: deps.join("\n") });
-      codeWithDeps = `${importStr(`${basePath}?deps`)}\n${codeWithDeps}`;
+      if (isStateless) {
+        // Register a split component.
+        if (meta.tags) {
+          // we need to also include the hydrate of
+          // any tags that are used by this template
+          for (const tagPath of meta.tags) {
+            if (tagPath.endsWith(".marko")) {
+              hydrateDeps.push(importStr(`${tagPath}?hydrate`));
+            }
+          }
+        }
+      }
+
+      return done(null, hydrateDeps.join("\n"));
     }
 
-    if (missingDeps) {
-      codeWithDeps += `\n${missingDeps}`;
+    const missingDeps = referenceMissingDeps(this, resourcePath, meta);
+    const hasDeps = deps.length;
+
+    if (hasDeps || missingDeps) {
+      let codeWithDeps = exportStr(`${basePath}?code`);
+      virtualSources.set(`${resourcePath}?code`, { code, map });
+
+      if (hasDeps) {
+        virtualSources.set(`${resourcePath}?deps`, { code: deps.join("\n") });
+        codeWithDeps = `${importStr(`${basePath}?deps`)}\n${codeWithDeps}`;
+      }
+
+      if (missingDeps) {
+        codeWithDeps += `\n${missingDeps}`;
+      }
+
+      return done(null, codeWithDeps);
     }
 
-    return done(null, codeWithDeps);
+    return done(null, code, map as string);
+  } catch (err) {
+    done(err);
   }
-
-  return done(null, code, map as string);
 }
 
 function referenceMissingDeps(
