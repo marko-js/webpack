@@ -122,12 +122,41 @@ const _marko_componentType = "8XgZ/c27",
       _marko_component = {};
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_5___default()(function (input, out, _component, component, state) {
   out.global.runtimeId = "testruntime";
-  out.___flush = out.flush;
-  out.___end = out.end;
-  out.___renderAssets = renderAssets;
-  out.___assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__["default"].getAssets("test_8XgZ", out.global.buildName);
-  out.flush = outFlushOverride;
-  out.end = outEndOverride;
+  const curAssets = out.___assets;
+  const newAssets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__["default"].getAssets("test_8XgZ", out.global.buildName);
+
+  if (curAssets) {
+    if (newAssets.js) {
+      if (curAssets.js) {
+        for (const js of newAssets.js) {
+          if (!curAssets.js.includes(js)) {
+            curAssets.js.push(js);
+          }
+        }
+      } else {
+        curAssets.js = newAssets.js;
+      }
+    }
+
+    if (newAssets.css) {
+      if (curAssets.css) {
+        for (const css of newAssets.css) {
+          if (!curAssets.css.includes(css)) {
+            curAssets.css.push(css);
+          }
+        }
+      } else {
+        curAssets.css = newAssets.css;
+      }
+    }
+  } else {
+    out.___flush = out.flush;
+    out.___end = out.end;
+    out.___renderAssets = renderAssets;
+    out.___assets = newAssets;
+    out.flush = outFlushOverride;
+    out.end = outEndOverride;
+  }
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_test_marko__WEBPACK_IMPORTED_MODULE_0__["default"], input, out, _component, "0");
 
