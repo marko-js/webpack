@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/marko-js/webpack/compare/v7.0.1...v7.1.0) (2021-02-12)
+
+
+### Features
+
+* multiple top level component assets now merge ([bc8fc0d](https://github.com/marko-js/webpack/commit/bc8fc0d1ee91b12ea2b3ccd30db9c0e0f5797225))
+
 ### [7.0.1](https://github.com/marko-js/webpack/compare/v7.0.0...v7.0.1) (2021-02-09)
 
 
