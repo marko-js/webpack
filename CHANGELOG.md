@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.1](https://github.com/marko-js/webpack/compare/v7.1.0...v7.1.1) (2021-03-02)
+
+
+### Bug Fixes
+
+* include full webpack output in snapshots ([094642b](https://github.com/marko-js/webpack/commit/094642b430b43dcfa440340ede32ff49fb0301d4))
+* remove unecessary deps ([9c60961](https://github.com/marko-js/webpack/commit/9c60961a0a31b9c7c22e7b0fe830c73f8b950e65))
+
 ## [7.1.0](https://github.com/marko-js/webpack/compare/v7.0.1...v7.1.0) (2021-02-12)
 
 
