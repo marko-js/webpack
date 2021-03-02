@@ -38,23 +38,10 @@ for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
 
           const prefixName = compilationName ? `${compilationName}--` : "";
           for (const assetName in compilation.assets) {
-            let source = outputFS.readFileSync(
+            const source = outputFS.readFileSync(
               path.join(outputPath, assetName),
               "utf-8"
             );
-
-            if (webpack.version[0] === "4") {
-              const bootstrapIndex = source.indexOf("/******/ ({");
-
-              if (bootstrapIndex !== -1) {
-                source = source.slice(source.indexOf("/******/ ({")); // Remove webpack module bootstrap code.
-              }
-            } else {
-              const bootstrapIndex = source.lastIndexOf("/******/ 	});");
-              if (bootstrapIndex !== -1) {
-                source = source.slice(0, bootstrapIndex - 1);
-              }
-            }
 
             expect(source).toMatchFile(
               path.join(snapshotDir, prefixName + assetName)

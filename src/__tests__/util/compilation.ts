@@ -29,6 +29,9 @@ function extendConfig(config: webpack.Configuration) {
     return config.map(extendConfig);
   }
 
+  config.optimization = config.optimization || {};
+  config.optimization.sideEffects = true;
+
   const resolveLoader = (config.resolveLoader = config.resolveLoader || {});
   const resolveLoaderAlias = (resolveLoader.alias = resolveLoader.alias || {});
   resolveLoaderAlias["@marko/webpack/loader"] = path.resolve(
