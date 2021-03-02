@@ -1,7 +1,7 @@
-import type { types, NodePath } from "@marko/babel-types";
+import type { types } from "@marko/compiler";
 
 export default function transform(
-  path: NodePath<types.MarkoTag>,
+  path: types.NodePath<types.MarkoTag>,
   t: typeof types
 ): void {
   const renderAssetsMember = t.memberExpression(
