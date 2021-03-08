@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.2](https://github.com/marko-js/webpack/compare/v7.1.1...v7.1.2) (2021-03-08)
+
+
+### Bug Fixes
+
+* avoid mutating asset manifest, ensure assets only sent once ([79c08cd](https://github.com/marko-js/webpack/commit/79c08cd355970606d8fbd764853d760e0245a91b))
+
 ### [7.1.1](https://github.com/marko-js/webpack/compare/v7.1.0...v7.1.1) (2021-03-02)
 
 
