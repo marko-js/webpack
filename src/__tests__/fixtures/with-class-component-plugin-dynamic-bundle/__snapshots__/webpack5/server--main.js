@@ -106,26 +106,39 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 
 function renderAssets() {
   const assets = this.___assets;
-  const nonce = this.global.cspNonce;
   this.___renderAssets = this.___assets = undefined;
   this.flush = this.___flush;
   this.end = this.___end;
 
   if (assets) {
     __webpack_require__.p && this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    const nonce = this.global.cspNonce;
+    const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
+    const written = this.global.___writtenAssets || (this.global.___writtenAssets = new Set());
+    let scripts = "";
+    let styles = "";
 
-    if (assets.js) {
-      const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-      assets.js.forEach(js => {
-        this.write(`<script src=${JSON.stringify(__webpack_require__.p + js)}${nonceAttr} async></script>`);
-      });
+    for (const curAssets of assets) {
+      if (curAssets.js) {
+        for (const href of curAssets.js) {
+          if (!written.has(href)) {
+            written.add(href);
+            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr} async></script>`;
+          }
+        }
+      }
+
+      if (curAssets.css) {
+        for (const href of curAssets.css) {
+          if (!written.has(href)) {
+            written.add(href);
+            styles += `<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p + href)}>`;
+          }
+        }
+      }
     }
 
-    if (assets.css) {
-      assets.css.forEach(css => {
-        this.write(`<link rel="stylesheet" href=${JSON.stringify(__webpack_require__.p + css)}>`);
-      });
-    }
+    this.write(scripts + styles);
   }
 }
 
@@ -153,34 +166,12 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
   const newAssets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__.default.getAssets("test_xbSt", out.global.buildName);
 
   if (curAssets) {
-    if (newAssets.js) {
-      if (curAssets.js) {
-        for (const js of newAssets.js) {
-          if (!curAssets.js.includes(js)) {
-            curAssets.js.push(js);
-          }
-        }
-      } else {
-        curAssets.js = newAssets.js;
-      }
-    }
-
-    if (newAssets.css) {
-      if (curAssets.css) {
-        for (const css of newAssets.css) {
-          if (!curAssets.css.includes(css)) {
-            curAssets.css.push(css);
-          }
-        }
-      } else {
-        curAssets.css = newAssets.css;
-      }
-    }
+    curAssets.push(newAssets);
   } else {
+    out.___assets = [newAssets];
     out.___flush = out.flush;
     out.___end = out.end;
     out.___renderAssets = renderAssets;
-    out.___assets = newAssets;
     out.flush = outFlushOverride;
     out.end = outEndOverride;
   }
