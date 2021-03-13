@@ -8,7 +8,7 @@
   \***********************************/
 /***/ ((module) => {
 
-module.exports = marko/components;
+module.exports = require("marko/components");;
 
 /***/ })
 

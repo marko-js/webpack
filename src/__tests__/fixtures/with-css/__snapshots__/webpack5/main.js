@@ -470,7 +470,7 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/components/defineComponent;
+module.exports = require("marko/dist/runtime/components/defineComponent");;
 
 /***/ }),
 
@@ -480,7 +480,7 @@ module.exports = marko/dist/runtime/components/defineComponent;
   \*****************************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/components/registry-browser;
+module.exports = require("marko/dist/runtime/components/registry-browser");;
 
 /***/ }),
 
@@ -490,7 +490,7 @@ module.exports = marko/dist/runtime/components/registry-browser;
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/components/renderer;
+module.exports = require("marko/dist/runtime/components/renderer");;
 
 /***/ }),
 
@@ -500,7 +500,7 @@ module.exports = marko/dist/runtime/components/renderer;
   \******************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/vdom;
+module.exports = require("marko/dist/runtime/vdom");;
 
 /***/ }),
 
@@ -510,7 +510,7 @@ module.exports = marko/dist/runtime/vdom;
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/vdom/helpers/v-element;
+module.exports = require("marko/dist/runtime/vdom/helpers/v-element");;
 
 /***/ })
 
