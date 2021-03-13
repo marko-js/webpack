@@ -565,7 +565,7 @@ _marko_template.Component = marko_dist_runtime_components_defineComponent__WEBPA
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _test_marko_css_home_dpiercey_dev_github_marko_webpack_src_loader_index_ts_home_dpiercey_dev_github_marko_webpack_src_tests_fixtures_with_css_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko.css = ./src/loader/index.ts!./src/__tests__/fixtures/with-css/test.marko?virtual=./test.marko.css */ "./src/__tests__/fixtures/with-css/test.marko.css!./=!./src/loader/index.ts!./src/__tests__/fixtures/with-css/test.marko?virtual=./test.marko.css");
+/* harmony import */ var _test_marko_css_loader_index_ts_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko.css = ../../../loader/index.ts!./test.marko?virtual=./test.marko.css */ "./src/__tests__/fixtures/with-css/test.marko.css!./=!./src/loader/index.ts!./src/__tests__/fixtures/with-css/test.marko?virtual=./test.marko.css");
 
 
 /***/ }),

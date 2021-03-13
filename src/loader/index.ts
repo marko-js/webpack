@@ -206,10 +206,14 @@ export default async function (
           deps.push(importStr(dep));
         } else {
           // inline content, we'll create a virtual dependency.
-          const virtualPath = `${resourcePath}?virtual=${dep.virtualPath}`;
-          virtualSources.set(virtualPath, { code: dep.code });
+          const absoluteVirtualPath = `${resourcePath}?virtual=${dep.virtualPath}`;
+          const relativeVirtualPath = `${basePath}?virtual=${dep.virtualPath}`;
+          const relativeLoaderPath = path.relative(this.context, __filename);
+          virtualSources.set(absoluteVirtualPath, { code: dep.code });
           deps.push(
-            importStr(`${dep.virtualPath}!=!${__filename}!${virtualPath}`)
+            importStr(
+              `${dep.virtualPath}!=!${relativeLoaderPath}!${relativeVirtualPath}`
+            )
           );
         }
       }
