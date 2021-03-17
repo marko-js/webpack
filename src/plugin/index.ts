@@ -210,7 +210,6 @@ export default class MarkoWebpackPlugin {
       compiler.markoEntriesRead = false;
       compiler.markoPluginOptions = this.options;
       compiler.markoCompileCache = this.compileCache;
-      compiler.markoAssetsPending = createDeferredPromise<void>();
 
       compiler.options.entry = async () => {
         await this.serverCompiler.markoEntriesPending;
@@ -241,37 +240,54 @@ export default class MarkoWebpackPlugin {
         }
       };
 
-      compiler.hooks.invalid.tap("MarkoWebpackBrowser:invalid", () => {
-        compiler.markoEntriesRead = false;
-        compiler.markoAssetsPending ??= createDeferredPromise();
-      });
+      compiler.hooks.thisCompilation.tap(
+        "MarkoWebpackBrowser:compilation",
+        compilation => {
+          compiler.markoEntriesRead = false;
+          const prevPendingAssets = compiler.markoAssetsPending;
+          const pendingAssets = (compiler.markoAssetsPending = createDeferredPromise());
 
-      compiler.hooks.done.tap("MarkoWebpackBrowser:done", ({ compilation }) => {
-        for (const [entryName, { chunks }] of compilation.entrypoints) {
-          const assetsByType: { [x: string]: string[] } = {};
-
-          for (const { files } of chunks) {
-            if (files) {
-              for (const asset of files) {
-                const ext = path.extname(asset).slice(1);
-                const type = (assetsByType[ext] = assetsByType[ext] || []);
-                type.push(asset);
-              }
-            }
+          if (prevPendingAssets !== undefined) {
+            // If multiple compilations started, the last one always is treated
+            // as the source of truth.
+            pendingAssets.finally(() => prevPendingAssets.resolve());
           }
 
-          const buildAssets = (this.clientAssets[compilerName] =
-            this.clientAssets[compilerName] || {});
-          buildAssets[entryName] = assetsByType;
-        }
+          (WEBPACK_5
+            ? (compilation as any).hooks.afterProcessAssets
+            : compilation.hooks.afterOptimizeAssets
+          ).tap("MarkoWebpackBrowser:afterProcessAssets", () => {
+            if (pendingAssets !== compiler.markoAssetsPending) {
+              return;
+            }
 
-        if (this.serverCompiler.markoAssetsRead) {
-          this.serverCompiler.watching?.invalidate();
-        }
+            for (const [entryName, { chunks }] of compilation.entrypoints) {
+              const assetsByType: { [x: string]: string[] } = {};
 
-        compiler.markoAssetsPending.resolve();
-        compiler.markoAssetsPending = undefined;
-      });
+              for (const { files } of chunks) {
+                if (files) {
+                  for (const asset of files) {
+                    const ext = path.extname(asset).slice(1);
+                    const type = (assetsByType[ext] = assetsByType[ext] || []);
+                    type.push(asset);
+                  }
+                }
+              }
+
+              const buildAssets = (this.clientAssets[compilerName] =
+                this.clientAssets[compilerName] || {});
+              buildAssets[entryName] = assetsByType;
+            }
+
+            if (this.serverCompiler.markoAssetsRead) {
+              this.serverCompiler.watching?.invalidate();
+            }
+
+            compiler.markoAssetsPending = undefined;
+            pendingAssets.resolve();
+          });
+        }
+      );
     };
   }
 }
