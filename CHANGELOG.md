@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.1.3](https://github.com/marko-js/webpack/compare/v7.1.2...v7.1.3) (2021-03-17)
+
+
+### Bug Fixes
+
+* prevent error if multiple plugins call done hook ([02195c9](https://github.com/marko-js/webpack/commit/02195c90b29e95d46969974633d49a78c3f6ad2f))
+
 ### [7.1.2](https://github.com/marko-js/webpack/compare/v7.1.1...v7.1.2) (2021-03-08)
 
 
