@@ -565,7 +565,7 @@ _marko_template.Component = marko_dist_runtime_components_defineComponent__WEBPA
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _test_marko_css_home_dpiercey_dev_github_marko_webpack_src_loader_index_ts_home_dpiercey_dev_github_marko_webpack_src_tests_fixtures_with_css_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko.css = ./src/loader/index.ts!./src/__tests__/fixtures/with-css/test.marko?virtual=./test.marko.css */ "./src/__tests__/fixtures/with-css/test.marko.css!./=!./src/loader/index.ts!./src/__tests__/fixtures/with-css/test.marko?virtual=./test.marko.css");
+/* harmony import */ var _test_marko_css_loader_index_ts_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko.css = ../../../loader/index.ts!./test.marko?virtual=./test.marko.css */ "./src/__tests__/fixtures/with-css/test.marko.css!./=!./src/loader/index.ts!./src/__tests__/fixtures/with-css/test.marko?virtual=./test.marko.css");
 
 
 /***/ }),
@@ -577,7 +577,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/defineComponent;
+module.exports = require("marko/dist/runtime/components/defineComponent");
 
 /***/ }),
 
@@ -588,7 +588,7 @@ module.exports = marko/dist/runtime/components/defineComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/registry-browser;
+module.exports = require("marko/dist/runtime/components/registry-browser");
 
 /***/ }),
 
@@ -599,7 +599,7 @@ module.exports = marko/dist/runtime/components/registry-browser;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/renderer;
+module.exports = require("marko/dist/runtime/components/renderer");
 
 /***/ }),
 
@@ -610,7 +610,7 @@ module.exports = marko/dist/runtime/components/renderer;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/vdom;
+module.exports = require("marko/dist/runtime/vdom");
 
 /***/ }),
 
@@ -621,7 +621,7 @@ module.exports = marko/dist/runtime/vdom;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/vdom/helpers/v-element;
+module.exports = require("marko/dist/runtime/vdom/helpers/v-element");
 
 /***/ })
 

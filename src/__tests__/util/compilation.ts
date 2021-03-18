@@ -43,7 +43,20 @@ function extendConfig(config: webpack.Configuration) {
   // but we'll disable sourcemaps unless the test has specifically opted in
   config.mode = config.mode || "development";
   config.devtool = config.devtool || false;
-  config.externals = [/^[^./!]/]; // excludes node_modules
+
+  // excludes node_modules
+  // the function signature differs between webpack 4/5
+  config.externals = [
+    (...args) => {
+      const isWebpack4 = typeof args[2] === "function";
+      const request = isWebpack4 ? args[1] : args[0].request;
+      const callback = isWebpack4 ? args[2] : args[1];
+      if (/^[^./!]/.test(request)) {
+        return callback(null, request, "commonjs2");
+      }
+      callback();
+    }
+  ];
 
   return config;
 }

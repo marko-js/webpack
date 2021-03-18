@@ -316,7 +316,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = http;
+module.exports = require("http");
 
 /***/ }),
 
@@ -327,7 +327,7 @@ module.exports = http;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/core-tags/components/init-components-tag.js;
+module.exports = require("marko/dist/core-tags/components/init-components-tag.js");
 
 /***/ }),
 
@@ -338,7 +338,7 @@ module.exports = marko/dist/core-tags/components/init-components-tag.js;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/core-tags/core/await/reorderer-renderer.js;
+module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js");
 
 /***/ }),
 
@@ -349,7 +349,7 @@ module.exports = marko/dist/core-tags/core/await/reorderer-renderer.js;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/renderer;
+module.exports = require("marko/dist/runtime/components/renderer");
 
 /***/ }),
 
@@ -360,7 +360,7 @@ module.exports = marko/dist/runtime/components/renderer;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/helpers/render-tag;
+module.exports = require("marko/dist/runtime/helpers/render-tag");
 
 /***/ }),
 
@@ -371,7 +371,7 @@ module.exports = marko/dist/runtime/helpers/render-tag;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/html;
+module.exports = require("marko/dist/runtime/html");
 
 /***/ })
 

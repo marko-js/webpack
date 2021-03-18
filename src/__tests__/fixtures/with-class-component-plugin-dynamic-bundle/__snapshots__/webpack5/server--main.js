@@ -231,7 +231,7 @@ module.exports = require("http");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = marko/dist/core-tags/components/init-components-tag.js;
+module.exports = require("marko/dist/core-tags/components/init-components-tag.js");;
 
 /***/ }),
 
@@ -242,7 +242,7 @@ module.exports = marko/dist/core-tags/components/init-components-tag.js;
 /***/ ((module) => {
 
 "use strict";
-module.exports = marko/dist/core-tags/core/await/reorderer-renderer.js;
+module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js");;
 
 /***/ }),
 
@@ -253,7 +253,7 @@ module.exports = marko/dist/core-tags/core/await/reorderer-renderer.js;
 /***/ ((module) => {
 
 "use strict";
-module.exports = marko/dist/runtime/components/renderer;
+module.exports = require("marko/dist/runtime/components/renderer");;
 
 /***/ }),
 
@@ -264,7 +264,7 @@ module.exports = marko/dist/runtime/components/renderer;
 /***/ ((module) => {
 
 "use strict";
-module.exports = marko/dist/runtime/helpers/render-tag;
+module.exports = require("marko/dist/runtime/helpers/render-tag");;
 
 /***/ }),
 
@@ -275,7 +275,7 @@ module.exports = marko/dist/runtime/helpers/render-tag;
 /***/ ((module) => {
 
 "use strict";
-module.exports = marko/dist/runtime/html;
+module.exports = require("marko/dist/runtime/html");;
 
 /***/ })
 
@@ -287,8 +287,9 @@ module.exports = marko/dist/runtime/html;
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {

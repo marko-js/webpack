@@ -137,7 +137,7 @@ _marko_template.Component = marko_dist_runtime_components_defineComponent__WEBPA
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/defineComponent;
+module.exports = require("marko/dist/runtime/components/defineComponent");
 
 /***/ }),
 
@@ -148,7 +148,7 @@ module.exports = marko/dist/runtime/components/defineComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/registry-browser;
+module.exports = require("marko/dist/runtime/components/registry-browser");
 
 /***/ }),
 
@@ -159,7 +159,7 @@ module.exports = marko/dist/runtime/components/registry-browser;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/components/renderer;
+module.exports = require("marko/dist/runtime/components/renderer");
 
 /***/ }),
 
@@ -170,7 +170,7 @@ module.exports = marko/dist/runtime/components/renderer;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/vdom;
+module.exports = require("marko/dist/runtime/vdom");
 
 /***/ }),
 
@@ -181,7 +181,7 @@ module.exports = marko/dist/runtime/vdom;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/dist/runtime/vdom/helpers/v-element;
+module.exports = require("marko/dist/runtime/vdom/helpers/v-element");
 
 /***/ })
 

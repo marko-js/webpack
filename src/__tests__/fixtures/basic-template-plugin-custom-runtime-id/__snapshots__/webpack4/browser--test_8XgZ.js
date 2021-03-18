@@ -125,7 +125,7 @@ Object(marko_components__WEBPACK_IMPORTED_MODULE_1__["init"])("testruntime");
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = marko/components;
+module.exports = require("marko/components");
 
 /***/ })
 

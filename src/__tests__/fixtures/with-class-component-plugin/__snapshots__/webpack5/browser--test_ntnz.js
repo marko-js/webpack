@@ -81,7 +81,7 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/components/defineComponent;
+module.exports = require("marko/dist/runtime/components/defineComponent");;
 
 /***/ }),
 
@@ -91,7 +91,7 @@ module.exports = marko/dist/runtime/components/defineComponent;
   \*****************************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/components/registry-browser;
+module.exports = require("marko/dist/runtime/components/registry-browser");;
 
 /***/ }),
 
@@ -101,7 +101,7 @@ module.exports = marko/dist/runtime/components/registry-browser;
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/components/renderer;
+module.exports = require("marko/dist/runtime/components/renderer");;
 
 /***/ }),
 
@@ -111,7 +111,7 @@ module.exports = marko/dist/runtime/components/renderer;
   \******************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/vdom;
+module.exports = require("marko/dist/runtime/vdom");;
 
 /***/ }),
 
@@ -121,7 +121,7 @@ module.exports = marko/dist/runtime/vdom;
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = marko/dist/runtime/vdom/helpers/v-element;
+module.exports = require("marko/dist/runtime/vdom/helpers/v-element");;
 
 /***/ })
 
@@ -133,8 +133,9 @@ module.exports = marko/dist/runtime/vdom/helpers/v-element;
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
