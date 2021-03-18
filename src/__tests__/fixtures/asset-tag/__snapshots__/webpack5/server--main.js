@@ -38,6 +38,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
     styleAttrs
   } = input;
   const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__.default.getAssets(entry, out.global.buildName);
+  const written = out.global.___writtenAssets || (out.global.___writtenAssets = new Set());
 
   if (assets.js) {
     const nonce = out.global.cspNonce;
@@ -45,11 +46,15 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
     for (const js of assets.js) {
       const _keyScope = `[${_keyValue++}]`;
-      out.w(`<script${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
-        "src": __webpack_require__.p + js,
-        "nonce": nonce,
-        ...scriptAttrs
-      })}></script>`);
+
+      if (!written.has(js)) {
+        written.add(js);
+        out.w(`<script${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
+          "src": __webpack_require__.p + js,
+          "nonce": nonce,
+          ...scriptAttrs
+        })}></script>`);
+      }
     }
   }
 
@@ -58,11 +63,15 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
     for (const css of assets.css) {
       const _keyScope2 = `[${_keyValue2++}]`;
-      out.w(`<link${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
-        "rel": "stylesheet",
-        "href": __webpack_require__.p + css,
-        ...styleAttrs
-      })}>`);
+
+      if (!written.has(css)) {
+        written.add(css);
+        out.w(`<link${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
+          "rel": "stylesheet",
+          "href": __webpack_require__.p + css,
+          ...styleAttrs
+        })}>`);
+      }
     }
   }
 }, {
