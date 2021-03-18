@@ -1,16 +1,23 @@
 import manifest from "!!@marko/webpack/loader!?manifest";
 $ const { entry, scriptAttrs, styleAttrs } = input;
 $ const assets = manifest.getAssets(entry, out.global.buildName);
+$ const written = out.global.___writtenAssets || (out.global.___writtenAssets = new Set());
 
 <if(assets.js)>
   $ const nonce = out.global.cspNonce;
   <for|js| of=assets.js>
-    <script src=(__webpack_public_path__+js) nonce=nonce ...scriptAttrs />
+    <if(!written.has(js))>
+      $ written.add(js);
+      <script src=(__webpack_public_path__+js) nonce=nonce ...scriptAttrs />
+    </if>
   </for>
 </if>
 
 <if(assets.css)>
   <for|css| of=assets.css>
-    <link rel="stylesheet" href=(__webpack_public_path__+css) ...styleAttrs />
+    <if(!written.has(css))>
+      $ written.add(css);
+      <link rel="stylesheet" href=(__webpack_public_path__+css) ...styleAttrs />
+    </if>
   </for>
 </if>
