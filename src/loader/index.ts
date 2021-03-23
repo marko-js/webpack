@@ -64,7 +64,6 @@ const WATCH_MISSING_FILES = [
 const DEFAULT_COMPILER = require.resolve("@marko/compiler");
 const ADDED_CACHE_CLEAR = new WeakSet();
 const ADDED_CUSTOM_TAGLIB = new WeakSet();
-const BROWSER_JSON_PREFIX = "package: ";
 
 export default async function (
   this: webpack.loader.LoaderContext,
@@ -103,27 +102,10 @@ export default async function (
     return `export default ${MANIFEST_PLACEHOLDER}`;
   }
 
-  if (resourceQuery === "?browser-entry") {
-    const mwpVar = `$mwp${
-      pluginOptions.runtimeId ? `_${pluginOptions.runtimeId}` : ""
-    }`;
-    return `${
-      compiler.options.output.publicPath === undefined
-        ? `if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};\n`
-        : ""
-    }${importStr(`./${path.basename(resourcePath)}?hydrate`)};\n${
-      pluginOptions.runtimeId
-        ? `${importStr("marko/components", "{ init }")};\ninit(${JSON.stringify(
-            pluginOptions.runtimeId
-          )});`
-        : "window.$initComponents && $initComponents();"
-    }\n`;
-  }
-
   if (virtualSources.has(this.resource)) {
     const { code, map } = virtualSources.get(this.resource);
     virtualSources.delete(this.resource);
-    return this.callback(null, code, map as string);
+    return this.callback(null, code, map);
   }
 
   const done = this.async();
@@ -160,7 +142,7 @@ export default async function (
         baseConfig
       );
 
-      return done(null, code, map as string);
+      return done(null, code, (map as unknown) as string);
     }
 
     if (target === "server") {
@@ -173,7 +155,48 @@ export default async function (
       return done(
         null,
         code + referenceMissingDeps(this, resourcePath, meta),
-        map as string
+        (map as unknown) as string
+      );
+    }
+
+    // eslint-disable-next-line no-inner-declarations
+    const resolveVirtualDependency = function (
+      resourcePath,
+      { code, map, virtualPath }
+    ) {
+      const absoluteVirtualPath = `${resourcePath}?virtual=${virtualPath}`;
+      const relativeVirtualPath = `./${path.basename(
+        resourcePath
+      )}?virtual=${virtualPath}`;
+      const relativeLoaderPath = path.relative(
+        path.dirname(resourcePath),
+        __filename
+      );
+      virtualSources.set(absoluteVirtualPath, { code, map });
+      return `${virtualPath}!=!${relativeLoaderPath}!${relativeVirtualPath}`;
+    } as Parameters<
+      typeof markoCompiler.compile
+    >[2]["resolveVirtualDependency"];
+
+    if (resourceQuery === "?browser-entry") {
+      const { code, meta } = await markoCompiler.compile(source, resourcePath, {
+        ...baseConfig,
+        resolveVirtualDependency,
+        sourceMaps: false,
+        output: "hydrate"
+      });
+
+      const mwpVar = `$mwp${
+        pluginOptions.runtimeId ? `_${pluginOptions.runtimeId}` : ""
+      }`;
+      const mwpPrefix =
+        compiler.options.output.publicPath === undefined
+          ? `if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};\n`
+          : "";
+
+      return done(
+        null,
+        mwpPrefix + code + referenceMissingDeps(this, resourcePath, meta)
       );
     }
 
@@ -182,103 +205,16 @@ export default async function (
       resourcePath,
       {
         ...baseConfig,
+        resolveVirtualDependency,
         output: "dom"
       }
     );
 
-    const deps = [];
-    const basePath = `./${path.basename(resourcePath)}`;
-
-    if (meta.deps) {
-      for (let dep of meta.deps) {
-        if (typeof dep === "string") {
-          if (dep.startsWith(BROWSER_JSON_PREFIX)) {
-            if (
-              compiler.options.resolve?.extensions?.includes(".browser.json")
-            ) {
-              dep = dep.slice(BROWSER_JSON_PREFIX.length);
-            } else {
-              continue; // Do not load browser.json deps by default.
-            }
-          }
-
-          // external file, just require it.
-          deps.push(importStr(dep));
-        } else {
-          // inline content, we'll create a virtual dependency.
-          const absoluteVirtualPath = `${resourcePath}?virtual=${dep.virtualPath}`;
-          const relativeVirtualPath = `${basePath}?virtual=${dep.virtualPath}`;
-          const relativeLoaderPath = path.relative(this.context, __filename);
-          virtualSources.set(absoluteVirtualPath, { code: dep.code });
-          deps.push(
-            importStr(
-              `${dep.virtualPath}!=!${relativeLoaderPath}!${relativeVirtualPath}`
-            )
-          );
-        }
-      }
-    }
-
-    if (resourceQuery === "?hydrate") {
-      const hydrateDeps = [];
-      let isStateless = true;
-
-      if (deps.length) {
-        virtualSources.set(`${resourcePath}?deps`, { code: deps.join("\n") });
-        hydrateDeps.push(importStr(`${basePath}?deps`));
-      }
-
-      if (meta.component) {
-        if (path.extname(meta.component) === ".marko") {
-          // Load code for stateful components.
-          isStateless = false;
-          virtualSources.set(`${resourcePath}?code`, { code, map });
-          hydrateDeps.push(importStr(`${basePath}?code`));
-        } else {
-          hydrateDeps.push(
-            importStr("marko/components", "{ register }"),
-            importStr(meta.component, "component"),
-            `register(${JSON.stringify(meta.id)}, component)`
-          );
-        }
-      }
-
-      if (isStateless) {
-        // Register a split component.
-        if (meta.tags) {
-          // we need to also include the hydrate of
-          // any tags that are used by this template
-          for (const tagPath of meta.tags) {
-            if (tagPath.endsWith(".marko")) {
-              hydrateDeps.push(importStr(`${tagPath}?hydrate`));
-            }
-          }
-        }
-      }
-
-      return done(null, hydrateDeps.join("\n"));
-    }
-
-    const missingDeps = referenceMissingDeps(this, resourcePath, meta);
-    const hasDeps = deps.length;
-
-    if (hasDeps || missingDeps) {
-      let codeWithDeps = exportStr(`${basePath}?code`);
-      virtualSources.set(`${resourcePath}?code`, { code, map });
-
-      if (hasDeps) {
-        virtualSources.set(`${resourcePath}?deps`, { code: deps.join("\n") });
-        codeWithDeps = `${importStr(`${basePath}?deps`)}\n${codeWithDeps}`;
-      }
-
-      if (missingDeps) {
-        codeWithDeps += `\n${missingDeps}`;
-      }
-
-      return done(null, codeWithDeps);
-    }
-
-    return done(null, code, map as string);
+    return done(
+      null,
+      code + referenceMissingDeps(this, resourcePath, meta),
+      (map as unknown) as string
+    );
   } catch (err) {
     done(err);
   }
@@ -330,22 +266,6 @@ function getBasenameWithoutExt(file: string): string {
   const baseStart = file.lastIndexOf(path.sep) + 1;
   const extStart = file.indexOf(".", baseStart + 1);
   return file.slice(baseStart, extStart);
-}
-
-function importStr(request: string, lhs?: string) {
-  const id = JSON.stringify(request);
-
-  if (lhs) {
-    return `import ${lhs} from ${id}`;
-  }
-
-  return `import ${id}`;
-}
-
-function exportStr(request: string) {
-  const id = JSON.stringify(request);
-  // You must `default`, it is not included with `export *`...
-  return `export { default } from ${id};\nexport * from ${id}`;
 }
 
 function normalizeTarget(target: string): string {
