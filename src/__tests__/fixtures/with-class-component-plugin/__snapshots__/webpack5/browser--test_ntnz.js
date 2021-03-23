@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?code":
-/*!***********************************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?code ***!
-  \***********************************************************************************************/
+/***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko":
+/*!******************************************************************************************!*\
+  !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko ***!
+  \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -25,6 +25,7 @@ __webpack_require__.r(__webpack_exports__);
 const _marko_template = (0,marko_dist_runtime_vdom__WEBPACK_IMPORTED_MODULE_0__.t)();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_marko_template);
+
 
 
 const _marko_node = marko_dist_runtime_vdom_helpers_v_element__WEBPACK_IMPORTED_MODULE_1___default()("div", null, "0", null, 0, 0);
@@ -49,29 +50,13 @@ _marko_template.Component = marko_dist_runtime_components_defineComponent__WEBPA
 
 /***/ }),
 
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?hydrate":
-/*!**************************************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?hydrate ***!
-  \**************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "marko/components":
+/*!***********************************!*\
+  !*** external "marko/components" ***!
+  \***********************************/
+/***/ ((module) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_marko_code__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.marko?code */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?code");
-
-
-
-/***/ }),
-
-/***/ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?hydrate":
-/*!*******************************************************************************!*\
-  !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko?hydrate ***!
-  \*******************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_nested_index_marko_hydrate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/nested/index.marko?hydrate */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko?hydrate");
-
-
+module.exports = require("marko/components");;
 
 /***/ }),
 
@@ -200,10 +185,13 @@ var __webpack_exports__ = {};
   !*** ./src/__tests__/fixtures/with-class-component-plugin/test.marko?browser-entry ***!
   \*************************************************************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _test_marko_hydrate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test.marko?hydrate */ "./src/__tests__/fixtures/with-class-component-plugin/test.marko?hydrate");
+/* harmony import */ var marko_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/components */ "marko/components");
+/* harmony import */ var marko_components__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_components__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_nested_index_marko__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/nested/index.marko */ "./src/__tests__/fixtures/with-class-component-plugin/components/nested/index.marko");
 
-window.$initComponents && $initComponents();
 
+
+(0,marko_components__WEBPACK_IMPORTED_MODULE_0__.init)();
 })();
 
 /******/ })()
