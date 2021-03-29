@@ -24,6 +24,7 @@ for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
       test(`${name}`, async () => {
         const fixtureDir = path.join(fixturesDir, name);
         const snapshotDir = path.join(fixtureDir, "__snapshots__", version);
+        const remainingSnapshots = fs.readdirSync(snapshotDir);
         const configPath = path.join(fixtureDir, "webpack.config.ts");
         const { outputPath, outputFS, stats } = await compilation(
           webpack as typeof webpack4,
@@ -42,9 +43,32 @@ for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
               path.join(outputPath, assetName),
               "utf-8"
             );
+            const snapshotName = prefixName + assetName;
+            const snapshotIndex = remainingSnapshots.indexOf(snapshotName);
 
-            expect(source).toMatchFile(
-              path.join(snapshotDir, prefixName + assetName)
+            if (
+              snapshotIndex == -1 &&
+              expect.getState().snapshotState._updateSnapshot !== "all"
+            ) {
+              throw new Error(`Missing snapshot: ${version}/${snapshotName}`);
+            } else {
+              // eslint-disable-next-line jest/no-conditional-expect
+              expect(source).toMatchFile(path.join(snapshotDir, snapshotName));
+              remainingSnapshots.splice(snapshotIndex, 1);
+            }
+          }
+        }
+
+        if (remainingSnapshots.length) {
+          if (expect.getState().snapshotState._updateSnapshot === "all") {
+            for (const snapshotName of remainingSnapshots) {
+              fs.unlinkSync(path.join(snapshotDir, snapshotName));
+            }
+          } else {
+            throw new Error(
+              `Unexpected snapshots for ${version}: ${remainingSnapshots.join(
+                ", "
+              )}`
             );
           }
         }
