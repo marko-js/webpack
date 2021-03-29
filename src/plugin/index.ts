@@ -288,6 +288,25 @@ export default class MarkoWebpackPlugin {
           });
         }
       );
+
+      compiler.hooks.afterCompile.tap(
+        "MarkWebpackBrowser:afterCompile",
+        compilation => {
+          for (const chunk of compilation.chunks) {
+            for (const assetName of chunk.files) {
+              const asset = compilation.assets[assetName];
+              if (asset.size() === 0) {
+                delete compilation.assets[assetName];
+                if (Array.isArray(chunk.files)) {
+                  chunk.files.splice(chunk.files.indexOf(assetName), 1);
+                } else {
+                  chunk.files.delete(assetName);
+                }
+              }
+            }
+          }
+        }
+      );
     };
   }
 }
