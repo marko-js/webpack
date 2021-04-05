@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/marko-js/webpack/compare/v7.1.4...v8.0.0) (2021-04-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires @marko/compiler@^5.5.4
+
+### Features
+
+* emliminate output js when empty ([00ac6e9](https://github.com/marko-js/webpack/commit/00ac6e9fa65a741661eb1f8277819c4a3d705965))
+* update marko and use new hydration compile output ([7b996ce](https://github.com/marko-js/webpack/commit/7b996cece4cb085bc5e1cabea92d4a46fa7ead37))
+
 ### [7.1.4](https://github.com/marko-js/webpack/compare/v7.1.3...v7.1.4) (2021-03-18)
 
 
