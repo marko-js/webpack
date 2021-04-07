@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.0.1](https://github.com/marko-js/webpack/compare/v8.0.0...v8.0.1) (2021-04-07)
+
+
+### Bug Fixes
+
+* update marko to get correct typescript definitions ([7eb98f7](https://github.com/marko-js/webpack/commit/7eb98f71db5a81346564280a689c5132f9a78e7c))
+
 ## [8.0.0](https://github.com/marko-js/webpack/compare/v7.1.4...v8.0.0) (2021-04-05)
 
 
