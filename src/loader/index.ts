@@ -116,6 +116,11 @@ export default async function (
       fileSystem: this.fs,
       writeVersionComment: false,
       cache: (compiler.markoCompileCache ||= new Map()),
+      resolveVirtualDependency(resourcePath, { code, map, virtualPath }) {
+        const absoluteVirtualPath = `${resourcePath}?virtual=${virtualPath}`;
+        virtualSources.set(absoluteVirtualPath, { code, map });
+        return `${virtualPath}!=!${__filename}!${absoluteVirtualPath}`;
+      },
       babelConfig: {
         ...loaderOptions.babelConfig,
         compact: false,
@@ -129,7 +134,7 @@ export default async function (
           ...loaderOptions.babelConfig?.caller
         }
       }
-    };
+    } as Config;
 
     if (resourceQuery === "?server-entry") {
       const { code, map } = await markoCompiler.compile(
@@ -159,29 +164,9 @@ export default async function (
       );
     }
 
-    // eslint-disable-next-line no-inner-declarations
-    const resolveVirtualDependency = function (
-      resourcePath,
-      { code, map, virtualPath }
-    ) {
-      const absoluteVirtualPath = `${resourcePath}?virtual=${virtualPath}`;
-      const relativeVirtualPath = `./${path.basename(
-        resourcePath
-      )}?virtual=${virtualPath}`;
-      const relativeLoaderPath = path.relative(
-        path.dirname(resourcePath),
-        __filename
-      );
-      virtualSources.set(absoluteVirtualPath, { code, map });
-      return `${virtualPath}!=!${relativeLoaderPath}!${relativeVirtualPath}`;
-    } as Parameters<
-      typeof markoCompiler.compile
-    >[2]["resolveVirtualDependency"];
-
     if (resourceQuery === "?browser-entry") {
       const { code, meta } = await markoCompiler.compile(source, resourcePath, {
         ...baseConfig,
-        resolveVirtualDependency,
         sourceMaps: false,
         output: "hydrate"
       });
@@ -205,7 +190,6 @@ export default async function (
       resourcePath,
       {
         ...baseConfig,
-        resolveVirtualDependency,
         output: "dom"
       }
     );
