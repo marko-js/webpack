@@ -5,7 +5,7 @@ export default function transform(
   t: typeof types
 ): void {
   const renderAssetsMember = t.memberExpression(
-    t.identifier("out"),
+    t.memberExpression(t.identifier("out"), t.identifier("global")),
     t.identifier("___renderAssets")
   );
   path
