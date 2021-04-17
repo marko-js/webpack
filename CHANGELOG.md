@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.2](https://github.com/marko-js/webpack/compare/v9.0.1...v9.0.2) (2021-04-17)
+
+
+### Bug Fixes
+
+* i encourage others not to deploy on friday night ([a05725e](https://github.com/marko-js/webpack/commit/a05725e5ce166c2d195335e09c8967b42e26f6e9))
+
 ### [9.0.1](https://github.com/marko-js/webpack/compare/v9.0.0...v9.0.1) (2021-04-17)
 
 
