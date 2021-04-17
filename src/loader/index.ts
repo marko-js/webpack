@@ -20,6 +20,7 @@ type LoaderOptions = loaderUtils.OptionObject &
   Config & {
     target?: webpack.loader.LoaderContext["target"];
     compiler?: string;
+    hydrateIncludeImports?: string | Config["hydrateIncludeImports"];
   };
 
 const WATCH_MISSING_FILES = [
@@ -135,6 +136,10 @@ export default async function (
         }
       }
     } as Config;
+
+    if (loaderOptions.hydrateIncludeImports) {
+      baseConfig.hydrateIncludeImports = loaderOptions.hydrateIncludeImports;
+    }
 
     if (resourceQuery === "?server-entry") {
       const { code, map } = await markoCompiler.compile(
