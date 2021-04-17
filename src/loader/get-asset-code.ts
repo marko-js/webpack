@@ -66,7 +66,7 @@ $ {
   }
 
   out.global.___renderAssets = renderAssets;
-  out.global.___entries = (out.global.___entries || []).push(${JSON.stringify(
+  (out.global.___entries || (out.global.___entries = [])).push(${JSON.stringify(
     moduleName(resourcePath)
   )});
 }

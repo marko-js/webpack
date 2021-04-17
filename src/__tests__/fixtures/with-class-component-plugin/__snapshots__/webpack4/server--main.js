@@ -254,7 +254,7 @@ const _marko_componentType = "ntnz89r6",
       _marko_component = {};
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7___default()(function (input, out, _component, component, state) {
   out.global.___renderAssets = renderAssets;
-  out.global.___entries = (out.global.___entries || []).push("test_ntnz");
+  (out.global.___entries || (out.global.___entries = [])).push("test_ntnz");
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default.a, {
     "renderBody": out => {
