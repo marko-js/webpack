@@ -253,58 +253,49 @@ export default class MarkoWebpackPlugin {
             pendingAssets.finally(() => prevPendingAssets.resolve());
           }
 
-          (WEBPACK_5
-            ? (compilation as any).hooks.afterProcessAssets
-            : compilation.hooks.afterOptimizeAssets
-          ).tap("MarkoWebpackBrowser:afterProcessAssets", () => {
-            if (pendingAssets !== compiler.markoAssetsPending) {
-              return;
-            }
+          compilation.hooks.afterOptimizeAssets.tap(
+            "MarkoWebpackBrowser:afterProcessAssets",
+            () => {
+              if (pendingAssets !== compiler.markoAssetsPending) {
+                return;
+              }
 
-            for (const [entryName, { chunks }] of compilation.entrypoints) {
-              const assetsByType: { [x: string]: string[] } = {};
+              for (const [entryName, { chunks }] of compilation.entrypoints) {
+                const assetsByType: { [x: string]: string[] } = {};
 
-              for (const { files } of chunks) {
-                if (files) {
-                  for (const asset of files) {
-                    const ext = path.extname(asset).slice(1);
-                    const type = (assetsByType[ext] = assetsByType[ext] || []);
-                    type.push(asset);
+                for (const { files } of chunks) {
+                  if (files) {
+                    for (const asset of files) {
+                      if (compilation.assets[asset].size() === 0) {
+                        if (WEBPACK_5) {
+                          (compilation as any).deleteAsset(asset);
+                        } else {
+                          delete compilation.assets[asset];
+                        }
+
+                        continue;
+                      }
+                      const ext = path.extname(asset).slice(1);
+                      const type = (assetsByType[ext] =
+                        assetsByType[ext] || []);
+                      type.push(asset);
+                    }
                   }
                 }
+
+                const buildAssets = (this.clientAssets[compilerName] =
+                  this.clientAssets[compilerName] || {});
+                buildAssets[entryName] = assetsByType;
               }
 
-              const buildAssets = (this.clientAssets[compilerName] =
-                this.clientAssets[compilerName] || {});
-              buildAssets[entryName] = assetsByType;
-            }
-
-            if (this.serverCompiler.markoAssetsRead) {
-              this.serverCompiler.watching?.invalidate();
-            }
-
-            compiler.markoAssetsPending = undefined;
-            pendingAssets.resolve();
-          });
-        }
-      );
-
-      compiler.hooks.afterCompile.tap(
-        "MarkWebpackBrowser:afterCompile",
-        compilation => {
-          for (const chunk of compilation.chunks) {
-            for (const assetName of chunk.files) {
-              const asset = compilation.assets[assetName];
-              if (asset.size() === 0) {
-                delete compilation.assets[assetName];
-                if (Array.isArray(chunk.files)) {
-                  chunk.files.splice(chunk.files.indexOf(assetName), 1);
-                } else {
-                  chunk.files.delete(assetName);
-                }
+              if (this.serverCompiler.markoAssetsRead) {
+                this.serverCompiler.watching?.invalidate();
               }
+
+              compiler.markoAssetsPending = undefined;
+              pendingAssets.resolve();
             }
-          }
+          );
         }
       );
     };
