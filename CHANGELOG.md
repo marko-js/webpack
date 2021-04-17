@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/marko-js/webpack/compare/v7.1.4...v9.0.0) (2021-04-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires @marko/compiler@^5.5.4
+
+### Features
+
+* add support for the hydrateIncludeImprots option ([788acc5](https://github.com/marko-js/webpack/commit/788acc5a8f6f6d7da67140b8462d224f1f2b6e7b))
+* emliminate output js when empty ([00ac6e9](https://github.com/marko-js/webpack/commit/00ac6e9fa65a741661eb1f8277819c4a3d705965))
+* update marko and use new hydration compile output ([7b996ce](https://github.com/marko-js/webpack/commit/7b996cece4cb085bc5e1cabea92d4a46fa7ead37))
+* use Marko 5 flushing tag ([8cda688](https://github.com/marko-js/webpack/commit/8cda68836eb888abcdf948a78a2248caaf728bee))
+
+
+### Bug Fixes
+
+* deprecation warning in webpack 5 with empty assets ([c3a6007](https://github.com/marko-js/webpack/commit/c3a6007a26b02ac8b9a8df369799cd4d964be556))
+* update deps, cleanup virtual module paths ([3e1e4e2](https://github.com/marko-js/webpack/commit/3e1e4e2835c5c24d2fb77dce92700a4be5aa485e))
+* update marko to get correct typescript definitions ([7eb98f7](https://github.com/marko-js/webpack/commit/7eb98f71db5a81346564280a689c5132f9a78e7c))
+
 ### [8.0.1](https://github.com/marko-js/webpack/compare/v8.0.0...v8.0.1) (2021-04-07)
 
 
