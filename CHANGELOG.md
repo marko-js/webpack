@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.1](https://github.com/marko-js/webpack/compare/v9.0.0...v9.0.1) (2021-04-17)
+
+
+### Bug Fixes
+
+* regression with asset writing code ([7a4f049](https://github.com/marko-js/webpack/commit/7a4f049e61cf61ec3ac3e5d02e211673d0a476dd))
+
 ## [9.0.0](https://github.com/marko-js/webpack/compare/v7.1.4...v9.0.0) (2021-04-17)
 
 
