@@ -17,7 +17,7 @@ export default function transform(
           t.logicalExpression(
             "&&",
             renderAssetsMember,
-            t.callExpression(renderAssetsMember, [])
+            t.callExpression(renderAssetsMember, [t.identifier("out")])
           )
         )
       ])

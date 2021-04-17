@@ -74,16 +74,16 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 
 
 
-function renderAssets() {
-  const entries = this.global.___entries;
-  this.global.___entries = undefined;
+function renderAssets(out) {
+  const entries = this.___entries;
+  this.___entries = undefined;
 
   if (entries) {
-    __webpack_require__.p && this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
-    const buildName = this.global.buildName;
-    const nonce = this.global.cspNonce;
+    __webpack_require__.p && out.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    const buildName = this.buildName;
+    const nonce = this.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-    const written = this.global.___writtenAssets || (this.global.___writtenAssets = new Set());
+    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 
@@ -109,7 +109,7 @@ function renderAssets() {
       }
     }
 
-    this.write(scripts + styles);
+    out.write(scripts + styles);
   }
 }
 
@@ -126,7 +126,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default()), {
     "renderBody": out => {
-      out.global.___renderAssets && out.global.___renderAssets();
+      out.global.___renderAssets && out.global.___renderAssets(out);
     }
   }, out, _component, "0");
 
@@ -247,16 +247,16 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 
 
 
-function renderAssets() {
-  const entries = this.global.___entries;
-  this.global.___entries = undefined;
+function renderAssets(out) {
+  const entries = this.___entries;
+  this.___entries = undefined;
 
   if (entries) {
-    __webpack_require__.p && this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
-    const buildName = this.global.buildName;
-    const nonce = this.global.cspNonce;
+    __webpack_require__.p && out.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    const buildName = this.buildName;
+    const nonce = this.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-    const written = this.global.___writtenAssets || (this.global.___writtenAssets = new Set());
+    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 
@@ -282,7 +282,7 @@ function renderAssets() {
       }
     }
 
-    this.write(scripts + styles);
+    out.write(scripts + styles);
   }
 }
 
@@ -299,7 +299,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default()), {
     "renderBody": out => {
-      out.global.___renderAssets && out.global.___renderAssets();
+      out.global.___renderAssets && out.global.___renderAssets(out);
     }
   }, out, _component, "0");
 
@@ -388,16 +388,16 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 
 
 
-function renderAssets() {
-  const entries = this.global.___entries;
-  this.global.___entries = undefined;
+function renderAssets(out) {
+  const entries = this.___entries;
+  this.___entries = undefined;
 
   if (entries) {
-    __webpack_require__.p && this.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
-    const buildName = this.global.buildName;
-    const nonce = this.global.cspNonce;
+    __webpack_require__.p && out.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    const buildName = this.buildName;
+    const nonce = this.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-    const written = this.global.___writtenAssets || (this.global.___writtenAssets = new Set());
+    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 
@@ -423,7 +423,7 @@ function renderAssets() {
       }
     }
 
-    this.write(scripts + styles);
+    out.write(scripts + styles);
   }
 }
 
@@ -440,7 +440,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default()), {
     "renderBody": out => {
-      out.global.___renderAssets && out.global.___renderAssets();
+      out.global.___renderAssets && out.global.___renderAssets(out);
     }
   }, out, _component, "0");
 
