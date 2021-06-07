@@ -116,6 +116,7 @@ export default async function (
       sourceMaps,
       fileSystem: this.fs,
       writeVersionComment: false,
+      runtimeId: pluginOptions.runtimeId,
       cache: (compiler.markoCompileCache ||= new Map()),
       resolveVirtualDependency(resourcePath, { code, map, virtualPath }) {
         const absoluteVirtualPath = `${resourcePath}?virtual=${virtualPath}`;
