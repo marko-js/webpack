@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.3](https://github.com/marko-js/webpack/compare/v9.0.2...v9.0.3) (2021-06-07)
+
+
+### Bug Fixes
+
+* issue with runtimeId not forwarded to Marko compiler ([7d5f8e9](https://github.com/marko-js/webpack/commit/7d5f8e942e6ade36648c6bd84a60106f85ca18ad))
+
 ### [9.0.2](https://github.com/marko-js/webpack/compare/v9.0.1...v9.0.2) (2021-04-17)
 
 
