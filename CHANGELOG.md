@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/marko-js/webpack/compare/v9.0.3...v9.1.0) (2021-09-14)
+
+
+### Features
+
+* add hmr support ([de097f0](https://github.com/marko-js/webpack/commit/de097f0fe508fa8320433f27c29e867d45d2a323))
+
 ### [9.0.3](https://github.com/marko-js/webpack/compare/v9.0.2...v9.0.3) (2021-06-07)
 
 
