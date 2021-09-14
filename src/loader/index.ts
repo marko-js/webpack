@@ -114,6 +114,7 @@ export default async function (
   try {
     const baseConfig = {
       sourceMaps,
+      hot: this.hot,
       fileSystem: this.fs,
       writeVersionComment: false,
       runtimeId: pluginOptions.runtimeId,
@@ -165,7 +166,7 @@ export default async function (
 
       return done(
         null,
-        code + referenceMissingDeps(this, resourcePath, meta),
+        code + getTrailingContent(this, resourcePath, meta),
         (map as unknown) as string
       );
     }
@@ -187,7 +188,7 @@ export default async function (
 
       return done(
         null,
-        mwpPrefix + code + referenceMissingDeps(this, resourcePath, meta)
+        mwpPrefix + code + getTrailingContent(this, resourcePath, meta)
       );
     }
 
@@ -202,7 +203,7 @@ export default async function (
 
     return done(
       null,
-      code + referenceMissingDeps(this, resourcePath, meta),
+      code + getTrailingContent(this, resourcePath, meta),
       (map as unknown) as string
     );
   } catch (err) {
@@ -210,36 +211,42 @@ export default async function (
   }
 }
 
-function referenceMissingDeps(
+function getTrailingContent(
   ctx: webpack.loader.LoaderContext,
   resource: string,
   meta: MarkoMeta
 ) {
+  let result = "";
+
   if (meta.watchFiles) {
     for (const watchFile of meta.watchFiles) {
       ctx.addDependency(watchFile);
     }
   }
 
-  if (!ctx._compiler.watchMode) {
-    return "";
-  }
+  if (ctx._compiler.watchMode) {
+    const missingDeps = [];
+    for (const watchFile of WATCH_MISSING_FILES) {
+      if (!watchFile.has(meta)) {
+        missingDeps.push(watchFile.basename);
+      }
+    }
 
-  const missingDeps = [];
-  for (const watchFile of WATCH_MISSING_FILES) {
-    if (!watchFile.has(meta)) {
-      missingDeps.push(watchFile.basename);
+    if (missingDeps.length) {
+      const templateFileName = getBasenameWithoutExt(resource);
+      result += `\nrequire.context(".", false, /\\${path.sep}${
+        templateFileName === "index"
+          ? ""
+          : `${escapeRegExp(templateFileName)}\\.`
+      }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/)`;
     }
   }
 
-  if (missingDeps.length) {
-    const templateFileName = getBasenameWithoutExt(resource);
-    return `require.context(".", false, /\\${path.sep}${
-      templateFileName === "index" ? "" : `${escapeRegExp(templateFileName)}\\.`
-    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/)`;
+  if (ctx.hot) {
+    result += "\nif (import.meta.webpackHot) import.meta.webpackHot.accept()";
   }
 
-  return "";
+  return result;
 }
 
 function getCompiler(ctx: webpack.loader.LoaderContext) {
