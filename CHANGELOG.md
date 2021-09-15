@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.2.0](https://github.com/marko-js/webpack/compare/v9.1.0...v9.2.0) (2021-09-15)
+
+
+### Features
+
+* infer runtime id from webpack uniqueName option ([#59](https://github.com/marko-js/webpack/issues/59)) ([c3c1730](https://github.com/marko-js/webpack/commit/c3c173076a176bf2c85710dfa64770e5efb8a1cb))
+
 ## [9.1.0](https://github.com/marko-js/webpack/compare/v9.0.3...v9.1.0) (2021-09-14)
 
 
