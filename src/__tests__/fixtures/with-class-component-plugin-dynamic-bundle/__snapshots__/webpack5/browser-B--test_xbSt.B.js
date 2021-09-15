@@ -194,7 +194,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-(0,marko_src_runtime_components__WEBPACK_IMPORTED_MODULE_0__.init)();
+(0,marko_src_runtime_components__WEBPACK_IMPORTED_MODULE_0__.init)("_marko_webpack");
 })();
 
 /******/ })()

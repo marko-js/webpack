@@ -36,8 +36,12 @@ export default class MarkoWebpackPlugin {
     };
   } = {};
 
-  constructor(private options?: { runtimeId?: string }) {
-    this.options = options;
+  constructor(private options: { runtimeId?: string } = {}) {
+    this.options = { ...options };
+
+    if (this.options.runtimeId) {
+      this.options.runtimeId = normalizeRuntimeId(this.options.runtimeId);
+    }
   }
 
   get server() {
@@ -79,6 +83,12 @@ export default class MarkoWebpackPlugin {
       compiler.hooks.thisCompilation.tap(
         "MarkoWebpackServer:compilation",
         compilation => {
+          if (!this.options.runtimeId && compilation.outputOptions.uniqueName) {
+            this.options.runtimeId = normalizeRuntimeId(
+              compilation.outputOptions.uniqueName
+            );
+          }
+
           compilation.hooks.finishModules.tap(
             "MarkoWebpackServer:finishModules",
             modules => {
@@ -310,6 +320,10 @@ function patchWatchingWebpack4(compiler: webpack.Compiler) {
       return (compiler.watching = watch.apply(compiler, args));
     };
   }
+}
+
+function normalizeRuntimeId(id: string) {
+  return id.replace(/[^a-z0-9$_]/gi, "_");
 }
 
 function addLoaderAlias(config: webpack.Configuration) {
