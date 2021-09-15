@@ -226,12 +226,13 @@ Note: If a bundle with the provided name does not exist an error will be thrown.
 In some cases you may want to embed multiple isolated copies of Marko on the page. Since Marko relies on some `window` properties to initialize this can cause issues. For example, by default Marko will read the server rendered hydration code from `window.$components`. In Marko you can change these `window` properties by rendering with `{ $global: { runtimeId: "MY_MARKO_RUNTIME_ID" } }` as input on the server side.
 
 This plugin exposes a `runtimeId` option produces output that automatically sets `$global.runtimeId` on the server side and initializes properly in the browser.
+The `runtimeId` will default to the [`uniqueName` option](https://webpack.js.org/configuration/output/#outputuniquename) from the server compiler in the webpack config.
 
 ```js
 import MarkoPlugin from "@marko/webpack/plugin";
 
 const markoPlugin = new MarkoPlugin({
-  runtimeId: "MY_MARKO_RUNTIME_ID"
+  runtimeId: "MY_MARKO_RUNTIME_ID" // default to webpack `output.uniqueName` option.
 });
 ```
 

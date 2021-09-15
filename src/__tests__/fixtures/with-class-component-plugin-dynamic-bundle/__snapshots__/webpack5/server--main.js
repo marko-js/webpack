@@ -115,7 +115,7 @@ function renderAssets(out) {
   this.___entries = undefined;
 
   if (entries) {
-    __webpack_require__.p && out.script(`$mwp=${JSON.stringify(__webpack_require__.p)}`);
+    __webpack_require__.p && out.script(`$mwp__marko_webpack=${JSON.stringify(__webpack_require__.p)}`);
     const buildName = this.buildName;
     const nonce = this.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
@@ -157,6 +157,7 @@ function renderAssets(out) {
 const _marko_componentType = "xbStr3Q2",
       _marko_component = {};
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7___default()(function (input, out, _component, component, state) {
+  out.global.runtimeId = "_marko_webpack";
   out.global.___renderAssets = renderAssets;
   (out.global.___entries || (out.global.___entries = [])).push("test_xbSt");
 
