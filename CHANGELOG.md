@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.2.1](https://github.com/marko-js/webpack/compare/v9.2.0...v9.2.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* issue with SSR hot reloading ([0bc4321](https://github.com/marko-js/webpack/commit/0bc43211da752267773f6c1b3f27b841a1c6c79f))
+
 ## [9.2.0](https://github.com/marko-js/webpack/compare/v9.1.0...v9.2.0) (2021-09-15)
 
 
