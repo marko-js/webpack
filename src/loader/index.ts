@@ -150,7 +150,7 @@ export default async function (
           pluginOptions.runtimeId,
           compiler.options.output.publicPath
         ),
-        resourcePath,
+        resourcePath.replace(/\.marko$/, "-server-entry.marko"),
         baseConfig
       );
 
@@ -242,7 +242,7 @@ function getTrailingContent(
     }
   }
 
-  if (ctx.hot) {
+  if (ctx.hot && ctx.resourceQuery !== "?browser-entry") {
     result += "\nif (import.meta.webpackHot) import.meta.webpackHot.accept()";
   }
 

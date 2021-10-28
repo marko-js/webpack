@@ -110,7 +110,7 @@ function renderAssets(out) {
 
 
 
-const _marko_componentType = "xGHmCIBi",
+const _marko_componentType = "xfzq196l",
       _marko_component = {};
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7___default()(function (input, out, _component, component, state) {
   out.global.runtimeId = "_marko_webpack";

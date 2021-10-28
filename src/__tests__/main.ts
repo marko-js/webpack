@@ -32,6 +32,7 @@ for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
       test(`${name}`, async () => {
         const fixtureDir = path.join(fixturesDir, name);
         const snapshotDir = path.join(fixtureDir, "__snapshots__", version);
+        await fs.promises.mkdir(snapshotDir, { recursive: true });
         const remainingSnapshots = fs.readdirSync(snapshotDir);
         const configPath = path.join(fixtureDir, "webpack.config.ts");
         const { outputPath, outputFS, stats } = await compilation(
