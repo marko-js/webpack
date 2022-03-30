@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.2.2](https://github.com/marko-js/webpack/compare/v9.2.1...v9.2.2) (2022-03-30)
+
+
+### Bug Fixes
+
+* source-maps not resolving to absolute path in browser build ([ec97f5f](https://github.com/marko-js/webpack/commit/ec97f5f7f95c0eb96ff2faa5a3253ee5540bf0dd))
+
 ### [9.2.1](https://github.com/marko-js/webpack/compare/v9.2.0...v9.2.1) (2021-10-28)
 
 
