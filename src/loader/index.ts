@@ -126,6 +126,7 @@ export default async function (
       },
       babelConfig: {
         ...loaderOptions.babelConfig,
+        sourceFileName: resourcePath, // Webpack needs absolute file paths in the output sources and does not honor "sourceRoot".
         compact: false,
         comments: false,
         caller: {
