@@ -105,7 +105,6 @@ export default async function (
 
   if (virtualSources.has(this.resource)) {
     const { code, map } = virtualSources.get(this.resource);
-    virtualSources.delete(this.resource);
     return this.callback(null, code, map);
   }
 
