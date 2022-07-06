@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.3.0](https://github.com/marko-js/webpack/compare/v9.2.3...v9.3.0) (2022-07-06)
+
+
+### Features
+
+* automatically add cross-origin script attr when applicable ([#70](https://github.com/marko-js/webpack/issues/70)) ([d2ba115](https://github.com/marko-js/webpack/commit/d2ba115fbf2dcc83a3d3b34fbc33bbeb2f299712))
+
 ### [9.2.3](https://github.com/marko-js/webpack/compare/v9.2.2...v9.2.3) (2022-07-05)
 
 
