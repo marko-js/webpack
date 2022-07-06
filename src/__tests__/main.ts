@@ -12,7 +12,7 @@ const srcDir = path.dirname(__dirname);
 const fixturesDir = path.join(__dirname, "fixtures");
 const fixtures = fs.readdirSync(fixturesDir);
 const srcDirReg = new RegExp(
-  [srcDir, srcDir.slice(srcDir.indexOf(path.sep)).replace(/[/\\/_.]+/g, "_")]
+  [srcDir, srcDir.slice(srcDir.indexOf(path.sep)).replace(/[/\\_.-]+/g, "_")]
     .map(escapeStringRegexp)
     .join("|"),
   "gi"

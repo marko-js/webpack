@@ -12,6 +12,8 @@ import template from ${templatePath};
 import manifest from "!!@marko/webpack/loader!?manifest";
 export * from ${templatePath};
 
+// Check if public path is relative, if not we'll set the crossorigin attribute on scripts.
+static const crossOriginAttr = new URL(__webpack_public_path__, "file:").protocol === "file:" ? "" : " crossorigin";
 static function renderAssets(out) {
   const entries = this.___entries;
   this.___entries = undefined;
@@ -39,7 +41,7 @@ static function renderAssets(out) {
         for (const href of assets.js) {
           if (!written.has(href)) {
             written.add(href);
-            scripts += \`<script src=\${JSON.stringify(__webpack_public_path__+href)}\${nonceAttr} async></script>\`;
+            scripts += \`<script src=\${JSON.stringify(__webpack_public_path__+href)}\${nonceAttr + crossOriginAttr} async></script>\`;
           }
         }
       }
