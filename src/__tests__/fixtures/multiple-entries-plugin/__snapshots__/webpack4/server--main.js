@@ -154,6 +154,7 @@ const _marko_template = Object(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_
 
 
 
+const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
 
 function renderAssets(out) {
   const entries = this.___entries;
@@ -175,7 +176,7 @@ function renderAssets(out) {
         for (const href of assets.js) {
           if (!written.has(href)) {
             written.add(href);
-            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr} async></script>`;
+            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr + crossOriginAttr} async></script>`;
           }
         }
       }
@@ -321,6 +322,7 @@ const _marko_template = Object(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_
 
 
 
+const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
 
 function renderAssets(out) {
   const entries = this.___entries;
@@ -342,7 +344,7 @@ function renderAssets(out) {
         for (const href of assets.js) {
           if (!written.has(href)) {
             written.add(href);
-            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr} async></script>`;
+            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr + crossOriginAttr} async></script>`;
           }
         }
       }
@@ -458,6 +460,7 @@ const _marko_template = Object(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_
 
 
 
+const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
 
 function renderAssets(out) {
   const entries = this.___entries;
@@ -479,7 +482,7 @@ function renderAssets(out) {
         for (const href of assets.js) {
           if (!written.has(href)) {
             written.add(href);
-            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr} async></script>`;
+            scripts += `<script src=${JSON.stringify(__webpack_require__.p + href)}${nonceAttr + crossOriginAttr} async></script>`;
           }
         }
       }
