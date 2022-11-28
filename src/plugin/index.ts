@@ -1,6 +1,5 @@
 import path from "path";
 import sortKeys from "sort-keys";
-import { ReplaceSource } from "webpack-sources";
 import * as webpack from "webpack";
 import { MANIFEST_PLACEHOLDER } from "../shared/manifest";
 import moduleName from "../shared/module-name";
@@ -187,7 +186,10 @@ export default class MarkoWebpackPlugin {
 }`
                       );
 
-                      const newSource = new ReplaceSource(
+                      const sources = (compiler as any).webpack
+                        ? (compiler as any).webpack.sources
+                        : require("webpack-sources");
+                      const newSource = new sources.ReplaceSource(
                         (old as any).original ? (old as any).original() : old
                       );
                       newSource.replace(
