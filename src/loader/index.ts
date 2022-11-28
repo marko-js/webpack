@@ -72,7 +72,9 @@ export default async function (
 ) {
   const { resourcePath, resourceQuery } = this;
   const compiler = getCompiler(this);
-  const loaderOptions: LoaderOptions = loaderUtils.getOptions(this);
+  const loaderOptions: LoaderOptions = (this as any).getOptions
+    ? (this as any).getOptions()
+    : loaderUtils.getOptions(this);
   const pluginOptions = compiler.markoPluginOptions || {};
   const sourceMaps = loaderOptions.sourceMaps ?? this.sourceMap;
   const target = normalizeTarget(loaderOptions.target || this.target);
