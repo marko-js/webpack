@@ -97,13 +97,23 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html */ "marko/dist/runtime/html");
 /* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !@marko/webpack/loader!?manifest */ "./src/loader/index.ts!./?manifest");
-/* harmony import */ var marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/attr */ "marko/dist/runtime/html/helpers/attr");
-/* harmony import */ var marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/attrs */ "marko/dist/runtime/html/helpers/attrs");
-/* harmony import */ var marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var fs_promises__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fs/promises */ "fs/promises");
+/* harmony import */ var fs_promises__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(fs_promises__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !@marko/webpack/loader!?manifest */ "./src/loader/index.ts!./?manifest");
+/* harmony import */ var marko_dist_runtime_html_helpers_escape_script_placeholder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/escape-script-placeholder */ "marko/dist/runtime/html/helpers/escape-script-placeholder");
+/* harmony import */ var marko_dist_runtime_html_helpers_escape_script_placeholder__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_escape_script_placeholder__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/attr */ "marko/dist/runtime/html/helpers/attr");
+/* harmony import */ var marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/attrs */ "marko/dist/runtime/html/helpers/attrs");
+/* harmony import */ var marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var marko_dist_core_tags_core_await_renderer_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! marko/dist/core-tags/core/await/renderer.js */ "marko/dist/core-tags/core/await/renderer.js");
+/* harmony import */ var marko_dist_core_tags_core_await_renderer_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(marko_dist_core_tags_core_await_renderer_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! marko/dist/runtime/helpers/render-tag */ "marko/dist/runtime/helpers/render-tag");
+/* harmony import */ var marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var marko_dist_runtime_html_helpers_escape_style_placeholder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/escape-style-placeholder */ "marko/dist/runtime/html/helpers/escape-style-placeholder");
+/* harmony import */ var marko_dist_runtime_html_helpers_escape_style_placeholder__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_escape_style_placeholder__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
+/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_9__);
 
 
 const _marko_template = Object(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__["t"])();
@@ -113,15 +123,22 @@ const _marko_template = Object(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_
 
 
 
+
+
+
+
+
 const _marko_componentType = "GHIxthSC",
       _marko_component = {};
-_marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4___default()(function (input, out, _component, component, state) {
+_marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_9___default()(function (input, out, _component, component, state) {
   const {
     entry,
+    inline,
     scriptAttrs,
     styleAttrs
   } = input;
-  const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__["default"].getAssets(entry, out.global.buildName);
+  const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__["default"].getAssets(entry, out.global.buildName);
+  const outputPath = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__["default"].getOutputPath(out.global.buildName);
   const written = out.global.___writtenAssets || (out.global.___writtenAssets = new Set());
 
   if (assets.js) {
@@ -133,11 +150,27 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
       if (!written.has(js)) {
         written.add(js);
-        out.w(`<script${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
-          "src": __webpack_require__.p + js,
-          "nonce": nonce,
-          ...scriptAttrs
-        })}></script>`);
+
+        if (inline) {
+          marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_7___default()(marko_dist_core_tags_core_await_renderer_js__WEBPACK_IMPORTED_MODULE_6___default.a, {
+            "_provider": fs_promises__WEBPACK_IMPORTED_MODULE_1___default.a.readFile(outputPath + js, "utf-8"),
+            "_name": "fs.readFile(outputPath + js, \"utf-8\")",
+            "then": {
+              "renderBody": (out, code) => {
+                out.w(`<script${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5___default()({
+                  "nonce": nonce,
+                  ...scriptAttrs
+                })}>${marko_dist_runtime_html_helpers_escape_script_placeholder__WEBPACK_IMPORTED_MODULE_3___default()(code)}</script>`);
+              }
+            }
+          }, out, _component, "0" + _keyScope);
+        } else {
+          out.w(`<script${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5___default()({
+            "src": __webpack_require__.p + js,
+            "nonce": nonce,
+            ...scriptAttrs
+          })}></script>`);
+        }
       }
     }
   }
@@ -150,11 +183,24 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
       if (!written.has(css)) {
         written.add(css);
-        out.w(`<link${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
-          "rel": "stylesheet",
-          "href": __webpack_require__.p + css,
-          ...styleAttrs
-        })}>`);
+
+        if (inline) {
+          marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_7___default()(marko_dist_core_tags_core_await_renderer_js__WEBPACK_IMPORTED_MODULE_6___default.a, {
+            "_provider": fs_promises__WEBPACK_IMPORTED_MODULE_1___default.a.readFile(outputPath + css, "utf-8"),
+            "_name": "fs.readFile(outputPath + css, \"utf-8\")",
+            "then": {
+              "renderBody": (out, code) => {
+                out.w(`<style${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5___default()(styleAttrs)}>${marko_dist_runtime_html_helpers_escape_style_placeholder__WEBPACK_IMPORTED_MODULE_8___default()(code)}</style>`);
+              }
+            }
+          }, out, _component, "4" + _keyScope2);
+        } else {
+          out.w(`<link${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_5___default()({
+            "rel": "stylesheet",
+            "href": __webpack_require__.p + css,
+            ...styleAttrs
+          })}>`);
+        }
       }
     }
   }
@@ -334,11 +380,26 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  getAssets(entry) {
-    return this.build[entry];
-  },
-  build: {"other":{"js":["other.js"]},"test_wUwF":{"js":["test_wUwF.js"]}}
-});
+    getAssets(entry) {
+      return this.build[entry];
+    },
+    getOutputPath() {
+      return this.buildOutputPath;
+    },
+    build: {"other":{"js":["other.js"]},"test_wUwF":{"js":["test_wUwF.js"]}},
+    buildOutputPath: "_PROJECT/dist"
+  });
+
+/***/ }),
+
+/***/ "fs/promises":
+/*!******************************!*\
+  !*** external "fs/promises" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("fs/promises");
 
 /***/ }),
 
@@ -372,6 +433,17 @@ module.exports = require("marko/dist/core-tags/components/init-components-tag.js
 /***/ (function(module, exports) {
 
 module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js");
+
+/***/ }),
+
+/***/ "marko/dist/core-tags/core/await/renderer.js":
+/*!**************************************************************!*\
+  !*** external "marko/dist/core-tags/core/await/renderer.js" ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("marko/dist/core-tags/core/await/renderer.js");
 
 /***/ }),
 
@@ -438,6 +510,28 @@ module.exports = require("marko/dist/runtime/html/helpers/attr");
 /***/ (function(module, exports) {
 
 module.exports = require("marko/dist/runtime/html/helpers/attrs");
+
+/***/ }),
+
+/***/ "marko/dist/runtime/html/helpers/escape-script-placeholder":
+/*!****************************************************************************!*\
+  !*** external "marko/dist/runtime/html/helpers/escape-script-placeholder" ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("marko/dist/runtime/html/helpers/escape-script-placeholder");
+
+/***/ }),
+
+/***/ "marko/dist/runtime/html/helpers/escape-style-placeholder":
+/*!***************************************************************************!*\
+  !*** external "marko/dist/runtime/html/helpers/escape-style-placeholder" ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("marko/dist/runtime/html/helpers/escape-style-placeholder");
 
 /***/ })
 

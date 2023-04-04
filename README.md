@@ -59,6 +59,13 @@ The end result is that you setup a multi compiler (as shown below) and you can s
 
 The `<webpack-assets>` tag can be used along with the plugin in a multi-compiler setup. This tag allows you to inject `<script>`/`<style>` tags into a server-rendered template for the assets of an entry in the client compiler.
 
+#### Supported Attributes
+
+- `entry`: the name of the webpack entry
+- `inline`: whether the file contents should be inlined into the html (default: `false`)
+- `scriptAttrs`: additional attributes to add to the `<script>` tag (default: `{}`)
+- `styleAttrs`: additional attributes to add to the `<link>`/`<style>` tag (default: `{}`)
+
 #### Example Usage
 
 ```marko

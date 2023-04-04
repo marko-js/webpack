@@ -287,16 +287,25 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  getAssets(entry, buildName) {
-    const buildAssets = this.builds[buildName];
-    if (!buildAssets) {
-      throw new Error("Unable to load assets for build with a '$global.buildName' of '" + buildName + "'.");
-    }
-
-    return buildAssets[entry];
-  },
-  builds: {"browser-A":{"test_xbSt":{"css":["test_xbSt.A.css"],"js":["test_xbSt.A.js"]}},"browser-B":{"test_xbSt":{"css":["test_xbSt.B.css"],"js":["test_xbSt.B.js"]}},"browser-C":{"test_xbSt":{"css":["test_xbSt.C.css"],"js":["test_xbSt.C.js"]}}}
-});
+    getAssets(entry, buildName) {
+      const buildAssets = this.builds[buildName];
+      if (!buildAssets) {
+        throw new Error("Unable to load assets for build with a '$global.buildName' of '" + buildName + "'.");
+      }
+  
+      return buildAssets[entry];
+    },
+    getOutputPath(buildName) {
+      const outputPath = this.buildOutputPaths[buildName];
+      if (!outputPath) {
+        throw new Error("Unable to load output path for build with a '$global.buildName' of '" + buildName + "'.");
+      }
+  
+      return outputPath;
+    },
+    builds: {"browser-A":{"test_xbSt":{"css":["test_xbSt.A.css"],"js":["test_xbSt.A.js"]}},"browser-B":{"test_xbSt":{"css":["test_xbSt.B.css"],"js":["test_xbSt.B.js"]}},"browser-C":{"test_xbSt":{"css":["test_xbSt.C.css"],"js":["test_xbSt.C.js"]}}},
+    buildOutputPaths: {"browser-A":"_PROJECT/dist","browser-B":"_PROJECT/dist","browser-C":"_PROJECT/dist"}
+  });
 
 /***/ }),
 

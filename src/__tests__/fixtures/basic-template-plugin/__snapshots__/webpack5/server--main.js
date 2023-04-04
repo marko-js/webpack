@@ -149,11 +149,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  getAssets(entry) {
-    return this.build[entry];
-  },
-  build: {"test_r9oe":{"js":["test_r9oe.js"]}}
-});
+    getAssets(entry) {
+      return this.build[entry];
+    },
+    getOutputPath() {
+      return this.buildOutputPath;
+    },
+    build: {"test_r9oe":{"js":["test_r9oe.js"]}},
+    buildOutputPath: "_PROJECT/dist"
+  });
 
 /***/ }),
 
