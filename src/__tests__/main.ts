@@ -8,11 +8,14 @@ import compilation from "./util/compilation";
 
 expect.extend({ toMatchFile });
 
-const srcDir = path.dirname(__dirname);
+const projectDir = path.dirname(path.dirname(__dirname));
 const fixturesDir = path.join(__dirname, "fixtures");
 const fixtures = fs.readdirSync(fixturesDir);
-const srcDirReg = new RegExp(
-  [srcDir, srcDir.slice(srcDir.indexOf(path.sep)).replace(/[/\\_.-]+/g, "_")]
+const projectDirReg = new RegExp(
+  [
+    projectDir,
+    projectDir.slice(projectDir.indexOf(path.sep)).replace(/[/\\/_.-]+/g, "_")
+  ]
     .map(escapeStringRegexp)
     .join("|"),
   "gi"
@@ -50,7 +53,7 @@ for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
           for (const assetName in compilation.assets) {
             const source = outputFS
               .readFileSync(path.join(outputPath, assetName), "utf-8")
-              .replace(srcDirReg, "_SOURCE");
+              .replace(projectDirReg, "_PROJECT");
             const snapshotName = prefixName + assetName;
             const snapshotIndex = remainingSnapshots.indexOf(snapshotName);
 
