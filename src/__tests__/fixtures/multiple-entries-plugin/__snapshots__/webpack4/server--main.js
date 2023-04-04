@@ -563,11 +563,15 @@ http
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  getAssets(entry) {
-    return this.build[entry];
-  },
-  build: {"bar_qMMC":{"js":["bar_qMMC.js"]},"foo_FRga":{"js":["foo_FRga.js"]},"nested_vyXF":{"js":["nested_vyXF.js"]}}
-});
+    getAssets(entry) {
+      return this.build[entry];
+    },
+    getOutputPath() {
+      return this.buildOutputPath;
+    },
+    build: {"bar_qMMC":{"js":["bar_qMMC.js"]},"foo_FRga":{"js":["foo_FRga.js"]},"nested_vyXF":{"js":["nested_vyXF.js"]}},
+    buildOutputPath: "_PROJECT/dist"
+  });
 
 /***/ }),
 

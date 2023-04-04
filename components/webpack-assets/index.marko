@@ -1,6 +1,8 @@
+import fs from "fs/promises"
 import manifest from "!!@marko/webpack/loader!?manifest";
-$ const { entry, scriptAttrs, styleAttrs } = input;
+$ const { entry, inline, scriptAttrs, styleAttrs } = input;
 $ const assets = manifest.getAssets(entry, out.global.buildName);
+$ const outputPath = manifest.getOutputPath(out.global.buildName);
 $ const written = out.global.___writtenAssets || (out.global.___writtenAssets = new Set());
 
 <if(assets.js)>
@@ -8,7 +10,16 @@ $ const written = out.global.___writtenAssets || (out.global.___writtenAssets = 
   <for|js| of=assets.js>
     <if(!written.has(js))>
       $ written.add(js);
-      <script src=(__webpack_public_path__+js) nonce=nonce ...scriptAttrs />
+      <if(inline)>
+        <await(fs.readFile(outputPath + js, "utf-8"))>
+          <@then|code|>
+            <script nonce=nonce ...scriptAttrs>${code}</script>
+          </@then>
+        </await>
+      </if>
+      <else>
+        <script src=(__webpack_public_path__+js) nonce=nonce ...scriptAttrs />
+      </else>
     </if>
   </for>
 </if>
@@ -17,7 +28,16 @@ $ const written = out.global.___writtenAssets || (out.global.___writtenAssets = 
   <for|css| of=assets.css>
     <if(!written.has(css))>
       $ written.add(css);
-      <link rel="stylesheet" href=(__webpack_public_path__+css) ...styleAttrs />
+      <if(inline)>
+        <await(fs.readFile(outputPath + css, "utf-8"))>
+          <@then|code|>
+            <style ...styleAttrs>${code}</style>
+          </@then>
+        </await>
+      </if>
+      <else>
+        <link rel="stylesheet" href=(__webpack_public_path__+css) ...styleAttrs />
+      </else>
     </if>
   </for>
 </if>

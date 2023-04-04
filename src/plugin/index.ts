@@ -168,22 +168,39 @@ export default class MarkoWebpackPlugin {
                       const content = escapeIfEval(
                         hasMultipleBuilds
                           ? `{
-  getAssets(entry, buildName) {
-    const buildAssets = this.builds[buildName];
-    if (!buildAssets) {
-      throw new Error("Unable to load assets for build with a '$global.buildName' of '" + buildName + "'.");
-    }
-
-    return buildAssets[entry];
-  },
-  builds: ${JSON.stringify(clientAssets)}
-}`
+    getAssets(entry, buildName) {
+      const buildAssets = this.builds[buildName];
+      if (!buildAssets) {
+        throw new Error("Unable to load assets for build with a '$global.buildName' of '" + buildName + "'.");
+      }
+  
+      return buildAssets[entry];
+    },
+    getOutputPath(buildName) {
+      const outputPath = this.buildOutputPaths[buildName];
+      if (!outputPath) {
+        throw new Error("Unable to load output path for build with a '$global.buildName' of '" + buildName + "'.");
+      }
+  
+      return outputPath;
+    },
+    builds: ${JSON.stringify(clientAssets)},
+    buildOutputPaths: ${JSON.stringify(
+      this.browserCompilers.reduce((acc, it) => {
+        return (acc[it.name] = it.outputPath), acc;
+      }, {})
+    )}
+  }`
                           : `{
-  getAssets(entry) {
-    return this.build[entry];
-  },
-  build: ${JSON.stringify(clientAssets[this.browserCompilers[0].name])}
-}`
+    getAssets(entry) {
+      return this.build[entry];
+    },
+    getOutputPath() {
+      return this.buildOutputPath;
+    },
+    build: ${JSON.stringify(clientAssets[this.browserCompilers[0].name])},
+    buildOutputPath: ${JSON.stringify(this.browserCompilers[0].outputPath)}
+  }`
                       );
 
                       const sources = (compiler as any).webpack

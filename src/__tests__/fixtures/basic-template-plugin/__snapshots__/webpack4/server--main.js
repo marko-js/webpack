@@ -246,11 +246,15 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  getAssets(entry) {
-    return this.build[entry];
-  },
-  build: {"test_r9oe":{"js":["test_r9oe.js"]}}
-});
+    getAssets(entry) {
+      return this.build[entry];
+    },
+    getOutputPath() {
+      return this.buildOutputPath;
+    },
+    build: {"test_r9oe":{"js":["test_r9oe.js"]}},
+    buildOutputPath: "_PROJECT/dist"
+  });
 
 /***/ }),
 
