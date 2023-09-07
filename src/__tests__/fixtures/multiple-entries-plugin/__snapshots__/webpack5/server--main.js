@@ -32,7 +32,7 @@ const _marko_componentType = "qMMCl8/W",
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _component, component, state) {
   out.w("<h1>Hello Bar</h1>");
 
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_shared_marko__WEBPACK_IMPORTED_MODULE_1__.default, {}, out, _component, "1");
+  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_shared_marko__WEBPACK_IMPORTED_MODULE_1__["default"], {}, out, _component, "1");
 }, {
   t: _marko_componentType,
   i: true
@@ -89,7 +89,7 @@ function renderAssets(out) {
     let styles = "";
 
     for (const entry of entries) {
-      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__.default.getAssets(entry, buildName);
+      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__["default"].getAssets(entry, buildName);
 
       if (assets.js) {
         for (const href of assets.js) {
@@ -132,7 +132,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
     }
   }, out, _component, "0");
 
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_bar_marko__WEBPACK_IMPORTED_MODULE_1__.default, input, out, _component, "1");
+  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_bar_marko__WEBPACK_IMPORTED_MODULE_1__["default"], input, out, _component, "1");
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5___default()), {}, out, _component, "2");
 
@@ -207,7 +207,7 @@ const _marko_componentType = "FRgaW2aC",
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _component, component, state) {
   out.w("<h1>Hello Foo</h1>");
 
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_shared_marko__WEBPACK_IMPORTED_MODULE_1__.default, {}, out, _component, "1");
+  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_shared_marko__WEBPACK_IMPORTED_MODULE_1__["default"], {}, out, _component, "1");
 }, {
   t: _marko_componentType,
   i: true
@@ -264,7 +264,7 @@ function renderAssets(out) {
     let styles = "";
 
     for (const entry of entries) {
-      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__.default.getAssets(entry, buildName);
+      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__["default"].getAssets(entry, buildName);
 
       if (assets.js) {
         for (const href of assets.js) {
@@ -307,7 +307,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
     }
   }, out, _component, "0");
 
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_foo_marko__WEBPACK_IMPORTED_MODULE_1__.default, input, out, _component, "1");
+  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_foo_marko__WEBPACK_IMPORTED_MODULE_1__["default"], input, out, _component, "1");
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5___default()), {}, out, _component, "2");
 
@@ -350,7 +350,7 @@ const _marko_componentType = "vyXF8r3F",
 _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _component, component, state) {
   out.w("<h1>Hello Nested</h1>");
 
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_shared_marko__WEBPACK_IMPORTED_MODULE_1__.default, {}, out, _component, "1");
+  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_shared_marko__WEBPACK_IMPORTED_MODULE_1__["default"], {}, out, _component, "1");
 }, {
   t: _marko_componentType,
   i: true
@@ -407,7 +407,7 @@ function renderAssets(out) {
     let styles = "";
 
     for (const entry of entries) {
-      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__.default.getAssets(entry, buildName);
+      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__["default"].getAssets(entry, buildName);
 
       if (assets.js) {
         for (const href of assets.js) {
@@ -450,7 +450,7 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
     }
   }, out, _component, "0");
 
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_template_marko__WEBPACK_IMPORTED_MODULE_1__.default, input, out, _component, "1");
+  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_template_marko__WEBPACK_IMPORTED_MODULE_1__["default"], input, out, _component, "1");
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5___default()), {}, out, _component, "2");
 
@@ -489,7 +489,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("http");;
+module.exports = require("http");
 
 /***/ }),
 
@@ -500,7 +500,7 @@ module.exports = require("http");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/core-tags/components/init-components-tag.js");;
+module.exports = require("marko/dist/core-tags/components/init-components-tag.js");
 
 /***/ }),
 
@@ -511,7 +511,7 @@ module.exports = require("marko/dist/core-tags/components/init-components-tag.js
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js");;
+module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js");
 
 /***/ }),
 
@@ -522,7 +522,7 @@ module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js"
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js");;
+module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js");
 
 /***/ }),
 
@@ -533,7 +533,7 @@ module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js"
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/components/renderer");;
+module.exports = require("marko/dist/runtime/components/renderer");
 
 /***/ }),
 
@@ -544,7 +544,7 @@ module.exports = require("marko/dist/runtime/components/renderer");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/helpers/render-tag");;
+module.exports = require("marko/dist/runtime/helpers/render-tag");
 
 /***/ }),
 
@@ -555,7 +555,7 @@ module.exports = require("marko/dist/runtime/helpers/render-tag");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/html");;
+module.exports = require("marko/dist/runtime/html");
 
 /***/ })
 

@@ -121,11 +121,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_loader_index_ts_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_loader_index_ts_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_loader_index_ts_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_loader_index_ts_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -413,7 +413,7 @@ module.exports = function (list, options) {
   \****************************************************************/
 /***/ ((module) => {
 
-module.exports = require("marko/dist/runtime/components/defineComponent");;
+module.exports = require("marko/dist/runtime/components/defineComponent");
 
 /***/ }),
 
@@ -423,7 +423,7 @@ module.exports = require("marko/dist/runtime/components/defineComponent");;
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = require("marko/dist/runtime/components/registry");;
+module.exports = require("marko/dist/runtime/components/registry");
 
 /***/ }),
 
@@ -433,7 +433,7 @@ module.exports = require("marko/dist/runtime/components/registry");;
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = require("marko/dist/runtime/components/renderer");;
+module.exports = require("marko/dist/runtime/components/renderer");
 
 /***/ }),
 
@@ -443,7 +443,7 @@ module.exports = require("marko/dist/runtime/components/renderer");;
   \******************************************/
 /***/ ((module) => {
 
-module.exports = require("marko/dist/runtime/vdom");;
+module.exports = require("marko/dist/runtime/vdom");
 
 /***/ }),
 
@@ -453,7 +453,7 @@ module.exports = require("marko/dist/runtime/vdom");;
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = require("marko/dist/runtime/vdom/helpers/v-element");;
+module.exports = require("marko/dist/runtime/vdom/helpers/v-element");
 
 /***/ })
 
@@ -522,6 +522,11 @@ module.exports = require("marko/dist/runtime/vdom/helpers/v-element");;
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/
