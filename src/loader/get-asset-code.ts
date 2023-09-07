@@ -15,8 +15,9 @@ export * from ${templatePath};
 // Check if public path is relative, if not we'll set the crossorigin attribute on scripts.
 static const crossOriginAttr = new URL(__webpack_public_path__, "file:").protocol === "file:" ? "" : " crossorigin";
 static function renderAssets(out) {
-  const entries = this.___entries;
-  this.___entries = undefined;
+  const $global = out.global;
+  const entries = $global.___entries;
+  $global.___entries = undefined;
 
   if (entries) {
     ${
@@ -27,10 +28,10 @@ static function renderAssets(out) {
         : ""
     }
 
-    const buildName = this.buildName;
-    const nonce = this.cspNonce;
+    const buildName = $global.buildName;
+    const nonce = $global.cspNonce;
     const nonceAttr = nonce ? \` nonce=\${JSON.stringify(nonce)}\` : "";
-    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
+    const written = $global.___writtenAssets || ($global.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 

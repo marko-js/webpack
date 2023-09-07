@@ -76,15 +76,16 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
 
 function renderAssets(out) {
-  const entries = this.___entries;
-  this.___entries = undefined;
+  const $global = out.global;
+  const entries = $global.___entries;
+  $global.___entries = undefined;
 
   if (entries) {
     __webpack_require__.p && out.script(`$mwp__marko_webpack=${JSON.stringify(__webpack_require__.p)}`);
-    const buildName = this.buildName;
-    const nonce = this.cspNonce;
+    const buildName = $global.buildName;
+    const nonce = $global.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
+    const written = $global.___writtenAssets || ($global.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 
@@ -251,15 +252,16 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
 
 function renderAssets(out) {
-  const entries = this.___entries;
-  this.___entries = undefined;
+  const $global = out.global;
+  const entries = $global.___entries;
+  $global.___entries = undefined;
 
   if (entries) {
     __webpack_require__.p && out.script(`$mwp__marko_webpack=${JSON.stringify(__webpack_require__.p)}`);
-    const buildName = this.buildName;
-    const nonce = this.cspNonce;
+    const buildName = $global.buildName;
+    const nonce = $global.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
+    const written = $global.___writtenAssets || ($global.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 
@@ -394,15 +396,16 @@ const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.
 const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
 
 function renderAssets(out) {
-  const entries = this.___entries;
-  this.___entries = undefined;
+  const $global = out.global;
+  const entries = $global.___entries;
+  $global.___entries = undefined;
 
   if (entries) {
     __webpack_require__.p && out.script(`$mwp__marko_webpack=${JSON.stringify(__webpack_require__.p)}`);
-    const buildName = this.buildName;
-    const nonce = this.cspNonce;
+    const buildName = $global.buildName;
+    const nonce = $global.cspNonce;
     const nonceAttr = nonce ? ` nonce=${JSON.stringify(nonce)}` : "";
-    const written = this.___writtenAssets || (this.___writtenAssets = new Set());
+    const written = $global.___writtenAssets || ($global.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
 
