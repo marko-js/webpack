@@ -75,7 +75,8 @@ $ {
 }
 
 <__flush_here_and_after__>
-   $ out.global.___renderAssets && out.global.___renderAssets(out);
+   $ const outAlias = out; // prevent compat layer from turning this into a dynamic tag
+   $ outAlias.global.___renderAssets && outAlias.global.___renderAssets(outAlias);
 </__flush_here_and_after__>
 <\${template} ...input/>
 <init-components/>

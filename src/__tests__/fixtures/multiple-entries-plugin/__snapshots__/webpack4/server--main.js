@@ -209,7 +209,8 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default.a, {
     "renderBody": out => {
-      out.global.___renderAssets && out.global.___renderAssets(out);
+      const outAlias = out;
+      outAlias.global.___renderAssets && outAlias.global.___renderAssets(outAlias);
     }
   }, out, _component, "0");
 
@@ -378,7 +379,8 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default.a, {
     "renderBody": out => {
-      out.global.___renderAssets && out.global.___renderAssets(out);
+      const outAlias = out;
+      outAlias.global.___renderAssets && outAlias.global.___renderAssets(outAlias);
     }
   }, out, _component, "0");
 
@@ -517,7 +519,8 @@ _marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MOD
 
   marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default.a, {
     "renderBody": out => {
-      out.global.___renderAssets && out.global.___renderAssets(out);
+      const outAlias = out;
+      outAlias.global.___renderAssets && outAlias.global.___renderAssets(outAlias);
     }
   }, out, _component, "0");
 
