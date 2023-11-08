@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.3.4](https://github.com/marko-js/webpack/compare/v9.3.1...v9.3.4) (2023-11-08)
+
+
+### Bug Fixes
+
+* avoid making node_module Marko files entries ([5366351](https://github.com/marko-js/webpack/commit/536635123902d2b5d32ab70accd7d95fa6bec14b))
+* avoid renderBody-like call to dynamic tag migration by using an alias ([0a87e7f](https://github.com/marko-js/webpack/commit/0a87e7f1170554c6590c0a1e2a67b9c4006b230d))
+* use out.global instead of this (renderBody to dynamicTag migrator messes up this) ([383ba6a](https://github.com/marko-js/webpack/commit/383ba6a139a1212a7380da33b6633023200290a1))
+
 ### [9.3.3](https://github.com/marko-js/webpack/compare/v9.3.2...v9.3.3) (2023-09-11)
 
 
