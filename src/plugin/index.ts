@@ -68,9 +68,14 @@ export default class MarkoWebpackPlugin {
           normalModuleFactory.hooks.beforeResolve.tap(
             "MarkoWebpackServer:resolver",
             (data: { request: string; contextInfo: { issuer?: string } }) => {
+              const { issuer } = data.contextInfo;
               if (
                 data.request.endsWith(".marko") &&
-                !data.contextInfo.issuer?.endsWith(".marko")
+                issuer &&
+                !(
+                  issuer.endsWith(".marko") ||
+                  /[/\\]node_modules[/\\]/.test(issuer)
+                )
               ) {
                 data.request = `${data.request}?server-entry`;
               }
