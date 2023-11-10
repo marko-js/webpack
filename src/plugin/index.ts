@@ -71,11 +71,11 @@ export default class MarkoWebpackPlugin {
               const { issuer } = data.contextInfo;
               if (
                 data.request.endsWith(".marko") &&
-                issuer &&
-                !(
-                  issuer.endsWith(".marko") ||
-                  /[/\\]node_modules[/\\]/.test(issuer)
-                )
+                (!issuer ||
+                  !(
+                    issuer.endsWith(".marko") ||
+                    /[/\\]node_modules[/\\]/.test(issuer)
+                  ))
               ) {
                 data.request = `${data.request}?server-entry`;
               }
