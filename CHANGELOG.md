@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.3.5](https://github.com/marko-js/webpack/compare/v9.3.4...v9.3.5) (2023-11-10)
+
+
+### Bug Fixes
+
+* regression w/ templates not marked as entry ([#85](https://github.com/marko-js/webpack/issues/85)) ([8775664](https://github.com/marko-js/webpack/commit/8775664295f4e441c8e4bf34dd21ae635dea6835))
+
 ### [9.3.4](https://github.com/marko-js/webpack/compare/v9.3.1...v9.3.4) (2023-11-08)
 
 
