@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.3.6](https://github.com/marko-js/webpack/compare/v9.3.5...v9.3.6) (2024-01-03)
+
+
+### Bug Fixes
+
+* ignore .d.ts in watch files ([de9dd6c](https://github.com/marko-js/webpack/commit/de9dd6c62d94463c5bd405f2015148cfac60ff31))
+
 ### [9.3.5](https://github.com/marko-js/webpack/compare/v9.3.4...v9.3.5) (2023-11-10)
 
 
