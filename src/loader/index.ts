@@ -240,7 +240,7 @@ function getTrailingContent(
         templateFileName === "index"
           ? ""
           : `${escapeRegExp(templateFileName)}\\.`
-      }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/)`;
+      }(?:${missingDeps.join("|")})\\.\\w+$/)`;
     }
   }
 
