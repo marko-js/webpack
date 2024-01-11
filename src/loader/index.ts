@@ -49,14 +49,15 @@ const WATCH_MISSING_FILES = [
     basename: "component-browser",
     has(meta: MarkoMeta): boolean {
       return Boolean(
-        meta.deps &&
-          meta.deps.some(
-            dep =>
-              getBasenameWithoutExt(
-                (typeof dep === "object" && dep.virtualPath) ||
-                  ((dep as unknown) as string)
-              ) === this.basename
-          )
+        meta.component ||
+          (meta.deps &&
+            meta.deps.some(
+              dep =>
+                getBasenameWithoutExt(
+                  (typeof dep === "object" && dep.virtualPath) ||
+                    ((dep as unknown) as string)
+                ) === this.basename
+            ))
       );
     }
   }
@@ -236,11 +237,11 @@ function getTrailingContent(
 
     if (missingDeps.length) {
       const templateFileName = getBasenameWithoutExt(resource);
-      result += `\nrequire.context(".", false, /\\${path.sep}${
+      result += `\nrequire.context(".", false, /\\/${
         templateFileName === "index"
           ? ""
           : `${escapeRegExp(templateFileName)}\\.`
-      }(?:${missingDeps.join("|")})\\.\\w+$/)`;
+      }(?:${missingDeps.join("|")})\\.[^d]\\w*$/)`;
     }
   }
 
