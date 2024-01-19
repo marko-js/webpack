@@ -32,11 +32,12 @@ const WATCH_MISSING_FILES = [
     basename: "component-browser",
     has(meta): boolean {
       return Boolean(
-        meta.deps &&
-          meta.deps.some(
-            dep =>
-              getBasenameWithoutExt(dep.virtualPath || dep) === this.basename
-          )
+        meta.component ||
+          (meta.deps &&
+            meta.deps.some(
+              dep =>
+                getBasenameWithoutExt(dep.virtualPath || dep) === this.basename
+            ))
       );
     }
   }
@@ -292,9 +293,9 @@ function getMissingDepRequire(resource: string, meta): string | false {
 
   if (missingDeps.length) {
     const templateFileName = getBasenameWithoutExt(resource);
-    return `require.context(".", false, /\\${path.sep}${
+    return `require.context(".", false, /\\/${
       templateFileName === "index" ? "" : `${escapeRegExp(templateFileName)}\\.`
-    }(?:${missingDeps.join("|")})\\.[^\\${path.sep}]+$/)`;
+    }(?:${missingDeps.join("|")})\\.[^d]\\w*$/)`;
   }
 
   return false;
