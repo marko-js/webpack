@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.11](https://github.com/marko-js/webpack/compare/v6.2.10...v6.2.11) (2024-01-19)
+
+
+### Bug Fixes
+
+* avoid loading dts files ([4be12d3](https://github.com/marko-js/webpack/commit/4be12d30601c27790f8c64d128799bb4a277f840))
+
 ### [6.2.10](https://github.com/marko-js/webpack/compare/v6.2.9...v6.2.10) (2020-11-11)
 
 ### [6.2.9](https://github.com/marko-js/webpack/compare/v6.2.8...v6.2.9) (2020-08-18)
