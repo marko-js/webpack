@@ -15,8 +15,10 @@ declare module "webpack" {
   interface Compiler {
     watchMode?: boolean;
     watching?: webpack.Watching;
-    markoCompileCache?: Map<unknown, unknown>;
-    markoPluginOptions?: MarkoWebpackPlugin["options"];
+    markoPluginOptions?: MarkoWebpackPlugin["options"] & {
+      markoCompileCache?: Map<unknown, unknown>;
+      markoVirtualSources?: Map<string, { code: string | Buffer; map?: any }>;
+    };
     markoAssetsPending?: ResolvablePromise<void>;
     markoAssetsRead?: boolean;
     markoEntriesPending?: ResolvablePromise<void>;
@@ -25,7 +27,6 @@ declare module "webpack" {
 }
 
 export default class MarkoWebpackPlugin {
-  private compileCache = new Map<unknown, unknown>();
   private serverCompiler: webpack.Compiler;
   private browserCompilers: webpack.Compiler[] = [];
   private clientEntries: { [x: string]: string } = {};
@@ -34,9 +35,18 @@ export default class MarkoWebpackPlugin {
       [entryName: string]: { [assetType: string]: string[] };
     };
   } = {};
+  private options: {
+    runtimeId?: string;
+    markoCompileCache: Map<unknown, unknown>;
+    markoVirtualSources: Map<string, { code: string | Buffer; map?: any }>;
+  };
 
-  constructor(private options: { runtimeId?: string } = {}) {
-    this.options = { ...options };
+  constructor(options: { runtimeId?: string } = {}) {
+    this.options = {
+      ...options,
+      markoCompileCache: new Map(),
+      markoVirtualSources: new Map()
+    };
 
     if (this.options.runtimeId) {
       this.options.runtimeId = normalizeRuntimeId(this.options.runtimeId);
@@ -54,7 +64,6 @@ export default class MarkoWebpackPlugin {
       patchWatchingWebpack4(compiler);
       compiler.markoAssetsRead = false;
       compiler.markoPluginOptions = this.options;
-      compiler.markoCompileCache = this.compileCache;
       compiler.markoEntriesPending = createDeferredPromise<void>();
 
       compiler.hooks.invalid.tap("MarkoWebpackServer:invalid", () => {
@@ -226,7 +235,6 @@ export default class MarkoWebpackPlugin {
       patchWatchingWebpack4(compiler);
       compiler.markoEntriesRead = false;
       compiler.markoPluginOptions = this.options;
-      compiler.markoCompileCache = this.compileCache;
 
       compiler.options.entry = async () => {
         await this.serverCompiler.markoEntriesPending;

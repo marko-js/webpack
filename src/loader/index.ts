@@ -9,13 +9,6 @@ import type { MarkoMeta, Config } from "@marko/compiler";
 import getAssetCode from "./get-asset-code";
 import { MANIFEST_PLACEHOLDER } from "../shared/manifest";
 
-declare module "webpack" {
-  interface Compiler {
-    markoCompileCache?: Map<unknown, unknown>;
-    markoVirtualSources?: Map<string, { code: string | Buffer; map?: unknown }>;
-  }
-}
-
 type LoaderOptions = loaderUtils.OptionObject &
   Config & {
     target?: webpack.loader.LoaderContext["target"];
@@ -76,13 +69,23 @@ export default async function (
   const loaderOptions: LoaderOptions = (this as any).getOptions
     ? (this as any).getOptions()
     : loaderUtils.getOptions(this);
-  const pluginOptions = compiler.markoPluginOptions || {};
+  const {
+    runtimeId,
+    markoCompileCache,
+    markoVirtualSources
+  }: {
+    runtimeId?: string;
+    markoCompileCache: Map<string, any>;
+    markoVirtualSources: Map<string, { code: string; map?: any }>;
+  } = (compiler.markoPluginOptions ||= {
+    markoCompileCache: new Map(),
+    markoVirtualSources: new Map()
+  });
   const sourceMaps = loaderOptions.sourceMaps ?? this.sourceMap;
   const target = normalizeTarget(loaderOptions.target || this.target);
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const markoCompiler = require(loaderOptions.compiler ||
     DEFAULT_COMPILER) as typeof import("@marko/compiler");
-  const virtualSources = (compiler.markoVirtualSources ||= new Map());
 
   this.cacheable(true);
 
@@ -106,8 +109,8 @@ export default async function (
     return `export default ${MANIFEST_PLACEHOLDER}`;
   }
 
-  if (virtualSources.has(this.resource)) {
-    const { code, map } = virtualSources.get(this.resource);
+  if (markoVirtualSources.has(this.resource)) {
+    const { code, map } = markoVirtualSources.get(this.resource);
     return this.callback(null, code, map);
   }
 
@@ -119,11 +122,11 @@ export default async function (
       hot: this.hot,
       fileSystem: this.fs,
       writeVersionComment: false,
-      runtimeId: pluginOptions.runtimeId,
-      cache: (compiler.markoCompileCache ||= new Map()),
+      runtimeId,
+      cache: markoCompileCache,
       resolveVirtualDependency(resourcePath, { code, map, virtualPath }) {
         const absoluteVirtualPath = `${resourcePath}?virtual=${virtualPath}`;
-        virtualSources.set(absoluteVirtualPath, { code, map });
+        markoVirtualSources.set(absoluteVirtualPath, { code, map });
         return `${virtualPath}!=!${__filename}!${absoluteVirtualPath}`;
       },
       babelConfig: {
@@ -150,7 +153,7 @@ export default async function (
       const { code, map } = await markoCompiler.compile(
         getAssetCode(
           resourcePath,
-          pluginOptions.runtimeId,
+          runtimeId,
           compiler.options.output.publicPath
         ),
         resourcePath.replace(/\.marko$/, "-server-entry.marko"),
@@ -181,9 +184,7 @@ export default async function (
         output: "hydrate"
       });
 
-      const mwpVar = `$mwp${
-        pluginOptions.runtimeId ? `_${pluginOptions.runtimeId}` : ""
-      }`;
+      const mwpVar = `$mwp${runtimeId ? `_${runtimeId}` : ""}`;
       const mwpPrefix =
         compiler.options.output.publicPath === undefined
           ? `if (window.${mwpVar}) __webpack_public_path__ = ${mwpVar};\n`
@@ -254,6 +255,7 @@ function getTrailingContent(
 
 function getCompiler(ctx: webpack.loader.LoaderContext) {
   let compiler = ctx._compiler;
+  if ((compiler as any).root) return (compiler as any).root;
 
   while ((compiler as any).parentCompilation) {
     compiler = (compiler as any).parentCompilation.compiler;
