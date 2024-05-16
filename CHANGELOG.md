@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.3.8](https://github.com/marko-js/webpack/compare/v9.3.7...v9.3.8) (2024-05-16)
+
+
+### Bug Fixes
+
+* avoid storing shared data on compiler ([c1f04ea](https://github.com/marko-js/webpack/commit/c1f04ea94b5a5a308ba6885b7af56098366fd0f6))
+
 ### [9.3.7](https://github.com/marko-js/webpack/compare/v9.3.6...v9.3.7) (2024-01-11)
 
 
