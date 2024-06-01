@@ -4,29 +4,31 @@ import path from "path";
 import * as webpack from "webpack";
 import loaderUtils from "loader-utils";
 import escapeRegExp from "escape-string-regexp";
-import type { MarkoMeta, Config } from "@marko/compiler";
+import * as markoCompiler from "@marko/compiler";
 
 import getAssetCode from "./get-asset-code";
 import { MANIFEST_PLACEHOLDER } from "../shared/manifest";
 
 type LoaderOptions = loaderUtils.OptionObject &
-  Config & {
+  markoCompiler.Config & {
     target?: webpack.loader.LoaderContext["target"];
     compiler?: string;
-    hydrateIncludeImports?: string | Config["hydrateIncludeImports"];
+    hydrateIncludeImports?:
+      | string
+      | markoCompiler.Config["hydrateIncludeImports"];
   };
 
 const WATCH_MISSING_FILES = [
   {
     basename: "style",
-    has(meta: MarkoMeta): boolean {
+    has(meta: markoCompiler.MarkoMeta): boolean {
       return Boolean(
         meta.deps &&
           meta.deps.some(
-            dep =>
+            (dep: any) =>
               getBasenameWithoutExt(
                 (typeof dep === "object" && dep.virtualPath) ||
-                  ((dep as unknown) as string)
+                  (dep as unknown as string)
               ) === this.basename
           )
       );
@@ -34,21 +36,21 @@ const WATCH_MISSING_FILES = [
   },
   {
     basename: "component",
-    has(meta: MarkoMeta): boolean {
+    has(meta: markoCompiler.MarkoMeta): boolean {
       return Boolean(meta.component);
     }
   },
   {
     basename: "component-browser",
-    has(meta: MarkoMeta): boolean {
+    has(meta: markoCompiler.MarkoMeta): boolean {
       return Boolean(
         meta.component ||
           (meta.deps &&
             meta.deps.some(
-              dep =>
+              (dep: any) =>
                 getBasenameWithoutExt(
                   (typeof dep === "object" && dep.virtualPath) ||
-                    ((dep as unknown) as string)
+                    (dep as unknown as string)
                 ) === this.basename
             ))
       );
@@ -56,9 +58,12 @@ const WATCH_MISSING_FILES = [
   }
 ];
 
-const DEFAULT_COMPILER = require.resolve("@marko/compiler");
 const ADDED_CACHE_CLEAR = new WeakSet();
-const ADDED_CUSTOM_TAGLIB = new WeakSet();
+markoCompiler.taglib.register(__filename, {
+  "<head>": {
+    transformer: require.resolve("./head-transformer")
+  }
+});
 
 export default async function (
   this: webpack.loader.LoaderContext,
@@ -75,7 +80,7 @@ export default async function (
     markoVirtualSources
   }: {
     runtimeId?: string;
-    markoCompileCache: Map<string, any>;
+    markoCompileCache: Map<any, any>;
     markoVirtualSources: Map<string, { code: string; map?: any }>;
   } = (compiler.markoPluginOptions ||= {
     markoCompileCache: new Map(),
@@ -83,10 +88,6 @@ export default async function (
   });
   const sourceMaps = loaderOptions.sourceMaps ?? this.sourceMap;
   const target = normalizeTarget(loaderOptions.target || this.target);
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const markoCompiler = require(loaderOptions.compiler ||
-    DEFAULT_COMPILER) as typeof import("@marko/compiler");
-
   this.cacheable(true);
 
   if (!ADDED_CACHE_CLEAR.has(compiler)) {
@@ -94,15 +95,6 @@ export default async function (
       markoCompiler.taglib.clearCaches()
     );
     ADDED_CACHE_CLEAR.add(compiler);
-  }
-
-  if (!ADDED_CUSTOM_TAGLIB.has(markoCompiler)) {
-    markoCompiler.taglib.register(__filename, {
-      "<head>": {
-        transformer: require.resolve("./head-transformer")
-      }
-    });
-    ADDED_CUSTOM_TAGLIB.add(markoCompiler);
   }
 
   if (resourceQuery === "?manifest") {
@@ -117,7 +109,7 @@ export default async function (
   const done = this.async();
 
   try {
-    const baseConfig = {
+    const baseConfig: markoCompiler.Config = {
       sourceMaps,
       hot: this.hot,
       fileSystem: this.fs,
@@ -130,6 +122,9 @@ export default async function (
         return `${virtualPath}!=!${__filename}!${absoluteVirtualPath}`;
       },
       babelConfig: {
+        babelrc: false,
+        configFile: false,
+        browserslistConfigFile: false,
         ...loaderOptions.babelConfig,
         sourceFileName: resourcePath, // Webpack needs absolute file paths in the output sources and does not honor "sourceRoot".
         compact: false,
@@ -143,7 +138,7 @@ export default async function (
           ...loaderOptions.babelConfig?.caller
         }
       }
-    } as Config;
+    };
 
     if (loaderOptions.hydrateIncludeImports) {
       baseConfig.hydrateIncludeImports = loaderOptions.hydrateIncludeImports;
@@ -160,7 +155,7 @@ export default async function (
         baseConfig
       );
 
-      return done(null, code, (map as unknown) as string);
+      return done(null, code, map as unknown as string);
     }
 
     if (target === "server") {
@@ -173,7 +168,7 @@ export default async function (
       return done(
         null,
         code + getTrailingContent(this, resourcePath, meta),
-        (map as unknown) as string
+        map as unknown as string
       );
     }
 
@@ -208,7 +203,7 @@ export default async function (
     return done(
       null,
       code + getTrailingContent(this, resourcePath, meta),
-      (map as unknown) as string
+      map as unknown as string
     );
   } catch (err) {
     done(err);
@@ -218,7 +213,7 @@ export default async function (
 function getTrailingContent(
   ctx: webpack.loader.LoaderContext,
   resource: string,
-  meta: MarkoMeta
+  meta: markoCompiler.MarkoMeta
 ) {
   let result = "";
 

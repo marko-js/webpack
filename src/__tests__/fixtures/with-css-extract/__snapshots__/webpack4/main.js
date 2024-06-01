@@ -95,41 +95,36 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var marko_dist_runtime_vdom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/vdom */ "marko/dist/runtime/vdom");
-/* harmony import */ var marko_dist_runtime_vdom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_vdom__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var marko_dist_runtime_vdom_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/vdom/index.js */ "marko/dist/runtime/vdom/index.js");
+/* harmony import */ var marko_dist_runtime_vdom_index_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_vdom_index_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _test_marko_css_PROJECT_src_loader_index_ts_PROJECT_src_tests_fixtures_with_css_extract_test_marko_virtual_test_marko_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test.marko.css = ./src/loader/index.ts!./src/__tests__/fixtures/with-css-extract/test.marko?virtual=./test.marko.css */ "./src/__tests__/fixtures/with-css-extract/test.marko.css!./=!./src/loader/index.ts!./src/__tests__/fixtures/with-css-extract/test.marko?virtual=./test.marko.css");
-/* harmony import */ var marko_dist_runtime_vdom_helpers_v_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/vdom/helpers/v-element */ "marko/dist/runtime/vdom/helpers/v-element");
-/* harmony import */ var marko_dist_runtime_vdom_helpers_v_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_vdom_helpers_v_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var marko_dist_runtime_components_registry__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/components/registry */ "marko/dist/runtime/components/registry");
-/* harmony import */ var marko_dist_runtime_components_registry__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_registry__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var marko_dist_runtime_components_defineComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! marko/dist/runtime/components/defineComponent */ "marko/dist/runtime/components/defineComponent");
-/* harmony import */ var marko_dist_runtime_components_defineComponent__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_defineComponent__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var marko_dist_runtime_vdom_helpers_const_element_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/vdom/helpers/const-element.js */ "marko/dist/runtime/vdom/helpers/const-element.js");
+/* harmony import */ var marko_dist_runtime_vdom_helpers_const_element_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_vdom_helpers_const_element_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/components/renderer.js */ "marko/dist/runtime/components/renderer.js");
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var marko_dist_runtime_components_registry_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/components/registry.js */ "marko/dist/runtime/components/registry.js");
+/* harmony import */ var marko_dist_runtime_components_registry_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_registry_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var marko_dist_runtime_components_defineComponent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! marko/dist/runtime/components/defineComponent.js */ "marko/dist/runtime/components/defineComponent.js");
+/* harmony import */ var marko_dist_runtime_components_defineComponent_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_defineComponent_js__WEBPACK_IMPORTED_MODULE_5__);
 
-
-const _marko_template = Object(marko_dist_runtime_vdom__WEBPACK_IMPORTED_MODULE_0__["t"])();
-
+const _marko_componentType = "KsMKZ++B",
+  _marko_template = Object(marko_dist_runtime_vdom_index_js__WEBPACK_IMPORTED_MODULE_0__["t"])(_marko_componentType);
 /* harmony default export */ __webpack_exports__["default"] = (_marko_template);
 
 
-
-const _marko_node = marko_dist_runtime_vdom_helpers_v_element__WEBPACK_IMPORTED_MODULE_2___default()("h1", null, "0", null, 1, 0).t("Hello World");
-
+const _marko_node = marko_dist_runtime_vdom_helpers_const_element_js__WEBPACK_IMPORTED_MODULE_2___default()("h1", null, 1).t("Hello World");
 
 
-
-const _marko_componentType = Object(marko_dist_runtime_components_registry__WEBPACK_IMPORTED_MODULE_4__["r"])("KsMKZ++B", () => _marko_template),
-      _marko_component = {};
-
-_marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _component, component, state) {
-  out.n(_marko_node, component);
+Object(marko_dist_runtime_components_registry_js__WEBPACK_IMPORTED_MODULE_4__["r"])(_marko_componentType, () => _marko_template);
+const _marko_component = {};
+_marko_template._ = marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _componentDef, _component, state, $global) {
+  out.n(_marko_node, _component);
 }, {
   t: _marko_componentType,
   i: true
 }, _marko_component);
 
-_marko_template.Component = marko_dist_runtime_components_defineComponent__WEBPACK_IMPORTED_MODULE_5___default()(_marko_component, _marko_template._);
+_marko_template.Component = marko_dist_runtime_components_defineComponent_js__WEBPACK_IMPORTED_MODULE_5___default()(_marko_component, _marko_template._);
 
 /***/ }),
 
@@ -147,58 +142,58 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "marko/dist/runtime/components/defineComponent":
-/*!****************************************************************!*\
-  !*** external "marko/dist/runtime/components/defineComponent" ***!
-  \****************************************************************/
+/***/ "marko/dist/runtime/components/defineComponent.js":
+/*!*******************************************************************!*\
+  !*** external "marko/dist/runtime/components/defineComponent.js" ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("marko/dist/runtime/components/defineComponent");
+module.exports = require("marko/dist/runtime/components/defineComponent.js");
 
 /***/ }),
 
-/***/ "marko/dist/runtime/components/registry":
-/*!*********************************************************!*\
-  !*** external "marko/dist/runtime/components/registry" ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("marko/dist/runtime/components/registry");
-
-/***/ }),
-
-/***/ "marko/dist/runtime/components/renderer":
-/*!*********************************************************!*\
-  !*** external "marko/dist/runtime/components/renderer" ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("marko/dist/runtime/components/renderer");
-
-/***/ }),
-
-/***/ "marko/dist/runtime/vdom":
-/*!******************************************!*\
-  !*** external "marko/dist/runtime/vdom" ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("marko/dist/runtime/vdom");
-
-/***/ }),
-
-/***/ "marko/dist/runtime/vdom/helpers/v-element":
+/***/ "marko/dist/runtime/components/registry.js":
 /*!************************************************************!*\
-  !*** external "marko/dist/runtime/vdom/helpers/v-element" ***!
+  !*** external "marko/dist/runtime/components/registry.js" ***!
   \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("marko/dist/runtime/vdom/helpers/v-element");
+module.exports = require("marko/dist/runtime/components/registry.js");
+
+/***/ }),
+
+/***/ "marko/dist/runtime/components/renderer.js":
+/*!************************************************************!*\
+  !*** external "marko/dist/runtime/components/renderer.js" ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("marko/dist/runtime/components/renderer.js");
+
+/***/ }),
+
+/***/ "marko/dist/runtime/vdom/helpers/const-element.js":
+/*!*******************************************************************!*\
+  !*** external "marko/dist/runtime/vdom/helpers/const-element.js" ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("marko/dist/runtime/vdom/helpers/const-element.js");
+
+/***/ }),
+
+/***/ "marko/dist/runtime/vdom/index.js":
+/*!***************************************************!*\
+  !*** external "marko/dist/runtime/vdom/index.js" ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("marko/dist/runtime/vdom/index.js");
 
 /***/ })
 

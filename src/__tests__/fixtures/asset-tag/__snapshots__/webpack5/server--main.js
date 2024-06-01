@@ -12,66 +12,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html */ "marko/dist/runtime/html");
-/* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!@marko/webpack/loader!?manifest */ "./src/loader/index.ts!?manifest");
-/* harmony import */ var marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/attr */ "marko/dist/runtime/html/helpers/attr");
-/* harmony import */ var marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_attr__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/attrs */ "marko/dist/runtime/html/helpers/attrs");
-/* harmony import */ var marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html/index.js */ "marko/dist/runtime/html/index.js");
+/* harmony import */ var marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !!@marko/webpack/loader!?manifest */ "./src/loader/index.ts!?manifest");
+/* harmony import */ var marko_dist_runtime_html_helpers_merge_attrs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! marko/dist/runtime/html/helpers/merge-attrs.js */ "marko/dist/runtime/html/helpers/merge-attrs.js");
+/* harmony import */ var marko_dist_runtime_html_helpers_merge_attrs_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_helpers_merge_attrs_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/components/renderer.js */ "marko/dist/runtime/components/renderer.js");
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_2__);
 
-
-const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.t)();
-
+const _marko_componentType = "GHIxthSC",
+  _marko_template = (0,marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__.t)(_marko_componentType);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_marko_template);
 
 
 
-
-const _marko_componentType = "GHIxthSC",
-      _marko_component = {};
-_marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_4___default()(function (input, out, _component, component, state) {
+const _marko_component = {};
+_marko_template._ = marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_2___default()(function (input, out, _componentDef, _component, state, $global) {
   const {
     entry,
     scriptAttrs,
     styleAttrs
   } = input;
-  const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_1__.default.getAssets(entry, out.global.buildName);
+  const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_3__["default"].getAssets(entry, out.global.buildName);
   const written = out.global.___writtenAssets || (out.global.___writtenAssets = new Set());
-
   if (assets.js) {
     const nonce = out.global.cspNonce;
     let _keyValue = 0;
-
-    for (const js of assets.js) {
+    for (const js of assets.js || []) {
       const _keyScope = `[${_keyValue++}]`;
-
       if (!written.has(js)) {
         written.add(js);
-        out.w(`<script${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
+        out.w(`<script${marko_dist_runtime_html_helpers_merge_attrs_js__WEBPACK_IMPORTED_MODULE_1___default()({
           "src": __webpack_require__.p + js,
-          "nonce": nonce,
-          ...scriptAttrs
-        })}></script>`);
+          "nonce": nonce
+        }, scriptAttrs)}></script>`);
       }
     }
   }
-
   if (assets.css) {
     let _keyValue2 = 0;
-
-    for (const css of assets.css) {
+    for (const css of assets.css || []) {
       const _keyScope2 = `[${_keyValue2++}]`;
-
       if (!written.has(css)) {
         written.add(css);
-        out.w(`<link${marko_dist_runtime_html_helpers_attrs__WEBPACK_IMPORTED_MODULE_3___default()({
+        out.w(`<link${marko_dist_runtime_html_helpers_merge_attrs_js__WEBPACK_IMPORTED_MODULE_1___default()({
           "rel": "stylesheet",
-          "href": __webpack_require__.p + css,
-          ...styleAttrs
-        })}>`);
+          "href": __webpack_require__.p + css
+        }, styleAttrs)}>`);
       }
     }
   }
@@ -93,29 +80,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html */ "marko/dist/runtime/html");
-/* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html/index.js */ "marko/dist/runtime/html/index.js");
+/* harmony import */ var marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_webpack_assets_index_marko__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../components/webpack-assets/index.marko */ "./components/webpack-assets/index.marko");
-/* harmony import */ var marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/helpers/render-tag */ "marko/dist/runtime/helpers/render-tag");
-/* harmony import */ var marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! marko/dist/runtime/helpers/render-tag.js */ "marko/dist/runtime/helpers/render-tag.js");
+/* harmony import */ var marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/runtime/components/renderer.js */ "marko/dist/runtime/components/renderer.js");
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3__);
 
-
-const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.t)();
-
+const _marko_componentType = "wUwFs+xe",
+  _marko_template = (0,marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__.t)(_marko_componentType);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_marko_template);
 
 
 
-const _marko_componentType = "wUwFs+xe",
-      _marko_component = {};
-_marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _component, component, state) {
+const _marko_component = {};
+_marko_template._ = marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_3___default()(function (input, out, _componentDef, _component, state, $global) {
   out.w("<h1>Hello World</h1>");
-
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_2___default()(_components_webpack_assets_index_marko__WEBPACK_IMPORTED_MODULE_1__.default, {
+  marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_2___default()(_components_webpack_assets_index_marko__WEBPACK_IMPORTED_MODULE_1__["default"], {
     "entry": "other"
-  }, out, _component, "1");
+  }, out, _componentDef, "1");
 }, {
   t: _marko_componentType,
   i: true
@@ -134,35 +118,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html */ "marko/dist/runtime/html");
-/* harmony import */ var marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! marko/dist/runtime/html/index.js */ "marko/dist/runtime/html/index.js");
+/* harmony import */ var marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _test_marko__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./test.marko */ "./src/__tests__/fixtures/asset-tag/test.marko");
 /* harmony import */ var _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !!@marko/webpack/loader!?manifest */ "./src/loader/index.ts!?manifest");
 /* harmony import */ var marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! marko/dist/core-tags/core/__flush_here_and_after__.js */ "marko/dist/core-tags/core/__flush_here_and_after__.js");
 /* harmony import */ var marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/helpers/render-tag */ "marko/dist/runtime/helpers/render-tag");
-/* harmony import */ var marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! marko/dist/runtime/helpers/render-tag.js */ "marko/dist/runtime/helpers/render-tag.js");
+/* harmony import */ var marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! marko/dist/core-tags/components/init-components-tag.js */ "marko/dist/core-tags/components/init-components-tag.js");
 /* harmony import */ var marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var marko_dist_core_tags_core_await_reorderer_renderer_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! marko/dist/core-tags/core/await/reorderer-renderer.js */ "marko/dist/core-tags/core/await/reorderer-renderer.js");
 /* harmony import */ var marko_dist_core_tags_core_await_reorderer_renderer_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(marko_dist_core_tags_core_await_reorderer_renderer_js__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! marko/dist/runtime/components/renderer */ "marko/dist/runtime/components/renderer");
-/* harmony import */ var marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! marko/dist/runtime/components/renderer.js */ "marko/dist/runtime/components/renderer.js");
+/* harmony import */ var marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_7__);
 
-
-const _marko_template = (0,marko_dist_runtime_html__WEBPACK_IMPORTED_MODULE_0__.t)();
-
+const _marko_componentType = "l8KG0xVe",
+  _marko_template = (0,marko_dist_runtime_html_index_js__WEBPACK_IMPORTED_MODULE_0__.t)(_marko_componentType);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_marko_template);
 
 
 
 const crossOriginAttr = new URL(__webpack_require__.p, "file:").protocol === "file:" ? "" : " crossorigin";
-
 function renderAssets(out) {
   const $global = out.global;
   const entries = $global.___entries;
   $global.___entries = undefined;
-
   if (entries) {
     __webpack_require__.p && out.script(`$mwp__marko_webpack=${JSON.stringify(__webpack_require__.p)}`);
     const buildName = $global.buildName;
@@ -171,10 +152,8 @@ function renderAssets(out) {
     const written = $global.___writtenAssets || ($global.___writtenAssets = new Set());
     let scripts = "";
     let styles = "";
-
     for (const entry of entries) {
-      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__.default.getAssets(entry, buildName);
-
+      const assets = _marko_webpack_loader_manifest__WEBPACK_IMPORTED_MODULE_2__["default"].getAssets(entry, buildName);
       if (assets.js) {
         for (const href of assets.js) {
           if (!written.has(href)) {
@@ -183,7 +162,6 @@ function renderAssets(out) {
           }
         }
       }
-
       if (assets.css) {
         for (const href of assets.css) {
           if (!written.has(href)) {
@@ -193,7 +171,6 @@ function renderAssets(out) {
         }
       }
     }
-
     out.write(scripts + styles);
   }
 }
@@ -202,26 +179,20 @@ function renderAssets(out) {
 
 
 
-
-const _marko_componentType = "l8KG0xVe",
-      _marko_component = {};
-_marko_template._ = marko_dist_runtime_components_renderer__WEBPACK_IMPORTED_MODULE_7___default()(function (input, out, _component, component, state) {
+const _marko_component = {};
+_marko_template._ = marko_dist_runtime_components_renderer_js__WEBPACK_IMPORTED_MODULE_7___default()(function (input, out, _componentDef, _component, state, $global) {
   out.global.runtimeId = "_marko_webpack";
   out.global.___renderAssets = renderAssets;
   (out.global.___entries || (out.global.___entries = [])).push("test_wUwF");
-
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default()), {
+  marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_flush_here_and_after_js__WEBPACK_IMPORTED_MODULE_3___default()), {
     "renderBody": out => {
       const outAlias = out;
       outAlias.global.___renderAssets && outAlias.global.___renderAssets(outAlias);
     }
-  }, out, _component, "0");
-
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()(_test_marko__WEBPACK_IMPORTED_MODULE_1__.default, input, out, _component, "1");
-
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5___default()), {}, out, _component, "2");
-
-  marko_dist_runtime_helpers_render_tag__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_await_reorderer_renderer_js__WEBPACK_IMPORTED_MODULE_6___default()), {}, out, _component, "3");
+  }, out, _componentDef, "0");
+  marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4___default()(_test_marko__WEBPACK_IMPORTED_MODULE_1__["default"], input, out, _componentDef, "1");
+  marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_components_init_components_tag_js__WEBPACK_IMPORTED_MODULE_5___default()), {}, out, _componentDef, "2");
+  marko_dist_runtime_helpers_render_tag_js__WEBPACK_IMPORTED_MODULE_4___default()((marko_dist_core_tags_core_await_reorderer_renderer_js__WEBPACK_IMPORTED_MODULE_6___default()), {}, out, _componentDef, "3");
 }, {
   t: _marko_componentType,
   i: true
@@ -256,7 +227,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("http");;
+module.exports = require("http");
 
 /***/ }),
 
@@ -267,7 +238,7 @@ module.exports = require("http");;
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/core-tags/components/init-components-tag.js");;
+module.exports = require("marko/dist/core-tags/components/init-components-tag.js");
 
 /***/ }),
 
@@ -278,7 +249,7 @@ module.exports = require("marko/dist/core-tags/components/init-components-tag.js
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js");;
+module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js");
 
 /***/ }),
 
@@ -289,62 +260,51 @@ module.exports = require("marko/dist/core-tags/core/__flush_here_and_after__.js"
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js");;
+module.exports = require("marko/dist/core-tags/core/await/reorderer-renderer.js");
 
 /***/ }),
 
-/***/ "marko/dist/runtime/components/renderer":
-/*!*********************************************************!*\
-  !*** external "marko/dist/runtime/components/renderer" ***!
-  \*********************************************************/
+/***/ "marko/dist/runtime/components/renderer.js":
+/*!************************************************************!*\
+  !*** external "marko/dist/runtime/components/renderer.js" ***!
+  \************************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/components/renderer");;
+module.exports = require("marko/dist/runtime/components/renderer.js");
 
 /***/ }),
 
-/***/ "marko/dist/runtime/helpers/render-tag":
-/*!********************************************************!*\
-  !*** external "marko/dist/runtime/helpers/render-tag" ***!
-  \********************************************************/
+/***/ "marko/dist/runtime/helpers/render-tag.js":
+/*!***********************************************************!*\
+  !*** external "marko/dist/runtime/helpers/render-tag.js" ***!
+  \***********************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/helpers/render-tag");;
+module.exports = require("marko/dist/runtime/helpers/render-tag.js");
 
 /***/ }),
 
-/***/ "marko/dist/runtime/html":
-/*!******************************************!*\
-  !*** external "marko/dist/runtime/html" ***!
-  \******************************************/
+/***/ "marko/dist/runtime/html/helpers/merge-attrs.js":
+/*!*****************************************************************!*\
+  !*** external "marko/dist/runtime/html/helpers/merge-attrs.js" ***!
+  \*****************************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/html");;
+module.exports = require("marko/dist/runtime/html/helpers/merge-attrs.js");
 
 /***/ }),
 
-/***/ "marko/dist/runtime/html/helpers/attr":
-/*!*******************************************************!*\
-  !*** external "marko/dist/runtime/html/helpers/attr" ***!
-  \*******************************************************/
+/***/ "marko/dist/runtime/html/index.js":
+/*!***************************************************!*\
+  !*** external "marko/dist/runtime/html/index.js" ***!
+  \***************************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("marko/dist/runtime/html/helpers/attr");;
-
-/***/ }),
-
-/***/ "marko/dist/runtime/html/helpers/attrs":
-/*!********************************************************!*\
-  !*** external "marko/dist/runtime/html/helpers/attrs" ***!
-  \********************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("marko/dist/runtime/html/helpers/attrs");;
+module.exports = require("marko/dist/runtime/html/index.js");
 
 /***/ })
 

@@ -3,12 +3,19 @@ import webpack from "webpack";
 import MemoryFS from "memory-fs";
 import { promisify } from "util";
 
+// Patch crypto to use sha256 instead of md4 for webpack 4 in node <= 16
+import crypto from "crypto";
+crypto.createHash = (createHash => {
+  return algorithm => createHash(algorithm == "md4" ? "sha256" : algorithm);
+})(crypto.createHash);
+
 export default async function compile(
   w: typeof webpack,
   config: webpack.Configuration
 ) {
   const compiler = w(extendConfig(config));
-  const outputFS = (compiler.outputFileSystem = new MemoryFS()) as typeof import("fs");
+  const outputFS = (compiler.outputFileSystem =
+    new MemoryFS()) as typeof import("fs");
   let stats = await promisify(compiler.run.bind(compiler))();
 
   if (stats.stats) {
