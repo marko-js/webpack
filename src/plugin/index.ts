@@ -172,9 +172,9 @@ export default class MarkoWebpackPlugin {
                 for (const file of chunk.files) {
                   compilation.updateAsset(file, old => {
                     const placeholder = escapeIfEval(MANIFEST_PLACEHOLDER);
-                    const placeholderPosition = (old.source() as string).indexOf(
-                      placeholder
-                    );
+                    const placeholderPosition = (
+                      old.source() as string
+                    ).indexOf(placeholder);
                     if (placeholderPosition > -1) {
                       const hasMultipleBuilds =
                         this.browserCompilers.length > 1;
@@ -270,7 +270,8 @@ export default class MarkoWebpackPlugin {
         compilation => {
           compiler.markoEntriesRead = false;
           const prevPendingAssets = compiler.markoAssetsPending;
-          const pendingAssets = (compiler.markoAssetsPending = createDeferredPromise());
+          const pendingAssets = (compiler.markoAssetsPending =
+            createDeferredPromise());
 
           if (prevPendingAssets !== undefined) {
             // If multiple compilations started, the last one always is treated

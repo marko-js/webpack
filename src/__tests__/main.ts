@@ -40,14 +40,18 @@ for (const [version, webpack] of Object.entries({ webpack4, webpack5 })) {
         const configPath = path.join(fixtureDir, "webpack.config.ts");
         const { outputPath, outputFS, stats } = await compilation(
           webpack as typeof webpack4,
-          (await import(configPath)).default
+          (
+            await import(configPath)
+          ).default
         );
 
         for (const stat of stats) {
           const compilation = stat.compilation;
-          const compilationName = ((compilation as unknown) as {
-            name?: string;
-          }).name;
+          const compilationName = (
+            compilation as unknown as {
+              name?: string;
+            }
+          ).name;
 
           const prefixName = compilationName ? `${compilationName}--` : "";
           for (const assetName in compilation.assets) {
