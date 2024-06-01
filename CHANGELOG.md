@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/marko-js/webpack/compare/v9.3.8...v10.0.0) (2024-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* no longer support compiler override to plugin
+
+### Features
+
+* avoid loading babel config by default ([#89](https://github.com/marko-js/webpack/issues/89)) ([03b6521](https://github.com/marko-js/webpack/commit/03b652160ed8ba17645e43a6456a28ce540c3f92))
+
 ### [9.3.8](https://github.com/marko-js/webpack/compare/v9.3.7...v9.3.8) (2024-05-16)
 
 
