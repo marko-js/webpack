@@ -1,7 +1,7 @@
 {
   "name": "@marko/webpack",
   "description": "a Marko plugin and loader for Webpack",
-  "version": "10.0.0",
+  "version": "10.0.1",
   "bugs": "https://github.com/marko-js/webpack/issues",
   "dependencies": {
     "escape-string-regexp": "^4.0.0",

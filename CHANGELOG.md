@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.1](https://github.com/marko-js/webpack/compare/v10.0.0...v10.0.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* remove sourcemap path workaround ([7704c93](https://github.com/marko-js/webpack/commit/7704c938d733d0167d7a5044f0dab857717cdc2c))
+
 ## [10.0.0](https://github.com/marko-js/webpack/compare/v9.3.8...v10.0.0) (2024-06-01)
 
 
