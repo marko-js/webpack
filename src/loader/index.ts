@@ -91,9 +91,12 @@ export default async function (
   this.cacheable(true);
 
   if (!ADDED_CACHE_CLEAR.has(compiler)) {
-    compiler.hooks.watchRun.tap("clearMarkoTaglibCache", () =>
-      markoCompiler.taglib.clearCaches()
-    );
+    // A rebuild means a file changed, and the compiler keeps the templates others
+    // analyzed until its cache is cleared.
+    compiler.hooks.watchRun.tap("clearMarkoCaches", () => {
+      markoCompiler.taglib.clearCaches();
+      markoCompileCache.clear();
+    });
     ADDED_CACHE_CLEAR.add(compiler);
   }
 
